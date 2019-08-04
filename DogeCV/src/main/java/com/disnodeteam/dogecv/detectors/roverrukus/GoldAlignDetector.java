@@ -41,6 +41,7 @@ public class GoldAlignDetector extends DogeCVDetector {
     public boolean debugAlignment = true; // Show debug lines to show alignment settings
     public double alignPosOffset  = 0;    // How far from center frame is aligned
     public double alignSize       = 100;  // How wide is the margin of error for alignment
+    public int RequestedYLine     = 0;    // Countour y must be greater than this
 
     public DogeCV.AreaScoringMethod areaScoringMethod = DogeCV.AreaScoringMethod.MAX_AREA; // Setting to decide to use MaxAreaScorer or PerfectAreaScorer
 
@@ -84,6 +85,10 @@ public class GoldAlignDetector extends DogeCVDetector {
         Rect bestRect = null;
         double bestDiffrence = Double.MAX_VALUE; // MAX_VALUE since less diffrence = better
 
+        Point left = new Point(0, RequestedYLine);
+        Point right = new Point(600, RequestedYLine);
+        Imgproc.line (displayMat, left, right, new Scalar(255,0,0), 2);
+
         // Loop through the contours and score them, searching for the best result
         for(MatOfPoint cont : contoursYellow){
             double score = calculateScore(cont); // Get the diffrence score using the scoring API
@@ -93,7 +98,9 @@ public class GoldAlignDetector extends DogeCVDetector {
             Imgproc.rectangle(displayMat, rect.tl(), rect.br(), new Scalar(0,0,255),2); // Draw rect
 
             // If the result is better then the previously tracked one, set this rect as the new best
-            if(score < bestDiffrence){
+            //if(score < bestDiffrence)
+            if ((score < bestDiffrence) && (rect.y >= RequestedYLine))
+            {
                 bestDiffrence = score;
                 bestRect = rect;
             }
@@ -104,7 +111,7 @@ public class GoldAlignDetector extends DogeCVDetector {
         double alignXMin = alignX - (alignSize / 2); // Min X Pos in pixels
         double alignXMax = alignX +(alignSize / 2); // Max X pos in pixels
         double xPos; // Current Gold X Pos
-        double yPos; // Current Gold X Pos
+        double yPos; // Current Gold Y Pos
 
         if(bestRect != null){
             // Show chosen result
@@ -209,5 +216,9 @@ public class GoldAlignDetector extends DogeCVDetector {
      */
     public boolean isFound() {
         return found;
+    }
+
+    public void SetRequestedYLine(int y) {
+        RequestedYLine = y;
     }
 }
