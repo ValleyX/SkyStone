@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Team2844;
+package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
@@ -30,12 +30,8 @@ package org.firstinspires.ftc.teamcode.Team2844;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This is NOT an opmode.
@@ -53,71 +49,38 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-class RobotHardware
+public class RobotHardware
 {
     LinearOpMode OpMode_;
 
     DcMotor  leftDrive;
     DcMotor  rightDrive;
-   // public DcMotor  leftArm     = null;
-    Servo    leftClaw;
-    Servo    rightClaw;
 
-    DigitalChannel digitalTouch; // Hardware Device Object
-    ColorSensor color_sensor;
-    OpticalDistanceSensor ods;
 
-    static final double MID_SERVO       =  0.5 ;
-    static final double ARM_UP_POWER    =  0.45 ;
-    static final double ARM_DOWN_POWER  = -0.45 ;
-
-    final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
-    final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
-    final double     WHEEL_DIAMETER_INCHES   = 3.9 ;     // For figuring circumference
-    final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
-                                                 (WHEEL_DIAMETER_INCHES * 3.1415);
+    //private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
+    //private final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
+    //private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
+    final double             COUNTS_PER_INCH         = 1.0;  //TODO determine in class
 
     /* Constructor */
-    RobotHardware(HardwareMap ahwMap, LinearOpMode opMode) {
+    public RobotHardware(HardwareMap ahwMap, LinearOpMode opMode) {
         /* Public OpMode members. */
         OpMode_ = opMode;
-
-        // get a reference to our digitalTouch object.
-        digitalTouch = ahwMap.get(DigitalChannel.class, "touch");
-
-        // set the digital channel to input.
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
-
-        color_sensor = ahwMap.colorSensor.get("color");
-        ods = ahwMap.opticalDistanceSensor.get("ods");
-        ods.enableLed(true);
-
-        leftDrive = ahwMap.get(DcMotor.class, "lmotor");
-
 
         // Define and Initialize Motors
         leftDrive = ahwMap.get(DcMotor.class, "lmotor");
         rightDrive = ahwMap.get(DcMotor.class, "rmotor");
-        //leftArm    = hwMap.get(DcMotor.class, "left_arm");
-        leftDrive.setDirection(DcMotor.Direction.REVERSE); // Set to REVERSE if using AndyMark motors
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);// Set to FORWARD if using AndyMark motors
+
+        leftDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);// TODO determine which motor should be reversed
 
         // Set all motors to zero power
         leftDrive.setPower(0);
         rightDrive.setPower(0);
-        // leftArm.setPower(0);
 
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
+        // Set all motors to run without encoders by default
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        // Define and initialize ALL installed servos.
-        leftClaw = ahwMap.get(Servo.class, "servo0");
-        rightClaw = ahwMap.get(Servo.class, "servo1");
-        leftClaw.setPosition(MID_SERVO);
-        rightClaw.setPosition(MID_SERVO);
     }
  }
 

@@ -1,16 +1,16 @@
-package org.firstinspires.ftc.teamcode.Team2844;
+package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-class EncoderDrive
+public class EncoderDrive
 {
     private RobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
 
     /* Constructor setup all class variables here */
-    EncoderDrive(RobotHardware robot) {
+    public EncoderDrive(RobotHardware robot) {
         robot_ = robot;
         runtime_ = new ElapsedTime();
         waiting_ = false;
@@ -30,7 +30,7 @@ class EncoderDrive
      *  This feature allow the main program to start up multiple robot actions
      *  in parallel in a larger loop checking multiple robots actions for completion
      */
-    void StartAction(double speed,
+    public void StartAction(double speed,
                             double leftInches,
                             double rightInches,
                             double timeoutS,
@@ -97,13 +97,13 @@ class EncoderDrive
     }
 
     //check if the motors have hit their target
-    boolean IsActionDone()
+    public boolean IsActionDone()
     {
         return robot_.leftDrive.isBusy() && robot_.rightDrive.isBusy();
     }
 
     //stop the motors
-    void StopAction()
+    public void StopAction()
     {
             // Stop all motion;
         robot_.leftDrive.setPower(0);

@@ -27,7 +27,7 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Team2844;
+package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -35,35 +35,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
+
 /**
- * This file illustrates the concept of driving a path based on encoder counts.
- * It uses the common Pushbot hardware class to define the drive on the robot.
- * The code is structured as a LinearOpMode
- *
- * The code REQUIRES that you DO have encoders on the wheels,
- *   otherwise you would use: PushbotAutoDriveByTime;
- *
- *  This code ALSO requires that the drive Motors have been configured such that a positive
- *  power command moves them forwards, and causes the encoders to count UP.
- *
- *   The desired path in this example is:
- *   - Drive forward for 48 inches
- *   - Spin right for 12 Inches
- *   - Drive Backwards for 24 inches
- *   - Stop and close the claw.
- *
- *  The code is written using a method called: encoderDrive(speed, leftInches, rightInches, timeoutS)
- *  that performs the actual movement.
- *  This methods assumes that each movement is relative to the last stopping place.
- *  There are other ways to perform encoder based moves, but this method is probably the simplest.
- *  This code uses the RUN_TO_POSITION mode to enable the Motor controllers to generate the run profile
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
+ * This file is designed to test out the EncoderDrive class
  */
 
 @Autonomous(name="Test: Test Encoder Drive", group="Test")
-//@Disabled
+@Disabled
 public class TestEncoderDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -73,8 +53,8 @@ public class TestEncoderDrive extends LinearOpMode {
     {
         ElapsedTime runtime = new ElapsedTime();
 
-        RobotHardware robot_ = new RobotHardware(hardwareMap, this);
-        EncoderDrive encoderDrive_ = new EncoderDrive(robot_);
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
+        EncoderDrive encoderDrive = new EncoderDrive(robot);
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
@@ -82,22 +62,22 @@ public class TestEncoderDrive extends LinearOpMode {
 
         System.out.println("ValleyX: Starting...");
         //going forwards 12 inches
-        encoderDrive_.StartAction(0.6, 12, 12, 5.0, true);
+        encoderDrive.StartAction(0.6, 12, 12, 5.0, true);
         //going backwards 12 inches
-        encoderDrive_.StartAction(0.5, -12, -12, 5.0, true);
+        encoderDrive.StartAction(0.5, -12, -12, 5.0, true);
 
         //testing no wait functions going forward 12 inches
         runtime.reset();
-        encoderDrive_.StartAction(0.6, 12, 12, 6.0, false);
+        encoderDrive.StartAction(0.6, 12, 12, 6.0, false);
 
         //spin here until encoder is complete
-        while (opModeIsActive() && !encoderDrive_.IsActionDone() && runtime.seconds() < 5.0)
+        while (opModeIsActive() && !encoderDrive.IsActionDone() && runtime.seconds() < 5.0)
         {
            idle();
         }
 
         //Spin above is completed
-        encoderDrive_.StopAction(); //stop all motors started by StartAction
+        encoderDrive.StopAction(); //stop all motors started by StartAction
     }
 
 }
