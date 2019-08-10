@@ -105,7 +105,7 @@ public class EncoderDrive
     //stop the motors
     public void StopAction()
     {
-        // Stop all motion;
+        // Stop all motion; 
         robot_.leftDrive.setPower(0);
         robot_.rightDrive.setPower(0);
 
