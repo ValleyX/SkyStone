@@ -65,7 +65,7 @@ public class TestEncoderDrive extends LinearOpMode {
         //going forwards 12 inches
         encoderDrive.StartAction(0.6, 12, 12, 5.0, true);
 
-        sleep(2000);  
+        sleep(2000); 
         //going backwards 12 inches
         System.out.println("ValleyX: Move backwards 12 inches");
         encoderDrive.StartAction(0.5, -12, -12, 5.0, true);
