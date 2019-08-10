@@ -58,7 +58,7 @@ public class TestEncoderDrive extends LinearOpMode {
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
-        waitForStart(); 
+        waitForStart();
 
         System.out.println("ValleyX: Starting...");
         System.out.println("ValleyX: Move forward 12 inches ");
