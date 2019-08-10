@@ -99,7 +99,7 @@ public class EncoderDrive
     //check if the motors have hit their target
     public boolean IsActionDone()
     {
-        return robot_.leftDrive.isBusy() && robot_.rightDrive.isBusy();
+        return !robot_.leftDrive.isBusy() && !robot_.rightDrive.isBusy();
     }
 
     //stop the motors
