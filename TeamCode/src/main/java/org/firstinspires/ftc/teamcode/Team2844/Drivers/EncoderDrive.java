@@ -45,7 +45,7 @@ public class EncoderDrive
         if (robot_.OpMode_.opModeIsActive()) {
             //setup encoders and motors for this use
 
-            robot_.OpMode_.telemetry.addData("Status", "Resetting Encoders");
+            robot_.OpMode_.telemetry.addData("Status", "Resetting Encoders ");
             robot_.OpMode_.telemetry.update();
 
             robot_.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
