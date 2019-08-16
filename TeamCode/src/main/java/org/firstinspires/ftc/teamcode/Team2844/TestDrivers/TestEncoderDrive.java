@@ -79,7 +79,7 @@ public class TestEncoderDrive extends LinearOpMode {
         //spin here until encoder is complete
         while (opModeIsActive() && !encoderDrive.IsActionDone() && runtime.seconds() < 5.0)
         {
-           idle(); 
+           idle();  
         }
 
         //Spin above is completed
