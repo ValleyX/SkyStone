@@ -43,6 +43,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  *
  * Motor channel:  Left  drive motor:        "left_drive"
  * Motor channel:  Right drive motor:        "right_drive"
+ *
  */
 public class RobotHardware
 {
