@@ -42,9 +42,10 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
  * This file is designed to test out the EncoderDrive class
  */
 
-@Autonomous(name="Test: Test Encoder Drive", group="Test")
+@Autonomous(name="Test: Test Samatron Encoder Drive", group="Test")
 //@Disabled
-public class TestEncoderDrive extends LinearOpMode {
+public class TestEncoderDrive extends LinearOpMode
+{
 
     /* Declare OpMode members. */
 

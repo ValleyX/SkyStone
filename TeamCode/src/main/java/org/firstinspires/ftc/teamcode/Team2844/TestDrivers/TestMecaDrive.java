@@ -19,6 +19,10 @@ public class TestMecaDrive extends LinearOpMode
     {
         RobotHardware robot = new RobotHardware(hardwareMap, this);
 
+        final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
+        final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
+        final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
+
         float leftStickY;
         float rightStickY;
         boolean leftBumper;
@@ -39,14 +43,14 @@ public class TestMecaDrive extends LinearOpMode
             leftBackEncoder = robot.leftBackDrive.getCurrentPosition();
             rightFrontEncoder = robot.rightFrontDrive.getCurrentPosition();
             rightBackEncoder = robot.rightBackDrive.getCurrentPosition();
-            telemetry.addData("encoder leftFront", leftFrontEncoder/40);
-            telemetry.addData("encoder leftBack", leftBackEncoder/40);
-            telemetry.addData("encoder rightFront", rightFrontEncoder/40);
-            telemetry.addData("encoder rightBack", rightBackEncoder/40);
+            telemetry.addData("encoder leftFront", leftFrontEncoder/ONE_MOTOR_COUNT);
+            telemetry.addData("encoder leftBack", leftBackEncoder/ONE_MOTOR_COUNT);
+            telemetry.addData("encoder rightFront", rightFrontEncoder/ONE_MOTOR_COUNT);
+            telemetry.addData("encoder rightBack", rightBackEncoder/ONE_MOTOR_COUNT);
             //driving forward/backward
-            leftStickY = gamepad1.left_stick_y;
+            leftStickY = -gamepad1.left_stick_y; // game pad says up is neg
             telemetry.addData("leftY", leftStickY);
-            rightStickY = gamepad1.right_stick_y;
+            rightStickY = -gamepad1.right_stick_y; // game pad says up is neg
             telemetry.addData("rightY", rightStickY);
             telemetry.update();
 
@@ -54,9 +58,9 @@ public class TestMecaDrive extends LinearOpMode
             rightBumper = gamepad1.right_bumper;
             if (!rightBumper && !leftBumper)
             {
-                robot.leftFrontDrive.setPower(-leftStickY);
+                robot.leftFrontDrive.setPower(leftStickY);
                 robot.leftBackDrive.setPower(leftStickY);
-                robot.rightFrontDrive.setPower(-rightStickY);
+                robot.rightFrontDrive.setPower(rightStickY);
                 robot.rightBackDrive.setPower(rightStickY);
             }
 
@@ -79,9 +83,9 @@ public class TestMecaDrive extends LinearOpMode
             if (rightBumper)
             {
                 robot.leftFrontDrive.setPower(strafePower);
-                robot.leftBackDrive.setPower(strafePower);
+                robot.leftBackDrive.setPower(-strafePower);
                 robot.rightFrontDrive.setPower(-strafePower);
-                robot.rightBackDrive.setPower(-strafePower);
+                robot.rightBackDrive.setPower(strafePower);
             }
             else if (!leftBumper)
             {
@@ -95,9 +99,9 @@ public class TestMecaDrive extends LinearOpMode
             if (leftBumper)
             {
                 robot.leftFrontDrive.setPower(-strafePower);
-                robot.leftBackDrive.setPower(-strafePower);
+                robot.leftBackDrive.setPower(strafePower);
                 robot.rightFrontDrive.setPower(strafePower);
-                robot.rightBackDrive.setPower(strafePower);
+                robot.rightBackDrive.setPower(-strafePower);
             }
             else if (!rightBumper)
             {
@@ -106,7 +110,6 @@ public class TestMecaDrive extends LinearOpMode
                 robot.rightFrontDrive.setPower(0);
                 robot.rightBackDrive.setPower(0);
             }
-
         }
     }
 }
