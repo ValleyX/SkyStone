@@ -63,8 +63,10 @@ public class RobotHardware
     private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
     private final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
     private final double     WHEEL_DIAMETER_INCHES   = 4.0;
-    private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
+    private final double     STRAFING_WHEEL_WIDTH    = 9.75; //FIND
+    private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
     final double             COUNTS_PER_INCH         = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
+    final double             COUNTS_PER_INCH_STRAFE  = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
 
     /* Constructor */
     public RobotHardware(HardwareMap ahwMap, LinearOpMode opMode) {

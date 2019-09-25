@@ -1,18 +1,18 @@
 
 package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class EncoderDrive
+public class StrafingEncoderDrive
 {
     private RobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
 
     /* Constructor setup all class variables here */
-    public EncoderDrive(RobotHardware robot) {
+    public StrafingEncoderDrive(RobotHardware robot)
+    {
         robot_ = robot;
         runtime_ = new ElapsedTime();
         waiting_ = false;
@@ -32,13 +32,15 @@ public class EncoderDrive
      *  This feature allow the main program to start up multiple robot actions
      *  in parallel in a larger loop checking multiple robots actions for completion
      */
-    public void StartAction(double speed,
-                            double leftInches,
-                            double rightInches,
-                            double timeoutS,
-                            boolean waiting) //are we returned only when complete?
+    public void Strafe(double speed,
+                              double xInches,
+                              double timeoutS,
+                              boolean waiting) //are we returned only when complete?
     {
         waiting_ = waiting;
+
+        double leftFrontRightBackInches = xInches; //right=positive, left=negative
+        double rightFrontLeftBackInches = -xInches; //right=negative, left=positive
 
         int newLeftFrontTarget;
         int newLeftBackTarget;
@@ -73,10 +75,10 @@ public class EncoderDrive
             robot_.OpMode_.telemetry.update();
 
             // Determine new target position, and pass to motor controller
-            newLeftFrontTarget = robot_.leftFrontDrive.getCurrentPosition() + (int) (leftInches * robot_.COUNTS_PER_INCH);
-            newLeftBackTarget = robot_.leftBackDrive.getCurrentPosition() + (int) (leftInches * robot_.COUNTS_PER_INCH);
-            newRightFrontTarget = robot_.rightFrontDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
-            newRightBackTarget = robot_.rightBackDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
+            newLeftFrontTarget = robot_.leftFrontDrive.getCurrentPosition() + (int) (leftFrontRightBackInches * robot_.COUNTS_PER_INCH_STRAFE);
+            newLeftBackTarget = robot_.leftBackDrive.getCurrentPosition() + (int) (rightFrontLeftBackInches * robot_.COUNTS_PER_INCH_STRAFE);
+            newRightFrontTarget = robot_.rightFrontDrive.getCurrentPosition() + (int) (rightFrontLeftBackInches * robot_.COUNTS_PER_INCH_STRAFE);
+            newRightBackTarget = robot_.rightBackDrive.getCurrentPosition() + (int) (leftFrontRightBackInches * robot_.COUNTS_PER_INCH_STRAFE);
             robot_.leftFrontDrive.setTargetPosition(newLeftFrontTarget);
             robot_.leftBackDrive.setTargetPosition(newLeftBackTarget);
             robot_.rightFrontDrive.setTargetPosition(newRightFrontTarget);
@@ -122,7 +124,10 @@ public class EncoderDrive
     //check if the motors have hit their target
     public boolean IsActionDone()
     {
-        return !robot_.leftFrontDrive.isBusy() && !robot_.leftBackDrive.isBusy() && !robot_.rightFrontDrive.isBusy() && !robot_.rightBackDrive.isBusy();
+        return  !robot_.leftFrontDrive.isBusy() &&
+                !robot_.leftBackDrive.isBusy() &&
+                !robot_.rightFrontDrive.isBusy() &&
+                !robot_.rightBackDrive.isBusy();
     }
 
     //stop the motors

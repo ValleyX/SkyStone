@@ -37,6 +37,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
 
 /**
  * This file is designed to test out the EncoderDrive class
@@ -56,11 +57,13 @@ public class TestEncoderDrive extends LinearOpMode
 
         RobotHardware robot = new RobotHardware(hardwareMap, this);
         EncoderDrive encoderDrive = new EncoderDrive(robot);
+        StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
+        /*
         System.out.println("ValleyX: Starting...");
         System.out.println("ValleyX: Move forward 12 inches ");
         //going forwards 12 inches
@@ -75,9 +78,20 @@ public class TestEncoderDrive extends LinearOpMode
         //testing no wait functions going forward 12 inches
         runtime.reset();
         System.out.println("ValleyX: Move forward 12 inches");
-        encoderDrive.StartAction(0.6, 12, 12, 6.0, false);
+        encoderDrive.StartAction(0.6, 12, 12, 6.0, true);
+         */
 
-        //spin here until encoder is complete
+        sleep(2000);
+        //testing strafe
+        runtime.reset();
+        System.out.println("ValleyX: Strafe right");
+        Strafing.Strafe(0.6, 12,6.0,true);
+        sleep(2000);
+        System.out.println("ValleyX: Strafe left");
+        Strafing.Strafe(0.6, -12,6.0,true);
+
+        /*
+    //spin here until encoder is complete
         while (opModeIsActive() && !encoderDrive.IsActionDone() && runtime.seconds() < 5.0)
         {
            idle();  
@@ -85,6 +99,7 @@ public class TestEncoderDrive extends LinearOpMode
 
         //Spin above is completed
         encoderDrive.StopAction(); //stop all motors started by StartAction
+         */
     }
 
 }
