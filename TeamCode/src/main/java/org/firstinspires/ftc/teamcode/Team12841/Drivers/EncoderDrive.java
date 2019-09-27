@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Team12841.Drivers;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class EncoderDrive
@@ -48,31 +49,45 @@ public class EncoderDrive
             robot_.OpMode_.telemetry.addData("Status", "Resetting Encoders");
             robot_.OpMode_.telemetry.update();
 
-            robot_.leftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            robot_.rightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot_.LeftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot_.RightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot_.LeftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot_.RightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            robot_.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot_.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot_.LeftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot_.RightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot_.LeftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot_.RightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             // Send telemetry message to indicate successful Encoder reset
             robot_.OpMode_.telemetry.addData("Path0", "Starting at %7d :%7d",
-                    robot_.leftDrive.getCurrentPosition(),
-                    robot_.rightDrive.getCurrentPosition());
+                    robot_.LeftFrontDrive.getCurrentPosition(),
+                    robot_.RightFrontDrive.getCurrentPosition());
+                    robot_.LeftBackDrive.getCurrentPosition();
+                    robot_.RightBackDrive.getCurrentPosition();
             robot_.OpMode_.telemetry.update();
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot_.leftDrive.getCurrentPosition() + (int) (leftInches * robot_.COUNTS_PER_INCH);
-            newRightTarget = robot_.rightDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
-            robot_.leftDrive.setTargetPosition(newLeftTarget);
-            robot_.rightDrive.setTargetPosition(newRightTarget);
+            newLeftTarget = robot_.LeftFrontDrive.getCurrentPosition() + (int) (leftInches * robot_.COUNTS_PER_INCH);
+            newRightTarget = robot_.RightFrontDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
+            newLeftTarget = robot_.LeftBackDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
+            newRightTarget = robot_.RightBackDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
+            robot_.LeftFrontDrive.setTargetPosition(newLeftTarget);
+            robot_.RightFrontDrive.setTargetPosition(newRightTarget);
+            robot_.LeftBackDrive.setTargetPosition(newLeftTarget);
+            robot_.RightBackDrive.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
-            robot_.leftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot_.rightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot_.LeftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot_.RightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot_.LeftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot_.RightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
-            robot_.leftDrive.setPower(Math.abs(speed));
-            robot_.rightDrive.setPower(Math.abs(speed));
+            robot_.LeftFrontDrive.setPower(Math.abs(speed));
+            robot_.RightFrontDrive.setPower(Math.abs(speed));
+            robot_.LeftBackDrive.setPower(Math.abs(speed));
+            robot_.RightBackDrive.setPower(Math.abs(speed));
 
             runtime_.reset();
 
@@ -87,8 +102,10 @@ public class EncoderDrive
                     robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d",
                             newLeftTarget, newRightTarget);
                     robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d",
-                            robot_.leftDrive.getCurrentPosition(),
-                            robot_.rightDrive.getCurrentPosition());
+                            robot_.LeftFrontDrive.getCurrentPosition(),
+                            robot_.RightFrontDrive.getCurrentPosition());
+                            robot_.LeftBackDrive.getCurrentPosition();
+                            robot_.RightBackDrive.getCurrentPosition();
                     robot_.OpMode_.telemetry.update();
                     robot_.OpMode_.idle();
                 }
@@ -99,19 +116,24 @@ public class EncoderDrive
     //check if the motors have hit their target
     public boolean IsActionDone()
     {
-        return !robot_.leftDrive.isBusy() && !robot_.rightDrive.isBusy();
+        return !robot_.LeftFrontDrive.isBusy() && !robot_.RightFrontDrive.isBusy();
+
     }
 
     //stop the motors
     public void StopAction()
     {
         // Stop all motion;
-        robot_.leftDrive.setPower(0);
-        robot_.rightDrive.setPower(0);
+        robot_.LeftFrontDrive.setPower(0);
+        robot_.RightFrontDrive.setPower(0);
+        robot_.LeftBackDrive.setPower(0);
+        robot_.RightBackDrive.setPower(0);
 
         // Turn off RUN_TO_POSITION
-        robot_.leftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot_.rightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot_.LeftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot_.RightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot_.LeftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot_.RightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         robot_.OpMode_.idle();   //give the processor time to act
         waiting_ = false;

@@ -43,7 +43,7 @@ import org.firstinspires.ftc.teamcode.Team12841.Drivers.RobotHardware;
  */
 
 @Autonomous(name="Test: Test Encoder Drive", group="Test")
-//@Disabled
+@Disabled
 public class TestEncoderDrive extends LinearOpMode {
 
     /* Declare OpMode members. */

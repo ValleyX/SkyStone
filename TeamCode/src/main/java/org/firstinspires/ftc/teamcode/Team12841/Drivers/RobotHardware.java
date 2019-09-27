@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.Team12841.Drivers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -50,8 +51,10 @@ public class RobotHardware
 {
     LinearOpMode OpMode_;
 
-    DcMotor  leftDrive;
-    DcMotor  rightDrive;
+    DcMotor  LeftFrontDrive;
+    DcMotor  RightFrontDrive;
+    DcMotor  LeftBackDrive;
+    DcMotor  RightBackDrive;
 
 
     //private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
@@ -65,19 +68,28 @@ public class RobotHardware
         OpMode_ = opMode;
 
         // Define and Initialize Motors
-        leftDrive = ahwMap.get(DcMotor.class, "lmotor");
-        rightDrive = ahwMap.get(DcMotor.class, "rmotor");
+        LeftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); //motor 0
+        RightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); //motor 1
+        LeftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); //motor 2
+        RightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); //Motor 3
 
-        leftDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
-        rightDrive.setDirection(DcMotor.Direction.FORWARD);// TODO determine which motor should be reversed
+        LeftFrontDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
+        RightFrontDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
+        LeftBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
+        RightBackDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
 
         // Set all motors to zero power
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
+        LeftFrontDrive.setPower(0);
+        RightFrontDrive.setPower(0);
+        LeftBackDrive.setPower(0);
+        RightBackDrive.setPower(0);
 
         // Set all motors to run without encoders by default
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        LeftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        LeftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        RightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
  }
 
