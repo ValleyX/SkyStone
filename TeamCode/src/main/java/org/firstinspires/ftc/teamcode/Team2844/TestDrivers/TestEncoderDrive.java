@@ -63,7 +63,6 @@ public class TestEncoderDrive extends LinearOpMode
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        /*
         System.out.println("ValleyX: Starting...");
         System.out.println("ValleyX: Move forward 12 inches ");
         //going forwards 12 inches
@@ -79,7 +78,6 @@ public class TestEncoderDrive extends LinearOpMode
         runtime.reset();
         System.out.println("ValleyX: Move forward 12 inches");
         encoderDrive.StartAction(0.6, 12, 12, 6.0, true);
-         */
 
         sleep(2000);
         //testing strafe

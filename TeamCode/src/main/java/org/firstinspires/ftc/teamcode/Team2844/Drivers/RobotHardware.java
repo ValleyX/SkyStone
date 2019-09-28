@@ -29,6 +29,7 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -59,6 +60,7 @@ public class RobotHardware
     public DcMotor  rightFrontDrive;
     public DcMotor  rightBackDrive;
 
+    BNO055IMU imu;
 
     private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
     private final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
@@ -69,7 +71,8 @@ public class RobotHardware
     final double             COUNTS_PER_INCH_STRAFE  = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
 
     /* Constructor */
-    public RobotHardware(HardwareMap ahwMap, LinearOpMode opMode) {
+    public RobotHardware(HardwareMap ahwMap, LinearOpMode opMode)
+    {
         /* Public OpMode members. */
         OpMode_ = opMode;
 
@@ -95,6 +98,8 @@ public class RobotHardware
         leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        imu = ahwMap.get(BNO055IMU.class, "imu");
     }
  }
 
