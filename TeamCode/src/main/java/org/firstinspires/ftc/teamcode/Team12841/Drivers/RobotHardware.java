@@ -51,10 +51,10 @@ public class RobotHardware
 {
     LinearOpMode OpMode_;
 
-    DcMotor  LeftFrontDrive;
-    DcMotor  RightFrontDrive;
-    DcMotor  LeftBackDrive;
-    DcMotor  RightBackDrive;
+    public DcMotor  LeftFrontDrive;
+    public DcMotor  RightFrontDrive;
+    public DcMotor  LeftBackDrive;
+    public DcMotor  RightBackDrive;
 
 
     //private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder

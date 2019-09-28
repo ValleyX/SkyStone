@@ -6,24 +6,29 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@TeleOp(name="test: Test Gamepad mecam", group="Test")
+import org.firstinspires.ftc.teamcode.Team12841.Drivers.RobotHardware;
+
+@TeleOp(name="test: Test Gamepad mechum", group="Test")
 
 public class GamePadTestNoobCoderzMechum extends LinearOpMode {
-    DcMotor LeftFrontMotor;
-    DcMotor RightFrontMotor;
-    DcMotor LeftBackMotor;
-    DcMotor RightBackMotor;
+    //DcMotor LeftFrontMotor;
+    //DcMotor RightFrontMotor;
+    //DcMotor LeftBackMotor;
+    //DcMotor RightBackMotor;
 
     @Override
     public void runOpMode() throws InterruptedException {
 
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
+       // LeftFrontMotor = hardwareMap.get(DcMotor.class, "lfmotor");
+        //RightFrontMotor = hardwareMap.get(DcMotor.class, "rfmotor");
+       // LeftBackMotor = hardwareMap.get(DcMotor.class, "lbmotor");
+       // RightBackMotor = hardwareMap.get(DcMotor.class, "rbmotor");
+       // LeftFrontMotor.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
+        //RightFrontMotor.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
+        //LeftBackMotor.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
+        //RightBackMotor.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
 
-        LeftFrontMotor = hardwareMap.get(DcMotor.class, "LFmotor");
-        RightFrontMotor = hardwareMap.get(DcMotor.class, "RFmotor");
-        LeftBackMotor = hardwareMap.get(DcMotor.class, "LBmotor");
-        RightBackMotor = hardwareMap.get(DcMotor.class, "RBmotor");
-        RightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        LeftBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
         waitForStart();
 
@@ -38,10 +43,10 @@ public class GamePadTestNoobCoderzMechum extends LinearOpMode {
             telemetry.addData("joystickRightY=%d", joystickRightY);
 
             if ((RightButton == 0) && (LeftButton == 0)) {
-                LeftFrontMotor.setPower(joystickRightY);
-                RightFrontMotor.setPower(joystickLeftX);
-                LeftBackMotor.setPower(joystickRightY);
-                RightBackMotor.setPower(joystickLeftX);
+                robot.LeftFrontDrive.setPower(joystickRightY);
+                robot.RightFrontDrive.setPower(joystickRightY);
+                robot.LeftBackDrive.setPower(joystickLeftX);
+                robot.RightBackDrive.setPower(joystickLeftX);
 
             }
 
@@ -49,11 +54,20 @@ public class GamePadTestNoobCoderzMechum extends LinearOpMode {
             telemetry.addData("left_trigger=%d", LeftButton);
             telemetry.update();
 
-            LeftFrontMotor.setPower(LeftButton);
-            RightFrontMotor.setPower(RightButton);
-            LeftBackMotor.setPower(LeftButton);
-            RightBackMotor.setPower(RightButton);
+            if ((RightButton >0) && (LeftButton == 0)){
+                robot.LeftFrontDrive.setPower(-RightButton);
+                robot.RightFrontDrive.setPower(RightButton);
+                robot.LeftBackDrive.setPower(RightButton);
+                robot.RightBackDrive.setPower(-RightButton);
+            }
 
+            if ((LeftButton >0) && (RightButton == 0)){
+                robot.LeftFrontDrive.setPower(LeftButton);
+                robot.RightFrontDrive.setPower(-LeftButton);
+                robot.LeftBackDrive.setPower(-LeftButton);
+                robot.RightBackDrive.setPower(LeftButton);
+
+            }
 
 
         }
