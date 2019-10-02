@@ -39,8 +39,10 @@ public class EncoderDrive
     {
         waiting_ = waiting;
 
-        int newLeftTarget;
-        int newRightTarget;
+        int newLeftFrontTarget;
+        int newRightFrontTarget;
+        int newLeftBackTarget;
+        int newRightBackTarget;
 
         // Ensure that the opmode is still active
         if (robot_.OpMode_.opModeIsActive()) {
@@ -60,7 +62,7 @@ public class EncoderDrive
             robot_.RightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             // Send telemetry message to indicate successful Encoder reset
-            robot_.OpMode_.telemetry.addData("Path0", "Starting at %7d :%7d",
+            robot_.OpMode_.telemetry.addData("Path0", "Starting at %7d :%7d :%7d :%7d",
                     robot_.LeftFrontDrive.getCurrentPosition(),
                     robot_.RightFrontDrive.getCurrentPosition());
                     robot_.LeftBackDrive.getCurrentPosition();
@@ -68,14 +70,14 @@ public class EncoderDrive
             robot_.OpMode_.telemetry.update();
 
             // Determine new target position, and pass to motor controller
-            newLeftTarget = robot_.LeftFrontDrive.getCurrentPosition() + (int) (leftInches * robot_.COUNTS_PER_INCH);
-            newRightTarget = robot_.RightFrontDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
-            newLeftTarget = robot_.LeftBackDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
-            newRightTarget = robot_.RightBackDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
-            robot_.LeftFrontDrive.setTargetPosition(newLeftTarget);
-            robot_.RightFrontDrive.setTargetPosition(newRightTarget);
-            robot_.LeftBackDrive.setTargetPosition(newLeftTarget);
-            robot_.RightBackDrive.setTargetPosition(newRightTarget);
+            newLeftFrontTarget = robot_.LeftFrontDrive.getCurrentPosition() + (int) (leftInches * robot_.COUNTS_PER_INCH);
+            newRightFrontTarget = robot_.RightFrontDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
+            newLeftBackTarget = robot_.LeftBackDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
+            newRightBackTarget = robot_.RightBackDrive.getCurrentPosition() + (int) (rightInches * robot_.COUNTS_PER_INCH);
+            robot_.LeftFrontDrive.setTargetPosition(newLeftFrontTarget);
+            robot_.RightFrontDrive.setTargetPosition(newRightFrontTarget);
+            robot_.LeftBackDrive.setTargetPosition(newLeftBackTarget);
+            robot_.RightBackDrive.setTargetPosition(newRightBackTarget);
 
             // Turn On RUN_TO_POSITION
             robot_.LeftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -96,16 +98,16 @@ public class EncoderDrive
                 //then spin here making sure opmode is active, there is available time, action is still running
                 while (robot_.OpMode_.opModeIsActive() &&
                       (runtime_.seconds() < timeoutS) &&
-                      IsActionDone())
+                      !IsActionDone())
                 {
                     // Display it for the driver.
-                    robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d",
-                            newLeftTarget, newRightTarget);
-                    robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d",
+                    robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d :%7d :%7d",
+                            newLeftFrontTarget, newRightFrontTarget, newLeftBackTarget, newRightBackTarget);
+                    robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d :%7d :%7d",
                             robot_.LeftFrontDrive.getCurrentPosition(),
-                            robot_.RightFrontDrive.getCurrentPosition());
-                            robot_.LeftBackDrive.getCurrentPosition();
-                            robot_.RightBackDrive.getCurrentPosition();
+                            robot_.RightFrontDrive.getCurrentPosition(),
+                            robot_.LeftBackDrive.getCurrentPosition(),
+                            robot_.RightBackDrive.getCurrentPosition());
                     robot_.OpMode_.telemetry.update();
                     robot_.OpMode_.idle();
                 }
@@ -116,7 +118,8 @@ public class EncoderDrive
     //check if the motors have hit their target
     public boolean IsActionDone()
     {
-        return !robot_.LeftFrontDrive.isBusy() && !robot_.RightFrontDrive.isBusy();
+        return !robot_.LeftFrontDrive.isBusy() && !robot_.RightFrontDrive.isBusy() &&
+                !robot_.LeftBackDrive.isBusy() && !robot_.RightBackDrive.isBusy();
 
     }
 

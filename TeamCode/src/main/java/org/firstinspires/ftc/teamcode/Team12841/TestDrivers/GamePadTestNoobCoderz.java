@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Team12841.TestDrivers;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp(name="test: Test Gamepad", group="Test")
-
+@Disabled
 public class GamePadTestNoobCoderz extends LinearOpMode {
     DcMotor LeftMotor;
     DcMotor RightMotor;
