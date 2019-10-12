@@ -71,16 +71,20 @@ public class RotateToHeading
         double gyroActual = robot_.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
 
         robot_.OpMode_.telemetry.addData("imu heading", gyroActual);
+        robot_.OpMode_.telemetry.update();
+
+        System.out.println("ValleyX imu heading " + gyroActual);
     }
 
     public void DoIt (double heading)
     {
         double gyroActual = robot_.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         double turnAngle = heading - gyroActual;
+
         if (turnAngle < 0)
         {
             turnAngle = turnAngle + 360;
         }
-        rotatePrecise_.RotatePrecise(turnAngle, 1, 0.2, 0.3, 5);
+        rotatePrecise_.RotatePrecise(turnAngle, 2, 0.2, 0.3, 5);
     }
 }
