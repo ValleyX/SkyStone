@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
 
-@Autonomous(name="Test: Test Rotate Precise", group="Test")
+@TeleOp(name="Test: Test Rotate Precise", group="Test")
 //@Disabled
 
 public class TestRotatePrecise extends LinearOpMode
@@ -25,11 +26,27 @@ public class TestRotatePrecise extends LinearOpMode
         System.out.println("ValleyX: Starting...");
         System.out.println("ValleyX: Rotate 90 degrees");
 
-        telemetry.addData("gyrotarget ", 90);
-        telemetry.update();
-        rotatePrecise.RotatePrecise(90, 1, 0.2, 0.3, 5);
-        sleep(2000);
+        waitForStart();
 
+        while (opModeIsActive())
+        {
+            if (gamepad1.a) {
+                rotatePrecise.RotatePrecise(90, 2, 0.2, 0.3, 5);
+                sleep(2000);
+                telemetry.addData("gyrotarget ", 90);
+                telemetry.update();
+            }
+
+            if (gamepad1.b)
+            {
+                rotatePrecise.RotatePrecise(-90, 2, 0.2, 0.3, 5);
+                sleep(2000);
+                telemetry.addData("gyrotarget ", 90);
+                telemetry.update();
+            }
+        }
+
+        /*
         telemetry.addData("gyrotarget ", -90);
         telemetry.update();
         rotatePrecise.RotatePrecise(-90, 1, 0.2, 0.3, 5);
@@ -59,6 +76,7 @@ public class TestRotatePrecise extends LinearOpMode
         telemetry.update();
         rotatePrecise.RotatePrecise(10, 1, 0.2, 0.3, 5);
         sleep(2000);
+         */
     }
 }
 

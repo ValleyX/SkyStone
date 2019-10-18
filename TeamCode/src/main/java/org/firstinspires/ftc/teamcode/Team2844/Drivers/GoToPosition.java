@@ -23,6 +23,7 @@ import org.firstinspires.ftc.teamcode.Team2844.TestDrivers.ConceptVuforiaSkySton
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.abs;
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
@@ -38,9 +39,10 @@ public class GoToPosition
     private RotatePrecise rotatePrecise_;
     private RotateToHeading rotateToHeading_;
     private VuforiaPosition vuforiaPosition_;
+    private EncoderDrive encoderDrive_;
 
     /* Constructor setup all class variables here */
-    public GoToPosition(RobotHardware robot, RotatePrecise rotatePrecise, RotateToHeading rotateToHeading, VuforiaPosition vuforiaPosition)
+    public GoToPosition(RobotHardware robot, RotatePrecise rotatePrecise, RotateToHeading rotateToHeading, VuforiaPosition vuforiaPosition, EncoderDrive encoderDrive)
     {
         //VARIABLES WE UNDERSTAND
         robot_ = robot;
@@ -49,6 +51,7 @@ public class GoToPosition
         rotatePrecise_ = rotatePrecise;
         rotateToHeading_ = rotateToHeading;
         vuforiaPosition_ = vuforiaPosition;
+        encoderDrive_ = encoderDrive;
 
         /* ---new remapping code --*/
         //swapping y & z axis due to vertical mounting of rev expansion board
@@ -101,9 +104,49 @@ public class GoToPosition
         robot_.OpMode_.telemetry.update();
     }
 
-    public void GoToPosition (float XValue, float YValue)
-    {
+    public void GoToPosition (float XValue, float YValue) {
         double XY[];
         XY = vuforiaPosition_.GetVuforiaPosition();
+        robot_.OpMode_.telemetry.addData("vuforia positions", XY);
+        robot_.OpMode_.telemetry.update();
+
+        int timer = 0;
+        while (timer < 10) {
+            if (XY[2] == 0) {
+                //rotatePrecise_.RotatePrecise(90, 2, 0.2, 0.3, 5);
+                rotateToHeading_.DoIt(90);
+                XY = vuforiaPosition_.GetVuforiaPosition();
+                robot_.OpMode_.telemetry.addData("vuforia positions", XY);
+                robot_.OpMode_.telemetry.update();
+            }
+            if (XY[2] == 1) {
+                double XDistance = XValue - XY[0];
+                robot_.OpMode_.telemetry.addData("x distance", XDistance);
+                if (XDistance < 0) {
+                    rotateToHeading_.DoIt(90);
+                } else {
+                    rotateToHeading_.DoIt(270);
+                }
+
+                robot_.OpMode_.telemetry.update();
+                robot_.OpMode_.sleep(5000);
+                //encoderDrive_.StartAction(0.6, abs(XDistance), abs(XDistance), 5.0, true);
+/*
+                double YDistance = YValue - XY[1];
+                robot_.OpMode_.telemetry.addData("y distance", YDistance);
+                robot_.OpMode_.telemetry.update();
+                if (YDistance < 0) {
+                    rotateToHeading_.DoIt(0);
+                } else {
+                    rotateToHeading_.DoIt(180);
+                }
+                encoderDrive_.StartAction(0.6, abs(YDistance), abs(YDistance), 5.0, true);
+*/
+                break;
+            }
+
+            robot_.OpMode_.sleep(1000);
+            timer++;
+        }
     }
 }

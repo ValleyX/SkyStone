@@ -79,6 +79,7 @@ public class RotatePrecise
         double gyroActual = robot_.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
         gyroTarget = -gyroTarget;
         gyroTarget += gyroActual + 360.0;
+        robot_.OpMode_.telemetry.addData("gyroActual", Double.toString(gyroActual));
         gyroTarget %= 360;
         int correctCount = 0;
 
