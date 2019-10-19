@@ -111,26 +111,31 @@ public class GoToPosition
         robot_.OpMode_.telemetry.update();
 
         int timer = 0;
-        while (timer < 10) {
-            if (XY[2] == 0) {
-                //rotatePrecise_.RotatePrecise(90, 2, 0.2, 0.3, 5);
-                rotateToHeading_.DoIt(90);
+        while (timer < 10)
+        {
+            if (XY[2] == 0)
+            {
+                System.out.println("ValleyX searching for picture");
+                rotatePrecise_.RotatePrecise(90, 2, 0.2, 0.3, 5);
                 XY = vuforiaPosition_.GetVuforiaPosition();
+
                 robot_.OpMode_.telemetry.addData("vuforia positions", XY);
                 robot_.OpMode_.telemetry.update();
             }
-            if (XY[2] == 1) {
+            if (XY[2] == 1)
+            {
+                System.out.println("ValleyX picture found");
                 double XDistance = XValue - XY[0];
-                robot_.OpMode_.telemetry.addData("x distance", XDistance);
+                System.out.println("ValleyX x distance " + XDistance);
                 if (XDistance < 0) {
                     rotateToHeading_.DoIt(90);
                 } else {
-                    rotateToHeading_.DoIt(270);
+                    rotateToHeading_.DoIt(-90);
                 }
 
-                robot_.OpMode_.telemetry.update();
-                robot_.OpMode_.sleep(5000);
-                //encoderDrive_.StartAction(0.6, abs(XDistance), abs(XDistance), 5.0, true);
+                //robot_.OpMode_.telemetry.update();
+                //robot_.OpMode_.sleep(5000);
+                encoderDrive_.StartAction(0.6, abs(XDistance), abs(XDistance), 5.0, true);
 /*
                 double YDistance = YValue - XY[1];
                 robot_.OpMode_.telemetry.addData("y distance", YDistance);

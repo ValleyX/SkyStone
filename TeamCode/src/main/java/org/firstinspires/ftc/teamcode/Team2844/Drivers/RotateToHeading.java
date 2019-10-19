@@ -79,12 +79,15 @@ public class RotateToHeading
     public void DoIt (double heading)
     {
         double gyroActual = robot_.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        double turnAngle = heading - gyroActual;
-
+        double turnAngle = -heading - gyroActual;
+/*
         if (turnAngle < 0)
         {
             turnAngle = turnAngle + 360;
         }
+
+ */
+
         rotatePrecise_.RotatePrecise(turnAngle, 2, 0.2, 0.3, 5);
     }
 }
