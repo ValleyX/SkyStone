@@ -30,19 +30,27 @@ public class TestRotatePrecise extends LinearOpMode
 
         while (opModeIsActive())
         {
-            if (gamepad1.a) {
-                rotatePrecise.RotatePrecise(90, 2, 0.2, 0.3, 5);
-                sleep(2000);
-                telemetry.addData("gyrotarget ", 90);
+            if (gamepad1.a)
+            {
+                telemetry.addData("gyrotarget ", 180);
                 telemetry.update();
+                rotatePrecise.RotatePrecise(180, 2, 0.2, 0.3, 5);
+                sleep(2000);
             }
 
             if (gamepad1.b)
             {
-                rotatePrecise.RotatePrecise(-90, 2, 0.2, 0.3, 5);
+                telemetry.addData("gyrotarget ", 270);
+                telemetry.update();
+                rotatePrecise.RotatePrecise(270, 2, 0.2, 0.3, 5);
                 sleep(2000);
+            }
+            if (gamepad1.x)
+            {
                 telemetry.addData("gyrotarget ", 90);
                 telemetry.update();
+                rotatePrecise.RotatePrecise(90, 2, 0.2, 0.3, 5);
+                sleep(2000);
             }
         }
 

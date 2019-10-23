@@ -78,8 +78,26 @@ public class RotateToHeading
 
     public void DoIt (double heading)
     {
+        //0 turns the wrong way force to 0.1
+        if (heading == 0.0)
+        {
+            heading = 0.1;
+        }
+        System.out.println("ValleyX passed heading " + heading);
         double gyroActual = robot_.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
-        double turnAngle = -heading - gyroActual;
+
+
+        gyroActual = 360 - gyroActual;
+        gyroActual += 360.0;
+        gyroActual %= 360;
+        robot_.OpMode_.telemetry.addData("gyroActual", Double.toString(gyroActual));
+        System.out.println("ValleyX gyroActual from RotateToHeading " + gyroActual);
+        double turnAngle = heading - gyroActual;
+
+        if (turnAngle > 180.0) turnAngle -= 360.0; //makes delta between -180 and 180
+        if (turnAngle < -180.0) turnAngle += 360.0; //makes delta between -180 and 180
+
+        System.out.println("ValleyX turnAngle " + turnAngle);
 /*
         if (turnAngle < 0)
         {
@@ -88,6 +106,7 @@ public class RotateToHeading
 
  */
 
+        System.out.println("ValleyX moving to rotate precise");
         rotatePrecise_.RotatePrecise(turnAngle, 2, 0.2, 0.3, 5);
     }
 }

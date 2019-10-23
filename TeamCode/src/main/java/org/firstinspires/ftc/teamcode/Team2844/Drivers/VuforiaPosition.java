@@ -334,6 +334,26 @@ public class VuforiaPosition
         {
             doubleTargetVisible = 0;
         }
+/*
+        VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+        VuforiaTrackable rear2 = targetsSkyStone.get(12);
+        rear2.setName("Rear Perimeter 2");
+        rear2.setLocation(OpenGLMatrix
+            .translation(halfField, -quadField, mmTargetHeight)
+            .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
+
+        double pictureNumber;
+        for (VuforiaTrackable trackable : allTrackables_)
+        {
+            trackable.getName();
+            if (trackable.getName() = Double.(targetsSkyStone.get(12)))
+            {
+
+            }
+
+        }
+
+ */
 
         return new double[]{x, y, doubleTargetVisible};
     }

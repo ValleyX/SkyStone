@@ -128,9 +128,13 @@ public class GoToPosition
                 double XDistance = XValue - XY[0];
                 System.out.println("ValleyX x distance " + XDistance);
                 if (XDistance < 0) {
+                    System.out.println("ValleyX starting turn to 90 heading");
                     rotateToHeading_.DoIt(90);
+                    System.out.println("ValleyX turn completed to 90 heading");
                 } else {
+                    System.out.println("ValleyX starting turn to -90 heading");
                     rotateToHeading_.DoIt(-90);
+                    System.out.println("ValleyX turn completed to -90 heading");
                 }
 
                 //robot_.OpMode_.telemetry.update();

@@ -19,10 +19,42 @@ public class TestRotateToHeading extends LinearOpMode
 
         waitForStart();
 
+        System.out.println("ValleyX turning to 90 heading");
         rotateToHeading.DoIt(90);
+        //rotatePrecise.RotatePrecise(90, 2, 0.2, 0.3, 5);
+
 
         sleep(1000);
 
+        System.out.println("ValleyX turning to 180 heading");
         rotateToHeading.DoIt(180);
+        //rotatePrecise.RotatePrecise(90, 2, 0.2, 0.3, 5);
+
+
+        sleep(1000);
+
+        System.out.println("ValleyX turning to 270 heading");
+        rotateToHeading.DoIt(270);
+        //rotatePrecise.RotatePrecise(90, 2, 0.2, 0.3, 5);
+
+
+        sleep(1000);
+
+        System.out.println("ValleyX turning to 0 heading");
+        rotateToHeading.DoIt(0.1);
+        //rotatePrecise.RotatePrecise(90, 2, 0.2, 0.3, 5);
+        sleep(1000);
+
+        System.out.println("ValleyX turning to 45 heading");
+        rotateToHeading.DoIt(45);
+        sleep(1000);
+
+        System.out.println("ValleyX turning to 315 heading");
+        rotateToHeading.DoIt(315);
+        sleep(1000);
+        System.out.println("ValleyX turning to 315 heading");
+        rotateToHeading.DoIt(0.1);
+        sleep(1000);
+
     }
 }

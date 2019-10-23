@@ -77,23 +77,29 @@ public class RotatePrecise
     {
         double turnPower = 0;
         double gyroActual = robot_.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+        System.out.println("ValleyX RotatePrecise initial gyroActual " + gyroActual);
         gyroTarget = -gyroTarget;
         gyroTarget += gyroActual + 360.0;
-        robot_.OpMode_.telemetry.addData("gyroActual", Double.toString(gyroActual));
-        System.out.println("ValleyX gyroActual " + gyroActual);
+        //robot_.OpMode_.telemetry.addData("gyroActual", Double.toString(gyroActual));
+        //System.out.println("ValleyX gyroActual " + gyroActual);
         gyroTarget %= 360;
+        System.out.println("ValleyX RotatePrecise initial gyroTarget " + gyroTarget);
         int correctCount = 0;
 
         while ((correctCount < timesCorrect) && robot_.OpMode_.opModeIsActive())
 
         {
+            //System.out.println("ValleyX starting while loop in rotatePrecise");
             gyroActual = robot_.imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES).firstAngle;
+
             double delta = (gyroTarget - gyroActual + 360.0) % 360.0; //the difference between target and actual mod 360
+            System.out.println("ValleyX delta value before adjustment " + delta);
 
-
+            //if (delta > 180.0) delta -= 360.0; //makes delta between -180 and 180
             if (delta > 180.0) delta -= 360.0; //makes delta between -180 and 180
 
-            System.out.println("ValleyX delta value " + delta);
+
+            System.out.println("ValleyX delta value after adjustment" + delta);
             if (Math.abs(delta) > gyroRange)
             { //checks if delta is out of range
                 correctCount = 0;
@@ -107,7 +113,7 @@ public class RotatePrecise
                 turnPower = 0;
             }
             double  leftPower, rightPower;
-            System.out.println("ValleyX gyroTarget " + gyroTarget);
+            //System.out.println("ValleyX gyroTarget " + gyroTarget);
             if (gyroTarget > 0)
             {   // turn right
                 leftPower = -turnPower;
