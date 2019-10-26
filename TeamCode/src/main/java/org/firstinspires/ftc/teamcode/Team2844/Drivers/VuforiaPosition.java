@@ -108,8 +108,8 @@ public class VuforiaPosition
         // sets are stored in the 'assets' part of our application.
         VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
 
-        VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
-        stoneTarget.setName("Stone Target");
+        //VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
+        //stoneTarget.setName("Stone Target");
         VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
         blueRearBridge.setName("Blue Rear Bridge");
         VuforiaTrackable redRearBridge = targetsSkyStone.get(2);
@@ -161,10 +161,11 @@ public class VuforiaPosition
         // Set the position of the Stone Target.  Since it's not fixed in position, assume it's at the field origin.
         // Rotated it to to face forward, and raised it to sit on the ground correctly.
         // This can be used for generic target-centric approach algorithms
+        /*
         stoneTarget.setLocation(OpenGLMatrix
                 .translation(0, 0, stoneZ)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
-
+*/
         //Set the position of the bridge support targets with relation to origin (center of field)
         blueFrontBridge.setLocation(OpenGLMatrix
                 .translation(-bridgeX, bridgeY, bridgeZ)
@@ -281,6 +282,7 @@ public class VuforiaPosition
 
         // check all the trackable targets to see which one (if any) is visible.
         targetVisible = false;
+
         for (VuforiaTrackable trackable : allTrackables_)
         {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
@@ -334,26 +336,6 @@ public class VuforiaPosition
         {
             doubleTargetVisible = 0;
         }
-/*
-        VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
-        VuforiaTrackable rear2 = targetsSkyStone.get(12);
-        rear2.setName("Rear Perimeter 2");
-        rear2.setLocation(OpenGLMatrix
-            .translation(halfField, -quadField, mmTargetHeight)
-            .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
-
-        double pictureNumber;
-        for (VuforiaTrackable trackable : allTrackables_)
-        {
-            trackable.getName();
-            if (trackable.getName() = Double.(targetsSkyStone.get(12)))
-            {
-
-            }
-
-        }
-
- */
 
         return new double[]{x, y, doubleTargetVisible};
     }

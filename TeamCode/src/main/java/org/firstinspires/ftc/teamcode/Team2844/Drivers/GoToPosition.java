@@ -106,7 +106,13 @@ public class GoToPosition
 
     public void GoToPosition (float XValue, float YValue) {
         double XY[];
+
+        System.out.printf("ValleyX:  GoToPos Requested {X, Y} = %.1f, %.1f\n",
+                XValue, YValue);
+
         XY = vuforiaPosition_.GetVuforiaPosition();
+        System.out.printf("ValleyX:  vuforia initial positions {X, Y, Z} = %.1f, %.1f, %.1f\n",
+                XY[0] , XY[1], XY[2]);
         robot_.OpMode_.telemetry.addData("vuforia positions", XY);
         robot_.OpMode_.telemetry.update();
 
@@ -119,14 +125,35 @@ public class GoToPosition
                 rotatePrecise_.RotatePrecise(90, 2, 0.2, 0.3, 5);
                 XY = vuforiaPosition_.GetVuforiaPosition();
 
+                //System.out.println("ValleyX vuforia potisions" + XY);
+                System.out.printf("ValleyX:  vuforia positions {X, Y, Z} = %.1f, %.1f, %.1f\n",
+                        XY[0] , XY[1], XY[2]);
                 robot_.OpMode_.telemetry.addData("vuforia positions", XY);
                 robot_.OpMode_.telemetry.update();
             }
             if (XY[2] == 1)
             {
                 System.out.println("ValleyX picture found");
+                double YDistance = YValue - XY[1];
+                System.out.println("ValleyX y distance " + YDistance);
+                robot_.OpMode_.telemetry.addData("y distance", YDistance);
+                robot_.OpMode_.telemetry.update();
+                if (YDistance < 0) {
+                    System.out.println("ValleyX starting turn to 0 heading");
+                    rotateToHeading_.DoIt(0);
+                    System.out.println("ValleyX finished turn to 0 heading");
+                } else {
+                    System.out.println("ValleyX starting turn to 180 heading");
+                    rotateToHeading_.DoIt(180);
+                    System.out.println("ValleyX finished turn to 180 heading");
+                }
+                System.out.println("ValleyX driving YDistance " + abs(YDistance));
+                encoderDrive_.StartAction(0.6, abs(YDistance), abs(YDistance), 5.0, true);
+
                 double XDistance = XValue - XY[0];
                 System.out.println("ValleyX x distance " + XDistance);
+                robot_.OpMode_.telemetry.addData("x distance", XDistance);
+                robot_.OpMode_.telemetry.update();
                 if (XDistance < 0) {
                     System.out.println("ValleyX starting turn to 90 heading");
                     rotateToHeading_.DoIt(90);
@@ -139,18 +166,9 @@ public class GoToPosition
 
                 //robot_.OpMode_.telemetry.update();
                 //robot_.OpMode_.sleep(5000);
+                System.out.println("ValleyX driving XDistance " + abs(XDistance));
                 encoderDrive_.StartAction(0.6, abs(XDistance), abs(XDistance), 5.0, true);
-/*
-                double YDistance = YValue - XY[1];
-                robot_.OpMode_.telemetry.addData("y distance", YDistance);
-                robot_.OpMode_.telemetry.update();
-                if (YDistance < 0) {
-                    rotateToHeading_.DoIt(0);
-                } else {
-                    rotateToHeading_.DoIt(180);
-                }
-                encoderDrive_.StartAction(0.6, abs(YDistance), abs(YDistance), 5.0, true);
-*/
+
                 break;
             }
 

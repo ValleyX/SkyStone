@@ -25,6 +25,16 @@ public class TestGoToPosition extends LinearOpMode
 
         waitForStart();
 
-        GoToPosition.GoToPosition(45, 36);
+        System.out.println("ValleyX: Going Forward");
+
+        GoToPosition.GoToPosition(45, 42);
+
+        System.out.println("ValleyX: Aligning in front of base");
+
+        GoToPosition.GoToPosition(45, 40);
+
+        System.out.println("ValleyX: Coming back");
+
+        GoToPosition.GoToPosition(-50, 36);
     }
 }
