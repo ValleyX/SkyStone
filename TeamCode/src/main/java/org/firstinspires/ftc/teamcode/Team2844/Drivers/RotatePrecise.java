@@ -97,7 +97,7 @@ public class RotatePrecise
 
             if (delta > 180.0) delta -= 360.0; //makes delta between -180 and 180
 
-            //System.out.println("ValleyX delta value after adjustment" + delta);
+            //System.out.println("ValleyX delta value after adjustment" + delta + " gyro range " + gyroRange);
             if (Math.abs(delta) > gyroRange)
             { //checks if delta is out of range
                 correctCount = 0;
@@ -111,7 +111,7 @@ public class RotatePrecise
                 turnPower = 0;
             }
             double  leftPower, rightPower;
-            //System.out.println("ValleyX gyroTarget " + gyroTarget);
+            //System.out.println("ValleyX gyroTarget sam " + gyroTarget);
             if (gyroTarget > 0)
             {   // turn right
                 leftPower = -turnPower;
@@ -123,6 +123,7 @@ public class RotatePrecise
                 rightPower = -turnPower;
             }
 
+            //System.out.println("ValleyX leftPower " + leftPower + " rightPower " + rightPower);
             // set power to rotate.
             robot_.leftFrontDrive.setPower(leftPower);
             robot_.leftBackDrive.setPower(leftPower);

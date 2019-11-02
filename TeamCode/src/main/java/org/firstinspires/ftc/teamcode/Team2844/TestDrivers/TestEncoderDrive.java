@@ -44,7 +44,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
  */
 
 @Autonomous(name="Test: Test Samatron Encoder Drive", group="Test")
-//@Disabled
+////@Disabled
 public class TestEncoderDrive extends LinearOpMode
 {
 
@@ -62,31 +62,36 @@ public class TestEncoderDrive extends LinearOpMode
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
-
+/*
         System.out.println("ValleyX: Starting...");
         System.out.println("ValleyX: Move forward 12 inches ");
         //going forwards 12 inches
-        encoderDrive.StartAction(0.6, 12, 12, 5.0, true);
+        encoderDrive.StartAction(0.3, 12, 12, 5.0, true);
 
         sleep(2000);
         //going backwards 12 inches
         System.out.println("ValleyX: Move backwards 12 inches");
-        encoderDrive.StartAction(0.5, -12, -12, 5.0, true);
+        encoderDrive.StartAction(0.3, -12, -12, 5.0, true);
 
         sleep(2000);
         //testing no wait functions going forward 12 inches
         runtime.reset();
         System.out.println("ValleyX: Move forward 12 inches");
-        encoderDrive.StartAction(0.6, 12, 12, 6.0, true);
-
+        encoderDrive.StartAction(0.3, 12, 12, 6.0, true);
+*/
         sleep(2000);
         //testing strafe
         runtime.reset();
         System.out.println("ValleyX: Strafe right");
-        Strafing.Strafe(0.6, 12,6.0,true);
+        Strafing.Strafe(0.3, 12,6.0,true);
         sleep(2000);
+
         System.out.println("ValleyX: Strafe left");
-        Strafing.Strafe(0.6, -12,6.0,true);
+        Strafing.Strafe(0.3, -12,6.0,true);
+        sleep(2000);
+
+        System.out.println("ValleyX: Strafe right");
+        Strafing.Strafe(0.3, 12,6.0,true);
 
         /*
     //spin here until encoder is complete

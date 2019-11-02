@@ -135,10 +135,11 @@ public class EncoderDrive
         robot_.rightBackDrive.setPower(0);
 
         // Turn off RUN_TO_POSITION
-        robot_.leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot_.leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot_.rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot_.rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        System.out.println("ValleyX set RUN_WITHOUT_ENCODER");
+        robot_.leftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot_.leftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot_.rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot_.rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         robot_.OpMode_.idle();   //give the processor time to act
         waiting_ = false;

@@ -123,13 +123,14 @@ public class GoToPosition
             {
                 System.out.println("ValleyX searching for picture");
                 rotatePrecise_.RotatePrecise(90, 2, 0.2, 0.3, 5);
+                robot_.OpMode_.sleep(10); //let vuforia settle, maybe make this an idle
                 XY = vuforiaPosition_.GetVuforiaPosition();
 
                 //System.out.println("ValleyX vuforia potisions" + XY);
                 System.out.printf("ValleyX:  vuforia positions {X, Y, Z} = %.1f, %.1f, %.1f\n",
                         XY[0] , XY[1], XY[2]);
-                robot_.OpMode_.telemetry.addData("vuforia positions", XY);
-                robot_.OpMode_.telemetry.update();
+                //robot_.OpMode_.telemetry.addData("vuforia positions", XY);
+                //robot_.OpMode_.telemetry.update();
             }
             if (XY[2] == 1)
             {
@@ -172,7 +173,7 @@ public class GoToPosition
                 break;
             }
 
-            robot_.OpMode_.sleep(1000);
+            robot_.OpMode_.sleep(10);
             timer++;
         }
     }

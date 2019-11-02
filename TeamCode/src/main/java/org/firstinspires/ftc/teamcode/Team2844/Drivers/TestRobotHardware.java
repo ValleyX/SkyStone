@@ -32,7 +32,6 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -51,7 +50,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * Servo channel:  Servo to open left claw:  "left_hand"
  * Servo channel:  Servo to open right claw: "right_hand"
  */
-public class RobotHardware
+public class TestRobotHardware
 {
     LinearOpMode OpMode_;
 
@@ -62,29 +61,29 @@ public class RobotHardware
 
     BNO055IMU imu;
 
-    private final double     COUNTS_PER_MOTOR_REV    = 28;    //  AndyMark Motor Encoder
-    private final double     DRIVE_GEAR_REDUCTION    = 19.2;     // This is < 1.0 if geared UP
+    private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
+    private final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
     private final double     WHEEL_DIAMETER_INCHES   = 4.0;
-    private final double     STRAFING_WHEEL_WIDTH    = 11.0; //FIND
+    private final double     STRAFING_WHEEL_WIDTH    = 9.75; //FIND
     private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
     final double             COUNTS_PER_INCH         = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
     final double             COUNTS_PER_INCH_STRAFE  = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
 
     /* Constructor */
-    public RobotHardware(HardwareMap ahwMap, LinearOpMode opMode)
-    {
+    public TestRobotHardware(HardwareMap ahwMap, LinearOpMode opMode)
+        {
         /* Public OpMode members. */
         OpMode_ = opMode;
 
         // Define and Initialize Motors
-        rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); //motor 0
-        rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); //motor 1
-        leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); //motor 2
-        leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); //motor 3
+        leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); //motor 0
+        leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); //motor 1
+        rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); //motor 2
+        rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); //motor 3
 
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
+        leftFrontDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// TODO determine which motor should be reversed
+        rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);// TODO determine which motor should be reversed
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
 
         // Set all motors to zero power

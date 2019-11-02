@@ -1,7 +1,7 @@
-package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
+package org.firstinspires.ftc.teamcode.Team2844;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.GoToPosition;
@@ -10,11 +10,12 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotateToHeading;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.VuforiaPosition;
 
-@TeleOp(name="Test: TestGoToPosition", group="Test")
-
-public class TestGoToPosition extends LinearOpMode
+@Autonomous(name="Autonomous: BlueSkyStoneAutonomous", group="Autonomous")
+//@Disabled
+public class BlueSkyStoneAutonomous extends LinearOpMode
 {
-    public void runOpMode() // need to test
+    @Override
+    public void runOpMode() throws InterruptedException
     {
         RobotHardware robot = new RobotHardware(hardwareMap, this);
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
@@ -25,16 +26,20 @@ public class TestGoToPosition extends LinearOpMode
 
         waitForStart();
 
-        System.out.println("ValleyX: Going Forward");
+        System.out.println("ValleyX driving to stones");
+        encoderDrive.StartAction(0.6, 30, 30, 5, true);
+        sleep(1000);
 
-        //`GoToPosition.GoToPosition(45, 42);
+        // find SkyStone and grab
 
-        System.out.println("ValleyX: Aligning in front of base");
+        System.out.println("ValleyX going to foundation");
+        GoToPosition.GoToPosition(23, 35);
+        sleep(1000);
 
-        GoToPosition.GoToPosition(45, 40);
+        // place stone
 
-        System.out.println("ValleyX: Coming back");
-
-        GoToPosition.GoToPosition(-50, 36);
+        System.out.println("ValleyX going back to stones");
+        encoderDrive.StartAction(0.6, -6, -6, 5, true);
+        GoToPosition.GoToPosition(-48,35);
     }
 }
