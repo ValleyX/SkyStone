@@ -27,6 +27,11 @@ public class BlueFoundationAutonomous extends LinearOpMode
 
         // latch onto foundation
         System.out.println("ValleyX: Starting...");
+
+        System.out.println("ValleyX raising grabbers");
+        robot.leftGrabber.setPosition(0.0);
+        robot.rightGrabber.setPosition(0.0);
+
         System.out.println("ValleyX: Move forward 30 inches ");
         encoderDrive.StartAction(0.6, 30, 30, 5.0, true);
 
@@ -34,6 +39,10 @@ public class BlueFoundationAutonomous extends LinearOpMode
         {
             idle();
         }
+
+        System.out.println("ValleyX lowering grabbers");
+        robot.leftGrabber.setPosition(0.4); // find value
+        robot.rightGrabber.setPosition(0.4); // find value
 
         // drag foundation back
         System.out.println("ValleyX: Move backwards 30 inches ");
@@ -43,6 +52,10 @@ public class BlueFoundationAutonomous extends LinearOpMode
         {
             idle();
         }
+
+        System.out.println("ValleyX lowering grabbers");
+        robot.leftGrabber.setPosition(0.4); // find value
+        robot.rightGrabber.setPosition(0.4); // find value
 
         // strafe right
         System.out.println("ValleyX: Strafe right 22 inches ");

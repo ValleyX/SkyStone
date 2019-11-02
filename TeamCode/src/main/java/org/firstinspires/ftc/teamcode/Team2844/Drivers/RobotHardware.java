@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This is NOT an opmode.
@@ -59,6 +60,8 @@ public class RobotHardware
     public DcMotor  leftBackDrive;
     public DcMotor  rightFrontDrive;
     public DcMotor  rightBackDrive;
+    public Servo rightGrabber;
+    public Servo leftGrabber;
 
     BNO055IMU imu;
 
@@ -77,15 +80,20 @@ public class RobotHardware
         OpMode_ = opMode;
 
         // Define and Initialize Motors
-        rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); //motor 0
-        rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); //motor 1
-        leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); //motor 2
-        leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); //motor 3
+        rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // motor 0
+        rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); // motor 1
+        leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); // motor 2
+        leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); // motor 3
+
+        rightGrabber = ahwMap.get(Servo.class, "rgrabber"); // servo 2
+        leftGrabber = ahwMap.get(Servo.class, "lgrabber"); // servo 4
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
         rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// TODO determine which motor should be reversed
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
+
+        leftGrabber.setDirection(Servo.Direction.REVERSE);
 
         // Set all motors to zero power
         leftFrontDrive.setPower(0);

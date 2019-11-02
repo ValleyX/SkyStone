@@ -19,10 +19,6 @@ public class DriverControls extends LinearOpMode
     {
         RobotHardware robot = new RobotHardware(hardwareMap, this);
 
-        final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
-        final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
-        final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
-
         float leftStickY;
         float rightStickY;
         float leftTrigger;
@@ -39,14 +35,6 @@ public class DriverControls extends LinearOpMode
 
         while (opModeIsActive())
         {
-            leftFrontEncoder = robot.leftFrontDrive.getCurrentPosition();
-            leftBackEncoder = robot.leftBackDrive.getCurrentPosition();
-            rightFrontEncoder = robot.rightFrontDrive.getCurrentPosition();
-            rightBackEncoder = robot.rightBackDrive.getCurrentPosition();
-            telemetry.addData("encoder leftFront", leftFrontEncoder/ONE_MOTOR_COUNT);
-            telemetry.addData("encoder leftBack", leftBackEncoder/ONE_MOTOR_COUNT);
-            telemetry.addData("encoder rightFront", rightFrontEncoder/ONE_MOTOR_COUNT);
-            telemetry.addData("encoder rightBack", rightBackEncoder/ONE_MOTOR_COUNT);
             //driving forward/backward
             leftStickY = -gamepad1.left_stick_y; // game pad says up is neg
             telemetry.addData("leftY", leftStickY);
@@ -95,6 +83,17 @@ public class DriverControls extends LinearOpMode
                 robot.leftBackDrive.setPower(0);
                 robot.rightFrontDrive.setPower(0);
                 robot.rightBackDrive.setPower(0);
+            }
+
+            if (gamepad2.x) // raise grabbers
+            {
+                robot.rightGrabber.setPosition(0.0);
+                robot.leftGrabber.setPosition(0.0);
+            }
+            else if (gamepad2.y) // lower grabbers
+            {
+                robot.rightGrabber.setPosition(0.4);
+                robot.leftGrabber.setPosition(0.4);
             }
         }
     }
