@@ -24,10 +24,6 @@ public class DriverControls extends LinearOpMode
         float leftTrigger;
         float rightTrigger;
         float strafePower;
-        float leftFrontEncoder;
-        float leftBackEncoder;
-        float rightFrontEncoder;
-        float rightBackEncoder;
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)

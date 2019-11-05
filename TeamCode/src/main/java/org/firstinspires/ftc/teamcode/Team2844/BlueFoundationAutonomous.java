@@ -21,62 +21,64 @@ public class BlueFoundationAutonomous extends LinearOpMode
         EncoderDrive encoderDrive = new EncoderDrive(robot);
         StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
 
-        System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
+        System.out.println("ValleyX: Waiting for Start");
         waitForStart();
 
-        // latch onto foundation
         System.out.println("ValleyX: Starting...");
 
         System.out.println("ValleyX raising grabbers");
         robot.leftGrabber.setPosition(0.0);
         robot.rightGrabber.setPosition(0.0);
 
-        System.out.println("ValleyX: Move forward 30 inches ");
-        encoderDrive.StartAction(0.6, 30, 30, 5.0, true);
+        System.out.println("ValleyX: Move backwards 30 inches ");
+        encoderDrive.StartAction(0.6, -30, -30, 5.0, true);
 
+        // latch onto foundation
+        /*
         while (!gamepad1.a)
         {
             idle();
         }
+         */
 
         System.out.println("ValleyX lowering grabbers");
-        robot.leftGrabber.setPosition(0.4); // find value
-        robot.rightGrabber.setPosition(0.4); // find value
+        robot.leftGrabber.setPosition(0.5); // find value
+        robot.rightGrabber.setPosition(0.5); // find value
 
         // drag foundation back
-        System.out.println("ValleyX: Move backwards 30 inches ");
-        encoderDrive.StartAction(0.6, -30, -30, 5.0, true);
+        System.out.println("ValleyX: Move forwards 30 inches ");
+        encoderDrive.StartAction(0.6, 30, 30, 5.0, true);
 
+        // unlatch from foundation
+        /*
         while (!gamepad1.b)
         {
             idle();
         }
+         */
 
-        System.out.println("ValleyX lowering grabbers");
-        robot.leftGrabber.setPosition(0.4); // find value
-        robot.rightGrabber.setPosition(0.4); // find value
+        System.out.println("ValleyX raising grabbers");
+        robot.leftGrabber.setPosition(0); // find value
+        robot.rightGrabber.setPosition(0); // find value
 
         // strafe right
-        System.out.println("ValleyX: Strafe right 22 inches ");
-        Strafing.Strafe(0.6, 22, 5.0, true);
+        System.out.println("ValleyX: Strafe left 22 inches ");
+        Strafing.Strafe(0.6, -22, 5.0, true);
 
         // forwards
-        System.out.println("ValleyX: Move forwards 19 inches ");
-        encoderDrive.StartAction(0.6, 19, 19, 5.0, true);
-
-        // push foundation into building site
-        System.out.println("ValleyX: Strafe left 11 inches ");
-        Strafing.Strafe(0.6, -11, 5.0, true);
-
         System.out.println("ValleyX: Move backwards 19 inches ");
         encoderDrive.StartAction(0.6, -19, -19, 5.0, true);
+
+        // push foundation into building site
+        System.out.println("ValleyX: Strafe right 11 inches ");
+        Strafing.Strafe(0.6, 11, 5.0, true);
 
         // park under SkyBridge
         System.out.println("ValleyX: Strafe Right 30 inches ");
         Strafing.Strafe(0.6, 30, 5.0, true);
 
-        System.out.println("ValleyX: Move backwards 5 inches ");
-        encoderDrive.StartAction(0.6, -5, -5, 5.0, true);
+        System.out.println("ValleyX: Move forwards 22 inches ");
+        encoderDrive.StartAction(0.6, 22, 22, 5.0, true);
     }
 }
