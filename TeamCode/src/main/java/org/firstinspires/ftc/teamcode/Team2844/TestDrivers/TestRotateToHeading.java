@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -8,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotateToHeading;
 
 @TeleOp(name="Test: TestRotateToHeading", group="Test")
+@Disabled
 
 public class TestRotateToHeading extends LinearOpMode
 {

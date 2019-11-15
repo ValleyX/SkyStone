@@ -62,6 +62,8 @@ public class RobotHardware
     public DcMotor  rightBackDrive;
     public Servo rightGrabber;
     public Servo leftGrabber;
+    public DcMotor rightIntake;
+    public DcMotor leftIntake;
 
     BNO055IMU imu;
 
@@ -80,13 +82,16 @@ public class RobotHardware
         OpMode_ = opMode;
 
         // Define and Initialize Motors
-        rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // motor 0
-        rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); // motor 1
-        leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); // motor 2
-        leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); // motor 3
+        rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // hub 1 motor 0
+        rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); // hub 1 motor 1
+        leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); // hub 1 motor 2
+        leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); // hub 1 motor 3
 
         rightGrabber = ahwMap.get(Servo.class, "rgrabber"); // servo 2
         leftGrabber = ahwMap.get(Servo.class, "lgrabber"); // servo 4
+
+        rightIntake = ahwMap.get(DcMotor.class, "rintake"); // hub 2 motor 0
+        leftIntake = ahwMap.get(DcMotor.class, "lintake"); // hub 2 motor 1
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
