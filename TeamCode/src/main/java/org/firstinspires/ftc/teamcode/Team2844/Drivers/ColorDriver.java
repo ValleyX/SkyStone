@@ -14,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class ColorDriver {
     private PushbotRobotHardware robot_;
-    
+
     public ColorDriver(PushbotRobotHardware robot) {
         robot_ = robot;
 
