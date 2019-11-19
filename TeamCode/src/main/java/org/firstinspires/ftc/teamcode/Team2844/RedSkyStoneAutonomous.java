@@ -11,9 +11,9 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotateToHeading;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.VuforiaPosition;
 
-@Autonomous(name="Blue SkyStone Autonomous", group="Autonomous")
+@Autonomous(name="Red SkyStone Autonomous", group="Autonomous")
 //@Disabled
-public class BlueSkyStoneAutonomous extends LinearOpMode
+public class RedSkyStoneAutonomous extends LinearOpMode
 {
     @Override
     public void runOpMode() throws InterruptedException
@@ -49,7 +49,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode
         System.out.println("ValleyX driving backwards 28 inches");
         encoderDrive.StartAction(0.6, -28, -28, 5, true);
 
-        System.out.println("ValleyX strafing right 10 inches");
-        Strafing.Strafe(0.6, 10, 5, true);
+        System.out.println("ValleyX strafing left 10 inches");
+        Strafing.Strafe(0.6, -10, 5, true);
     }
 }

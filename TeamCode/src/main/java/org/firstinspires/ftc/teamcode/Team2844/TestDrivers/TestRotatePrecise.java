@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
 
 @TeleOp(name="Test: Test Rotate Precise", group="Test")
-//@Disabled
+@Disabled
 
 public class TestRotatePrecise extends LinearOpMode
 {

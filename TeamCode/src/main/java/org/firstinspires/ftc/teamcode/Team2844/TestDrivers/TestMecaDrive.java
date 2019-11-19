@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Team12841.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 
 @TeleOp(name="Test: Test Meca Drive", group="Test")
-//@Disabled
+@Disabled
 
 public class TestMecaDrive extends LinearOpMode
 {
