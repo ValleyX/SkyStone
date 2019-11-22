@@ -7,13 +7,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 @TeleOp(name="test: Test Gamepad", group="Test")
 @Disabled
+
 public class GamePadTestNoobCoderz extends LinearOpMode {
     DcMotor LeftMotor;
     DcMotor RightMotor;
-
 
     @Override
     public void runOpMode() throws InterruptedException {

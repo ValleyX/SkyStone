@@ -31,7 +31,6 @@ package org.firstinspires.ftc.teamcode.Team12841.Drivers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -48,57 +47,43 @@ import com.qualcomm.robotcore.hardware.Servo;
  *
  *
  */
-public class RobotHardware
+public class RobotHardwarePushbot
 {
     LinearOpMode OpMode_;
-
+/*
     public DcMotor  LeftFrontDrive;
     public DcMotor  RightFrontDrive;
     public DcMotor  LeftBackDrive;
     public DcMotor  RightBackDrive;
-    public Servo  BackRightHook;
-    public Servo  BackLeftHook;
+    */
+
+    public Servo  BackLatch;
+
 
     private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
-    private final double     DRIVE_GEAR_REDUCTION    = 19.2;     // This is < 1.0 if geared UP
+    private final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
     private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
     private final double     Diameter                = 4;
     private final double     Pie                     = 3.141592;
     final double             COUNTS_PER_INCH         = ONE_MOTOR_COUNT/(Diameter * Pie);  //TODO determine in class
 
     /* Constructor */
-    public RobotHardware(HardwareMap ahwMap, LinearOpMode opMode) {
+    public RobotHardwarePushbot(HardwareMap ahwMap, LinearOpMode opMode) {
         /* Public OpMode members. */
         OpMode_ = opMode;
 
-        // Define and Initialize Motors
-        LeftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); //motor 0
-        RightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); //motor 1
-        LeftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); //motor 2
-        RightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); //Motor 3
-        BackRightHook = ahwMap.get(Servo.class, "BackRightHook"); // Servo 0
-        BackLeftHook = ahwMap.get(Servo.class, "BackLeftHook"); // Servo 1
 
-        LeftFrontDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
-        RightFrontDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
-        LeftBackDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
-        RightBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
-        BackRightHook.setDirection(Servo.Direction.FORWARD); // TODO determine which motor should be reversed
-        BackLeftHook.setDirection(Servo.Direction.FORWARD); // TODO determine which motor should be reversed
+
+        BackLatch = ahwMap.get(Servo.class, "BackLatch"); // Servo 0
+
+        BackLatch.setDirection(Servo.Direction.FORWARD);
 
         // Set all motors to zero power
-        LeftFrontDrive.setPower(0);
-        RightFrontDrive.setPower(0);
-        LeftBackDrive.setPower(0);
-        RightBackDrive.setPower(0);
-        BackRightHook.setPosition(0);
-        BackLeftHook.setPosition(0);
+
+        BackLatch.setPosition(0);
 
         // Set all motors to run without encoders by default
-        LeftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        LeftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
     }
  }

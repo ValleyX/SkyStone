@@ -43,13 +43,13 @@ import org.firstinspires.ftc.teamcode.Team12841.Drivers.RobotHardware;
  */
 
 @Autonomous(name="Test: Best Encoder Drive", group="Test")
-//@Disabled
+@Disabled
 public class TestEncoderDrive extends LinearOpMode {
 
     /* Declare OpMode members. */
 
     @Override
-    public void runOpMode()
+    public void  runOpMode()
     {
         ElapsedTime runtime = new ElapsedTime();
 
@@ -63,15 +63,17 @@ public class TestEncoderDrive extends LinearOpMode {
         System.out.println("ValleyX: Starting...");
         System.out.println("ValleyX: Move forward 12 inches ");
         //going forwards 12 inches
-        encoderDrive.StartAction(0.6, 31.5, 31.5, 10.0, true);
+        encoderDrive.StartAction(0.6, 31.5, 31.5, 31.5,  31.5, 5,
+                true);
 
-        sleep(2000); 
+        sleep(2000);
         //going backwards 12 inches
         System.out.println("ValleyX: Move backwards 12 inches");
-        encoderDrive.StartAction(0.5, -31.5, -31.5, 10.0, true);
+        encoderDrive.StartAction(0.5, -31.5, -31.5, -31.5, -31.5, 5,
+                true);
 
        /* sleep(2000);
-        //testing no wait functions going forward 12 inches
+        //testing no wait fun3ctions going forward 12 inches
         runtime.reset();
         System.out.println("ValleyX: Move forward 12 inches");
         encoderDrive.StartAction(0.6, 12, 12, 6.0, false);

@@ -1,17 +1,16 @@
 package org.firstinspires.ftc.teamcode.Team12841.Drivers;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.robot.Robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class EncoderDrive<If>
+public class EncoderDriveStrafe<If>
 {
     private RobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
 
     /* Constructor setup all class variables here */
-    public EncoderDrive(RobotHardware robot) {
+    public EncoderDriveStrafe(RobotHardware robot) {
         robot_ = robot;
         runtime_ = new ElapsedTime();
         waiting_ = false;
@@ -143,6 +142,7 @@ public class EncoderDrive<If>
 
         robot_.OpMode_.idle();   //give the processor time to act
         waiting_ = false;
+
     }
 
 }
