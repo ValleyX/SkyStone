@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 
 @TeleOp(name="Test: Test Rotate Precise", group="Test")
 @Disabled
@@ -20,7 +21,7 @@ public class TestRotatePrecise extends LinearOpMode
     //@Override
     public void runOpMode()
     {
-        RobotHardware robot = new RobotHardware(hardwareMap, this);
+        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
 
         //sleep(2000);

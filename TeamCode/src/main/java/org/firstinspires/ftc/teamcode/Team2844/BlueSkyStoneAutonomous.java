@@ -17,7 +17,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode
 {
     @Override
     public void runOpMode() throws InterruptedException
-    {
+    {/*
         RobotHardware robot = new RobotHardware(hardwareMap, this);
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
         RotateToHeading rotateToHeading = new RotateToHeading(robot, rotatePrecise);
@@ -44,12 +44,12 @@ public class BlueSkyStoneAutonomous extends LinearOpMode
         System.out.println("ValleyX going back to stones");
         encoderDrive.StartAction(0.6, -6, -6, 5, true);
         GoToPosition.GoToPosition(-48,35);
-         */
+         * /
 
         System.out.println("ValleyX driving backwards 28 inches");
         encoderDrive.StartAction(0.6, -28, -28, 5, true);
 
         System.out.println("ValleyX strafing right 10 inches");
         Strafing.Strafe(0.6, 10, 5, true);
-    }
+    */}
 }

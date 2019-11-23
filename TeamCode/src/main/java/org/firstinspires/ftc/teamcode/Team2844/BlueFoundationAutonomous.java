@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
-
+/*
 @Autonomous(name="Blue Foundation Autonomous", group="Test")
 //@Disabled
 
@@ -73,4 +73,4 @@ public class BlueFoundationAutonomous extends LinearOpMode
         System.out.println("ValleyX: Strafe left 30 inches ");
         Strafing.Strafe(0.6, -30, 5.0, true);
     }
-}
+}*/

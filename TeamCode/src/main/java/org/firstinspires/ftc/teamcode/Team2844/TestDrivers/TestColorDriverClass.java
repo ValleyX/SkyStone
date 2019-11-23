@@ -1,20 +1,21 @@
 package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.ColorDriver;
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.PushbotRobotHardware;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 
 @TeleOp(name="Test Color Driver Class", group="Test")
 public class TestColorDriverClass extends LinearOpMode {
 
-    PushbotRobotHardware robot_;
+    TestRobotHardware robot_;
     ColorDriver colorDriver;
 
     @Override
     public void runOpMode(){
-        robot_ = new PushbotRobotHardware(hardwareMap, this);
+        robot_ = new TestRobotHardware(hardwareMap, this);
         colorDriver = new ColorDriver(robot_);
 
         waitForStart();

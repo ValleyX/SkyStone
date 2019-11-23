@@ -16,7 +16,7 @@ public class RedFoundationAutonomous extends LinearOpMode
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // for red side
+    /*    // for red side
         RobotHardware robot = new RobotHardware(hardwareMap, this);
         EncoderDrive encoderDrive = new EncoderDrive(robot);
         StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
@@ -71,5 +71,5 @@ public class RedFoundationAutonomous extends LinearOpMode
 
         System.out.println("ValleyX: Strafe right 30 inches ");
         Strafing.Strafe(0.6, 30, 5.0, true);
-    }
+    */}
 }

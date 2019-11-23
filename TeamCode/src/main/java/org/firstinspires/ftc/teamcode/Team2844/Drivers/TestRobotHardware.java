@@ -30,11 +30,13 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
  */
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This is NOT an opmode.
@@ -60,6 +62,9 @@ public class TestRobotHardware
     public DcMotor  leftBackDrive;
     public DcMotor  rightFrontDrive;
     public DcMotor  rightBackDrive;
+    public Servo rightGrabber;
+    public Servo leftGrabber;
+    public DistanceSensor sensorRange;
 
     public ColorSensor colorDriver;
     public DistanceSensor distanceDriver;
@@ -80,11 +85,20 @@ public class TestRobotHardware
         /* Public OpMode members. */
         OpMode_ = opMode;
 
+        //Distance Sensor
+        distanceDriver = ahwMap.get(DistanceSensor.class, "Color_Sensor");
+        //Color Sensor
+        colorDriver = ahwMap.get(ColorSensor.class, "Color_Sensor");
+
         // Define and Initialize Motors
         leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); //motor 0
         leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); //motor 1
         rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); //motor 2
         rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); //motor 3
+
+        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); //
+
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed

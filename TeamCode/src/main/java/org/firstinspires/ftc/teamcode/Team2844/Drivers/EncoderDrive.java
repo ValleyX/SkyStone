@@ -12,7 +12,8 @@ public class EncoderDrive
     private boolean waiting_;
 
     /* Constructor setup all class variables here */
-    public EncoderDrive(TestRobotHardware robot) {
+    public EncoderDrive(TestRobotHardware robot)
+    {
         robot_ = robot;
         runtime_ = new ElapsedTime();
         waiting_ = false;

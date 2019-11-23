@@ -13,15 +13,15 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 public class ColorDriver {
-    private PushbotRobotHardware robot_;
+    private TestRobotHardware robot_;
 
-    public ColorDriver(PushbotRobotHardware robot) {
+    public ColorDriver(TestRobotHardware robot) {
         robot_ = robot;
 
     }
 
     public boolean isSeen() {
-        return  !new Double(robot_.distancedriver.getDistance(DistanceUnit.MM)).isNaN();
+        return  !new Double(robot_.distanceDriver.getDistance(DistanceUnit.MM)).isNaN();
     }
 
     public boolean isYellow() {
@@ -33,11 +33,11 @@ public class ColorDriver {
 
         final double SCALE_FACTOR = 255;
 
-        Color.RGBToHSV((int) (robot_.colordriver.red() * SCALE_FACTOR),
-                (int) (robot_.colordriver.green() * SCALE_FACTOR),
-                (int) (robot_.colordriver.blue() * SCALE_FACTOR),
+        Color.RGBToHSV((int) (robot_.colorDriver.red() * SCALE_FACTOR),
+                (int) (robot_.colorDriver.green() * SCALE_FACTOR),
+                (int) (robot_.colorDriver.blue() * SCALE_FACTOR),
                 hsvValues);
 
-        return (hsvValues[0] >= 40 && hsvValues[0] <= 70);
+        return (hsvValues[0] >= 30 && hsvValues[0] <= 70);
     }
 }

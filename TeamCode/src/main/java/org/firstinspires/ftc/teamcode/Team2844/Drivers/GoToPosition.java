@@ -33,7 +33,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 public class GoToPosition
 {
     //Variables we understand
-    private RobotHardware robot_;
+    private TestRobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
     private RotatePrecise rotatePrecise_;
@@ -42,7 +42,7 @@ public class GoToPosition
     private EncoderDrive encoderDrive_;
 
     /* Constructor setup all class variables here */
-    public GoToPosition(RobotHardware robot, RotatePrecise rotatePrecise, RotateToHeading rotateToHeading, VuforiaPosition vuforiaPosition, EncoderDrive encoderDrive)
+    public GoToPosition(TestRobotHardware robot, RotatePrecise rotatePrecise, RotateToHeading rotateToHeading, VuforiaPosition vuforiaPosition, EncoderDrive encoderDrive)
     {
         //VARIABLES WE UNDERSTAND
         robot_ = robot;
