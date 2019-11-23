@@ -56,10 +56,10 @@ public class DriverControls extends LinearOpMode
             //strafing right
             if (rightTrigger > 0)
             {
-                robot.leftFrontDrive.setPower(rightTrigger); // +
-                robot.leftBackDrive.setPower(-rightTrigger); // -
-                robot.rightFrontDrive.setPower(-rightTrigger); // -
-                robot.rightBackDrive.setPower(rightTrigger); // +
+                robot.leftFrontDrive.setPower(-rightTrigger); // +
+                robot.leftBackDrive.setPower(rightTrigger); // -
+                robot.rightFrontDrive.setPower(rightTrigger); // -
+                robot.rightBackDrive.setPower(-rightTrigger); // +
             }
             else if (leftTrigger == 0)
             {
@@ -72,10 +72,10 @@ public class DriverControls extends LinearOpMode
             //strafing left
             if (leftTrigger > 0)
             {
-                robot.leftFrontDrive.setPower(-leftTrigger); // -
-                robot.leftBackDrive.setPower(leftTrigger); // +
-                robot.rightFrontDrive.setPower(leftTrigger); // +
-                robot.rightBackDrive.setPower(-leftTrigger); // -
+                robot.leftFrontDrive.setPower(leftTrigger); // -
+                robot.leftBackDrive.setPower(-leftTrigger); // +
+                robot.rightFrontDrive.setPower(-leftTrigger); // +
+                robot.rightBackDrive.setPower(leftTrigger); // -
             }
             else if (rightTrigger == 0)
             {
