@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.ColorDriver;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.PushbotRobotHardware;
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 
 @TeleOp(name="Test Color Driver Class", group="Test")
 public class TestColorDriverClass extends LinearOpMode {

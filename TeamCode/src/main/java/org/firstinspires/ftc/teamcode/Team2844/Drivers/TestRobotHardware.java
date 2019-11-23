@@ -31,7 +31,9 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -58,6 +60,9 @@ public class TestRobotHardware
     public DcMotor  leftBackDrive;
     public DcMotor  rightFrontDrive;
     public DcMotor  rightBackDrive;
+
+    public ColorSensor colorDriver;
+    public DistanceSensor distanceDriver;
 
     BNO055IMU imu;
 
