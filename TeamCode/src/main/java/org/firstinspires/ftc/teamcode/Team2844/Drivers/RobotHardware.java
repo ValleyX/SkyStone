@@ -58,25 +58,31 @@ public class RobotHardware
 {
     LinearOpMode OpMode_;
 
-    public DcMotor  leftFrontDrive;
-    public DcMotor  leftBackDrive;
-    public DcMotor  rightFrontDrive;
-    public DcMotor  rightBackDrive;
-    public Servo rightGrabber;
-    public Servo leftGrabber;
-    public DcMotor rightIntake;
-    public DcMotor leftIntake;
+    public DcMotor        leftFrontDrive;
+    public DcMotor        leftBackDrive;
+    public DcMotor        rightFrontDrive;
+    public DcMotor        rightBackDrive;
+    public DcMotor        lift;
+    public Servo          rightGrabber;
+    public Servo          leftGrabber;
+    public Servo          twistyClaw;
+    public DcMotor        rightIntake;
+    public DcMotor        leftIntake;
     public DistanceSensor sensorRange;
 
     BNO055IMU imu;
 
-    private final double     COUNTS_PER_MOTOR_REV    = 28;    //  AndyMark Motor Encoder
-    private final double     DRIVE_GEAR_REDUCTION    = 19.2;     // This is < 1.0 if geared UP
-    private final double     WHEEL_DIAMETER_INCHES   = 4.0;
-    private final double     STRAFING_WHEEL_WIDTH    = 11.0; //FIND
-    private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
-    final double             COUNTS_PER_INCH         = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
-    final double             COUNTS_PER_INCH_STRAFE  = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
+    private final double     COUNTS_PER_MOTOR_REV       = 28;    //  AndyMark Motor Encoder
+    private final double     DRIVE_GEAR_REDUCTION       = 19.2;     // This is < 1.0 if geared UP
+    private final double     WHEEL_DIAMETER_INCHES      = 4.0;
+    private final double     STRAFING_WHEEL_WIDTH       = 11.0; //FIND
+    private final double     LIFT_WHEEL_DIAMETER_INCHES = 2.3;
+    private final double     ONE_MOTOR_COUNT            = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
+    final double             COUNTS_PER_INCH            = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
+    final double             COUNTS_PER_INCH_STRAFE     = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
+    final double             COUNTS_PER_INCH_LIFT       = ONE_MOTOR_COUNT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
+
+    //private final double
 
     /* Constructor */
     public RobotHardware(HardwareMap ahwMap, LinearOpMode opMode)
@@ -92,6 +98,7 @@ public class RobotHardware
 
         rightGrabber = ahwMap.get(Servo.class, "rgrabber"); // servo 2
         leftGrabber = ahwMap.get(Servo.class, "lgrabber"); // servo 4
+        twistyClaw =  ahwMap.get(Servo.class, "twisty"); // idk where
 
         rightIntake = ahwMap.get(DcMotor.class, "rintake"); // hub 2 motor 0
         leftIntake = ahwMap.get(DcMotor.class, "lintake"); // hub 2 motor 1
