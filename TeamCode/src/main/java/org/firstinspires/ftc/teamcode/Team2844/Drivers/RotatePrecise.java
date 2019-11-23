@@ -9,17 +9,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class RotatePrecise
 {
-    private RobotHardware robot_;
+    private TestRobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
 
     /* Constructor setup all class variables here */
-    public RotatePrecise(RobotHardware robot)
+    public RotatePrecise(TestRobotHardware robot)
     {
         robot_ = robot;
         runtime_ = new ElapsedTime();
         waiting_ = false;
-
+//hey sam, it hannah
         /* ---new remapping code --*/
         //swapping y & z axis due to vertical mounting of rev expansion board
         //byte AXIS_MAP_CONFIG_BYTE = 0x6; //This is what to write to the AXIS_MAP_CONFIG register to swap x and z axes

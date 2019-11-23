@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.VuforiaPosition;
 
 @TeleOp(name="Test: TestVuforiaPosition", group="Test")
@@ -16,7 +17,7 @@ public class TestVuforiaPosition extends LinearOpMode
     {
         double XY[];
 
-        RobotHardware robot = new RobotHardware(hardwareMap, this);
+        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
         VuforiaPosition vuforiaPosition = new VuforiaPosition(robot);
 
         waitForStart();

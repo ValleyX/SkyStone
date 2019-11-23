@@ -30,9 +30,11 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
  */
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -64,6 +66,7 @@ public class RobotHardware
     public Servo leftGrabber;
     public DcMotor rightIntake;
     public DcMotor leftIntake;
+    public DistanceSensor sensorRange;
 
     BNO055IMU imu;
 
@@ -92,6 +95,10 @@ public class RobotHardware
 
         rightIntake = ahwMap.get(DcMotor.class, "rintake"); // hub 2 motor 0
         leftIntake = ahwMap.get(DcMotor.class, "lintake"); // hub 2 motor 1
+
+        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range");
+
+        Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
         leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
         leftBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed

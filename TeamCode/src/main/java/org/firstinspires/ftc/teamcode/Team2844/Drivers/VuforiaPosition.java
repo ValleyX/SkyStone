@@ -81,9 +81,9 @@ public class VuforiaPosition
     List<VuforiaTrackable> allTrackables_;
     //VUFORIA VARIABLES
 
-    private RobotHardware robot_;
+    private TestRobotHardware robot_;
 
-    public VuforiaPosition (RobotHardware robot)
+    public VuforiaPosition (TestRobotHardware robot)
     {
         robot_ = robot;
 

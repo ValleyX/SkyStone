@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.GoToPosition;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotateToHeading;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.VuforiaPosition;
 
 @TeleOp(name="Test: TestGoToPosition", group="Test")
@@ -18,7 +19,7 @@ public class TestGoToPosition extends LinearOpMode
 {
     public void runOpMode() // need to test
     {
-        RobotHardware robot = new RobotHardware(hardwareMap, this);
+        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
         RotateToHeading rotateToHeading = new RotateToHeading(robot, rotatePrecise);
         VuforiaPosition vuforiaPosition = new VuforiaPosition(robot);
