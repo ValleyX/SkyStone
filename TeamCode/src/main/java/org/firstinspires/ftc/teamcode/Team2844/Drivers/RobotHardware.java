@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -70,6 +71,9 @@ public class RobotHardware
     public DcMotor        leftIntake;
     public DistanceSensor sensorRange;
 
+    public ColorSensor colordriver;
+    public DistanceSensor distancedriver;
+
     BNO055IMU imu;
 
     private final double     COUNTS_PER_MOTOR_REV       = 28;    //  AndyMark Motor Encoder
@@ -89,6 +93,10 @@ public class RobotHardware
     {
         /* Public OpMode members. */
         OpMode_ = opMode;
+
+        colordriver = ahwMap.get(ColorSensor.class, "Color_Sensor");
+
+        distancedriver = ahwMap.get(DistanceSensor.class, "Color_Sensor");
 
         // Define and Initialize Motors
         rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // hub 1 motor 0
