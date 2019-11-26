@@ -30,7 +30,9 @@ package org.firstinspires.ftc.teamcode.Team12841.Drivers;
  */
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -56,7 +58,8 @@ public class RobotHardwarePushbot
     public DcMotor  LeftBackDrive;
     public DcMotor  RightBackDrive;
     */
-
+    public ColorSensor sensorColor;
+    public DistanceSensor sensorDistance;
     public Servo  BackLatch;
 
 
@@ -72,7 +75,9 @@ public class RobotHardwarePushbot
         /* Public OpMode members. */
         OpMode_ = opMode;
 
+        sensorColor = ahwMap.get(ColorSensor.class, "sensor_color_distance");
 
+        sensorDistance = ahwMap.get(DistanceSensor.class, "sensor_color_distance");
 
         BackLatch = ahwMap.get(Servo.class, "BackLatch"); // Servo 0
 

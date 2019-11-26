@@ -22,7 +22,7 @@ public class EncoderDrive
      *  If waiting is true then StartAction will stop if any of three conditions occur:
      *  1) Move gets to the desired position
      *  2) Move runs out of time
-     *  3) Driver stops the opmode running.
+     *  3) Driver stops the opmode running.awdsssa
      *
      *  If waiting is false, then the action will start, but it is the caller's
      *  responsibility to loop and check the isActionDone() for completion
