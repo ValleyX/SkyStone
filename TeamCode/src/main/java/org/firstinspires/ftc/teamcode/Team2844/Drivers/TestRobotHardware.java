@@ -96,7 +96,7 @@ public class TestRobotHardware
         rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); //motor 2
         rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); //motor 3
 
-        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); //
+        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); // expansion hub 2 bus 1
 
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 

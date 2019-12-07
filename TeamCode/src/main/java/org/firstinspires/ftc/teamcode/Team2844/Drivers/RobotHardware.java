@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -67,24 +68,31 @@ public class RobotHardware
     public Servo          rightGrabber;
     public Servo          leftGrabber;
     public Servo          twistyClaw;
+    public Servo          swingy;
+    //public CRServo        swingy;
+    public Servo          clawy;
+    public Servo          platform;
     public DcMotor        rightIntake;
     public DcMotor        leftIntake;
     public DistanceSensor sensorRange;
-
-    public ColorSensor colordriver;
+    public ColorSensor    colordriver;
     public DistanceSensor distancedriver;
+    public DistanceSensor leftDistance;
+    public DistanceSensor rightDistance;
 
     BNO055IMU imu;
 
     private final double     COUNTS_PER_MOTOR_REV       = 28;    //  AndyMark Motor Encoder
     private final double     DRIVE_GEAR_REDUCTION       = 19.2;     // This is < 1.0 if geared UP
+    private final double     DRIVE_GEAR_REDUCTION_LIFT  = 60;
     private final double     WHEEL_DIAMETER_INCHES      = 4.0;
     private final double     STRAFING_WHEEL_WIDTH       = 11.0; //FIND
-    private final double     LIFT_WHEEL_DIAMETER_INCHES = 2.3;
+    private final double     LIFT_WHEEL_DIAMETER_INCHES = 2.15;
     private final double     ONE_MOTOR_COUNT            = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
+    private final double     ONE_MOTOR_COUNT_LIFT       = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION_LIFT;
     final double             COUNTS_PER_INCH            = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
     final double             COUNTS_PER_INCH_STRAFE     = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
-    final double             COUNTS_PER_INCH_LIFT       = ONE_MOTOR_COUNT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
+    final double             COUNTS_PER_INCH_LIFT       = ONE_MOTOR_COUNT_LIFT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
 
     //private final double
 
@@ -94,31 +102,41 @@ public class RobotHardware
         /* Public OpMode members. */
         OpMode_ = opMode;
 
-        colordriver = ahwMap.get(ColorSensor.class, "Color_Sensor");
+        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); // secondary hub I2C Bus 2
+        colordriver = ahwMap.get(ColorSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
+        distancedriver = ahwMap.get(DistanceSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
+        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); // secondary hub I2C Bus 2
 
-        distancedriver = ahwMap.get(DistanceSensor.class, "Color_Sensor");
+        leftDistance = ahwMap.get(DistanceSensor.class, "lDistance"); // drive hub I2C Bus 1
+        rightDistance = ahwMap.get(DistanceSensor.class, "rDistance"); // secondary hub I2C Bus 1
 
         // Define and Initialize Motors
-        rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // hub 1 motor 0
-        rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); // hub 1 motor 1
-        leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); // hub 1 motor 2
-        leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); // hub 1 motor 3
+        rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // drive hub motor 0
+        rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); // drive hub motor 1
+        leftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); // drive hub motor 2
+        leftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); // drive hub motor 3
 
-        rightGrabber = ahwMap.get(Servo.class, "rgrabber"); // servo 2
-        leftGrabber = ahwMap.get(Servo.class, "lgrabber"); // servo 4
-        twistyClaw =  ahwMap.get(Servo.class, "twisty"); // idk where
+        rightGrabber = ahwMap.get(Servo.class, "rgrabber"); // drive hub servo 2
+        leftGrabber = ahwMap.get(Servo.class, "lgrabber"); // drive hub servo 4
 
-        rightIntake = ahwMap.get(DcMotor.class, "rintake"); // hub 2 motor 0
-        leftIntake = ahwMap.get(DcMotor.class, "lintake"); // hub 2 motor 1
+        twistyClaw =  ahwMap.get(Servo.class, "twisty"); // secondary hub servo 0
+        swingy = ahwMap.get(Servo.class, "swingy"); // secondary hub servo 5
+        //swingy = ahwMap.get(CRServo.class, "swingy"); // secondary hub servo 5
+        clawy = ahwMap.get(Servo.class, "clawy"); // secondary hub servo 1
 
-        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range");
+        lift = ahwMap.get(DcMotor.class, "lift"); // secondary hub
+
+        //platform = ahwMap.get(Servo.class, "platform");
+
+        rightIntake = ahwMap.get(DcMotor.class, "rintake"); // secondary hub motor 0
+        leftIntake = ahwMap.get(DcMotor.class, "lintake"); // secondary hub motor 1
 
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
-        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
-        leftBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
-        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);// TODO determine which motor should be reversed
-        rightBackDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
+        leftFrontDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftBackDrive.setDirection(DcMotor.Direction.FORWARD);
+        rightFrontDrive.setDirection(DcMotor.Direction.REVERSE);
+        rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         leftGrabber.setDirection(Servo.Direction.REVERSE);
 
@@ -134,7 +152,9 @@ public class RobotHardware
         rightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        imu = ahwMap.get(BNO055IMU.class, "imu");
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        imu = ahwMap.get(BNO055IMU.class, "imu"); // drive and secondary hub I2C Bus 0
     }
  }
 

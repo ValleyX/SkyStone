@@ -47,7 +47,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
  */
 
 @Autonomous(name="Test: Drive To", group="Test")
-//@Disabled
+@Disabled
 public class TestDriveTo extends LinearOpMode
 {
 

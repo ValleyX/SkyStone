@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.VuforiaPosition;
 
 @TeleOp(name="Test: TestVuforiaPosition", group="Test")
-@Disabled
+//@Disabled
 
 public class TestVuforiaPosition extends LinearOpMode
 {

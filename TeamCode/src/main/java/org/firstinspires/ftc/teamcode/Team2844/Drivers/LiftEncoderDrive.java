@@ -16,6 +16,9 @@ public class LiftEncoderDrive
         robot_ = robot;
         runtime_ = new ElapsedTime();
         waiting_ = false;
+
+        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /*
@@ -110,6 +113,58 @@ public class LiftEncoderDrive
 
         robot_.OpMode_.idle();   //give the processor time to act
         waiting_ = false;
+    }
+
+    public void MoveToEncoderValue
+            (
+            double speed,
+            int inchesFromBottom,
+            double timeoutS,
+            boolean waiting)
+    {
+        robot_.lift.setPower(0);
+
+        waiting_ = waiting;
+
+        System.out.println("ValleyX current lift position before " + robot_.lift.getCurrentPosition());
+        int position = (int) (inchesFromBottom * robot_.COUNTS_PER_INCH_LIFT);
+
+        robot_.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot_.lift.setTargetPosition(position);
+
+        // Turn On RUN_TO_POSITION
+        robot_.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        // reset the timeout time and start motion.
+        robot_.lift.setPower(Math.abs(speed));
+
+        runtime_.reset();
+
+        if (waiting_)
+        {
+            //then spin here making sure opmode is active, there is available time, action is still running
+            while (robot_.OpMode_.opModeIsActive() &&
+                    (runtime_.seconds() < timeoutS) &&
+                    !IsActionDone())
+            {
+                // Display it for the driver.
+                /*
+                robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d :%7d :%7d",
+                        position);
+                robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d :%7d :%7d",
+                        robot_.lift.getCurrentPosition());
+                 */
+                robot_.OpMode_.idle();
+            }
+            StopAction();
+            robot_.lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            System.out.println("ValleyX current lift position after " + robot_.lift.getCurrentPosition());
+        }
+    }
+    public double CurrentEncoderPosition()
+    {
+        return (robot_.lift.getCurrentPosition() / robot_.COUNTS_PER_INCH_LIFT);
     }
 
 }

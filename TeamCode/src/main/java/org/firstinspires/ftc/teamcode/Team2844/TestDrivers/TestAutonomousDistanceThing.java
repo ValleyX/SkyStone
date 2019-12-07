@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -11,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 
 @Autonomous(name="Test: Autonomous Distance Thing", group="Test")
-//@Disabled
+@Disabled
 
 public class TestAutonomousDistanceThing extends LinearOpMode
 {
