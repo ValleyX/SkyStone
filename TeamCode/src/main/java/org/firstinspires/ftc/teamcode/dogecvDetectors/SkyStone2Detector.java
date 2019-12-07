@@ -32,7 +32,7 @@ public class SkyStone2Detector extends DogeCVDetector {
     public RatioScorer ratioScorer = new RatioScorer(1.25, 3); // Used to find the short face of the stone
     public MaxAreaScorer maxAreaScorer = new MaxAreaScorer( 0.01);                    // Used to find largest objects
     public PerfectAreaScorer perfectAreaScorer = new PerfectAreaScorer(5000,0.05); // Used to find objects near a tuned area value
-
+    public int RequestedYLine     = 0;    // Countour y must be greater than this
 
     // Results of the detector
     private Point screenPosition = new Point(); // Screen position of the mineral
@@ -100,6 +100,10 @@ public class SkyStone2Detector extends DogeCVDetector {
         Imgproc.findContours(blackMask, contoursBlack, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
         Imgproc.drawContours(displayMat,contoursBlack,-1,new Scalar(40,40,40),2);
 
+        Point left = new Point(0, RequestedYLine);
+        Point right = new Point(600, RequestedYLine);
+        Imgproc.line (displayMat, left, right, new Scalar(255,0,0), 2);
+
         for(MatOfPoint cont : contoursBlack){
             double score = calculateScore(cont); // Get the difference score using the scoring API
 
@@ -108,7 +112,8 @@ public class SkyStone2Detector extends DogeCVDetector {
             Imgproc.rectangle(displayMat, rect.tl(), rect.br(), new Scalar(0,0,255),2); // Draw rect
 
             // If the result is better then the previously tracked one, set this rect as the new best
-            if(score < bestDifference){
+            //if(score < bestDifference){
+            if ((score < bestDifference) && (rect.y >= RequestedYLine))  {
                 bestDifference = score;
                 bestRect = rect;
             }
@@ -153,5 +158,9 @@ public class SkyStone2Detector extends DogeCVDetector {
         if (areaScoringMethod == DogeCV.AreaScoringMethod.PERFECT_AREA){
             addScorer(perfectAreaScorer);
         }
+    }
+
+    public void SetRequestedYLine(int y) {
+        RequestedYLine = y;
     }
 }

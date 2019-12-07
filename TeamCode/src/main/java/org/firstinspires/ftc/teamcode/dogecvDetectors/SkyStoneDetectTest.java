@@ -35,6 +35,7 @@ public class SkyStoneDetectTest extends LinearOpMode {
         stoneDetector = new StoneDetector();
         blackRectDetector = new BlackRectDetector();
 
+        skystoneDetector.SetRequestedYLine(180);
         /*
          * Instantiate an OpenCvCamera object for the camera we'll be using.
          * In this sample, we're using the phone's internal camera. We pass it a
