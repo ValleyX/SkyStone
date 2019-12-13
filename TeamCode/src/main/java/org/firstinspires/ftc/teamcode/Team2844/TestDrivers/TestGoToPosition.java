@@ -19,7 +19,7 @@ public class TestGoToPosition extends LinearOpMode
 {
     public void runOpMode() // need to test
     {
-        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
         RotateToHeading rotateToHeading = new RotateToHeading(robot, rotatePrecise);
         VuforiaPosition vuforiaPosition = new VuforiaPosition(robot);

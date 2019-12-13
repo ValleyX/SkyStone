@@ -19,7 +19,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode
     @Override
     public void runOpMode() throws InterruptedException
     {
-        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
         RotateToHeading rotateToHeading = new RotateToHeading(robot, rotatePrecise);
         VuforiaPosition vuforiaPosition = new VuforiaPosition(robot);

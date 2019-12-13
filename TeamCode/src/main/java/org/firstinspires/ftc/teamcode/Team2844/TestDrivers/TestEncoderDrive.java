@@ -56,7 +56,7 @@ public class TestEncoderDrive extends LinearOpMode
     {
         ElapsedTime runtime = new ElapsedTime();
 
-        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
         EncoderDrive encoderDrive = new EncoderDrive(robot);
         StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
 

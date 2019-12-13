@@ -20,7 +20,7 @@ public class TestAutonomousRoute extends LinearOpMode
     public void runOpMode()
     {
         // for blue side
-        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
         EncoderDrive encoderDrive = new EncoderDrive(robot);
         StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
 

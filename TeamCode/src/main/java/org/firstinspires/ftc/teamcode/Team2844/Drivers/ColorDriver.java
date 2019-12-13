@@ -5,17 +5,20 @@ import android.graphics.Color;
 import android.view.View;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-
+//@Disabled
+/*
 public class ColorDriver {
-    private TestRobotHardware robot_;
+    private RobotHardware robot_;
 
-    public ColorDriver(TestRobotHardware robot) {
+    public ColorDriver(RobotHardware robot) {
         robot_ = robot;
 
     }
@@ -23,6 +26,7 @@ public class ColorDriver {
     public boolean isSeen() {
         return  !new Double(robot_.distanceDriver.getDistance(DistanceUnit.MM)).isNaN();
     }
+
 
     public boolean isYellow() {
 
@@ -40,4 +44,6 @@ public class ColorDriver {
 
         return (hsvValues[0] >= 30 && hsvValues[0] <= 70);
     }
-}
+
+ */
+//}

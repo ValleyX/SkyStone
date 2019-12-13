@@ -9,12 +9,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class DriveTo
 {
-    private TestRobotHardware robot_;
+    private RobotHardware robot_;
     private EncoderDrive encoderDrive_;
     private ElapsedTime runtime_;
     private boolean waiting_;
 
-    public DriveTo(TestRobotHardware robot, EncoderDrive encoderDrive)
+    public DriveTo(RobotHardware robot, EncoderDrive encoderDrive)
     {
         robot_ = robot;
         runtime_ = new ElapsedTime();

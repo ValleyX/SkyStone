@@ -10,13 +10,13 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 
 public class RotateToHeading
 {
-    private TestRobotHardware robot_;
+    private RobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
     private RotatePrecise rotatePrecise_;
 
     /* Constructor setup all class variables here */
-    public RotateToHeading(TestRobotHardware robot, RotatePrecise rotatePrecise)
+    public RotateToHeading(RobotHardware robot, RotatePrecise rotatePrecise)
     {
         robot_ = robot;
         runtime_ = new ElapsedTime();

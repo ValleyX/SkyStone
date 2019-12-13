@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.LiftEncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
@@ -16,11 +17,13 @@ public class RedFoundationAutonomous extends LinearOpMode
 {
 
     @Override
-    public void runOpMode() throws InterruptedException {
+    public void runOpMode() throws InterruptedException
+    {
         // for red side
-        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
         EncoderDrive encoderDrive = new EncoderDrive(robot);
         StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
+        LiftEncoderDrive liftEncoderDrive = new LiftEncoderDrive(robot);
 
         // Wait for the game to start (driver presses PLAY)
         System.out.println("ValleyX: Waiting for Start");
@@ -36,6 +39,9 @@ public class RedFoundationAutonomous extends LinearOpMode
 
         System.out.println("ValleyX strafing left 9 inches");
         Strafing.Strafe(0.6, -9, 5, true);
+
+        // raise lift so that grabbers can come down
+        liftEncoderDrive.MoveToEncoderValue(0.6, 6, 5, true);
 
         // latch onto foundation
         System.out.println("ValleyX lowering grabbers");
@@ -53,6 +59,9 @@ public class RedFoundationAutonomous extends LinearOpMode
         robot.rightGrabber.setPosition(0.0);
 
         sleep(1000);
+
+        // lower lift so that grabbers can come down
+        liftEncoderDrive.MoveToEncoderValue(0.6, 0, 5, true);
 
         // strafe right
         System.out.println("ValleyX: Strafe right 30 inches ");

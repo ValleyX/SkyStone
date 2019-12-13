@@ -17,7 +17,7 @@ public class TestVuforiaPosition extends LinearOpMode
     {
         double XY[];
 
-        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
         VuforiaPosition vuforiaPosition = new VuforiaPosition(robot);
 
         waitForStart();

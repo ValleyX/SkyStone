@@ -21,7 +21,7 @@ public class TestRotatePrecise extends LinearOpMode
     //@Override
     public void runOpMode()
     {
-        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
+        RobotHardware robot = new RobotHardware(hardwareMap, this);
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
 
         //sleep(2000);

@@ -9,12 +9,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class RotatePrecise
 {
-    private TestRobotHardware robot_;
+    private RobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
 
     /* Constructor setup all class variables here */
-    public RotatePrecise(TestRobotHardware robot)
+    public RotatePrecise(RobotHardware robot)
     {
         robot_ = robot;
         runtime_ = new ElapsedTime();

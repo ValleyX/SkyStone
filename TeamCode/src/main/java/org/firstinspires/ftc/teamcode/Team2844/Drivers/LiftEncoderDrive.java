@@ -9,6 +9,7 @@ public class LiftEncoderDrive
     private RobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
+    private boolean isRunning_;
 
     /* Constructor setup all class variables here */
     public LiftEncoderDrive(RobotHardware robot)
@@ -16,6 +17,7 @@ public class LiftEncoderDrive
         robot_ = robot;
         runtime_ = new ElapsedTime();
         waiting_ = false;
+        isRunning_ = false;
 
         robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -74,6 +76,9 @@ public class LiftEncoderDrive
 
             runtime_.reset();
 
+            System.out.println("ValleyX waiting_ " + waiting_);
+            isRunning_ = false;
+
             if (waiting_)
             {
                 //then spin here making sure opmode is active, there is available time, action is still running
@@ -90,13 +95,29 @@ public class LiftEncoderDrive
                 }
                 StopAction();
             }
+            else
+            {
+                System.out.println("ValleyX Setting isRunning to true");
+                isRunning_ = true;
+            }
         }
     }
+
+    public boolean IsRunning() { return isRunning_; }
 
     //check if the motors have hit their target
     public boolean IsActionDone()
     {
-        return !robot_.lift.isBusy();
+        if (!robot_.lift.isBusy())
+        {
+            isRunning_ = false;
+            System.out.println("ValleyX setting isRunning to false");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     //stop the motors
@@ -118,7 +139,7 @@ public class LiftEncoderDrive
     public void MoveToEncoderValue
             (
             double speed,
-            int inchesFromBottom,
+            double inchesFromBottom,
             double timeoutS,
             boolean waiting)
     {
@@ -141,6 +162,8 @@ public class LiftEncoderDrive
 
         runtime_.reset();
 
+        isRunning_ = false;
+
         if (waiting_)
         {
             //then spin here making sure opmode is active, there is available time, action is still running
@@ -161,7 +184,12 @@ public class LiftEncoderDrive
             robot_.lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             System.out.println("ValleyX current lift position after " + robot_.lift.getCurrentPosition());
         }
+        else
+        {
+            isRunning_ = true;
+        }
     }
+
     public double CurrentEncoderPosition()
     {
         return (robot_.lift.getCurrentPosition() / robot_.COUNTS_PER_INCH_LIFT);

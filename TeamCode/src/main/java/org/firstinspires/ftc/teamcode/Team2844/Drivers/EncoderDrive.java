@@ -7,12 +7,12 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class EncoderDrive
 {
-    private TestRobotHardware robot_;
+    private RobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
 
     /* Constructor setup all class variables here */
-    public EncoderDrive(TestRobotHardware robot)
+    public EncoderDrive(RobotHardware robot)
     {
         robot_ = robot;
         runtime_ = new ElapsedTime();
