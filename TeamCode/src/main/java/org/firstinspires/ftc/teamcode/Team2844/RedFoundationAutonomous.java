@@ -35,7 +35,7 @@ public class RedFoundationAutonomous extends LinearOpMode
         robot.rightGrabber.setPosition(0.0);
 
         System.out.println("ValleyX: Move backwards 28 inches ");
-        encoderDrive.StartAction(0.6, -28, -28, 5.0, true);
+        encoderDrive.StartAction(0.4, -27.5, -27.5, 5.0, true);
 
         System.out.println("ValleyX strafing left 9 inches");
         Strafing.Strafe(0.6, -9, 5, true);

@@ -45,7 +45,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
  */
 
 @Autonomous(name="Test: Test Samatron Encoder Drive", group="Test")
-@Disabled
+//@Disabled
 public class TestEncoderDrive extends LinearOpMode
 {
 
@@ -63,6 +63,10 @@ public class TestEncoderDrive extends LinearOpMode
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
+
+        encoderDrive.StartAction(0.6, -12, -12, 40, true);
+        encoderDrive.StartAction(0.6, 12, 12, 40, true);
+
 /*
         System.out.println("ValleyX: Starting...");
         System.out.println("ValleyX: Move forward 12 inches ");
@@ -79,7 +83,7 @@ public class TestEncoderDrive extends LinearOpMode
         runtime.reset();
         System.out.println("ValleyX: Move forward 12 inches");
         encoderDrive.StartAction(0.3, 12, 12, 6.0, true);
-*/
+
         sleep(2000);
         //testing strafe
         runtime.reset();
@@ -104,6 +108,7 @@ public class TestEncoderDrive extends LinearOpMode
         //Spin above is completed
         encoderDrive.StopAction(); //stop all motors started by StartAction
          */
+
     }
 
 }

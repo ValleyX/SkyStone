@@ -45,6 +45,11 @@ public class PitDriverControls extends LinearOpMode
             double leftStickY2 = -gamepad2.left_stick_y;
             robot.lift.setPower(leftStickY2);
 
+            if (gamepad2.x)
+            {
+                robot.swingy.setPosition(0.8);
+            }
+
             telemetry.addData("ValleyX lift encoder", liftEncoderDrive.CurrentEncoderPosition());
             telemetry.update();
 

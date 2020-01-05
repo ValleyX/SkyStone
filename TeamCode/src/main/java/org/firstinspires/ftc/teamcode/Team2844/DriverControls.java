@@ -101,15 +101,15 @@ public class DriverControls extends LinearOpMode
         float leftTrigger2;
         float rightTrigger2;
 
-        double ResetLiftHeight = 17;
-        double HeightAfterDrop = 2;
-        double GrabLiftHeight = 4.75;
+        double ResetLiftHeight = 19;
+        double HeightAfterDrop = 4;
+        double GrabLiftHeight = 4.25;
         double GrabLiftExHeight = 7;
         double PlacingLiftHeight = 27;
         double arm0 = 0.87; // reset arm pos
         double ArmM = 0.9;
-        double ArmA = 0.78; // grab block arm pos
-        double ArmX = 0.25; // placing at 0 degrees arm pos
+        double ArmA = 0.82; // grab block arm pos
+        double ArmX = 0.36; // placing at 0 degrees arm pos
         double ArmY = 0.22; // placing 90 degrees back
         double ArmB = 0.32; // placing at 90 degrees front
         double claw0 = 0.40; // reset position
@@ -119,7 +119,7 @@ public class DriverControls extends LinearOpMode
         double clawopen = 0.37;
         double clawopeninside = 0.52;
         double platformyFlat = 0.57;
-        double platformyDown = 0.23;
+        double platformyDown = 0.26;
 
         robot.swingy.setPosition(arm0);
         robot.twistyClaw.setPosition(claw0);
@@ -201,6 +201,15 @@ public class DriverControls extends LinearOpMode
                 liftEncoderDrive.MoveToEncoderValue(1.0, currentPosition + HeightAfterDrop, 5, false);
             }
 
+            if (gamepad1.x)
+            {
+                robot.platformy.setPosition(platformyFlat);
+            }
+            else
+            {
+                robot.platformy.setPosition(platformyDown);
+            }
+
             /////////////////////////////GAMEPAD2//////////////////////////////////
 
             leftTrigger2 = gamepad2.left_trigger;
@@ -212,6 +221,9 @@ public class DriverControls extends LinearOpMode
             // Reset button
             if (gamepad2.right_bumper)
             {
+                robot.leftIntake.setPower(-1.0);
+                robot.rightIntake.setPower(-1.0);
+
                 //Safety Protocol for stupidity
                 robot.platformy.setPosition(platformyFlat);
                 robot.twistyClaw.setPosition(claw0);
@@ -227,6 +239,7 @@ public class DriverControls extends LinearOpMode
                 System.out.println("ValleyX: Done with raising");
 
                 robot.swingy.setPosition(ArmM);
+                DriveWhileWaiting(1000);
                 //Lower Lift for Reset
                 liftEncoderDrive.MoveToEncoderValue(0.6, 0.1, 5, false);
                 telemetry.addData("ValleyX lift encoder", liftEncoderDrive.CurrentEncoderPosition());
@@ -239,6 +252,9 @@ public class DriverControls extends LinearOpMode
                 DriveWhileWaiting((500));
                 robot.clawy.setPosition(clawopeninside);
                 robot.platformy.setPosition(platformyDown);
+
+                robot.leftIntake.setPower(0.0);
+                robot.rightIntake.setPower(0.0);
             }
 
             // grab block
