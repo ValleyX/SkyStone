@@ -30,7 +30,7 @@ public class SkyStoneDetectTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
 
-     //   skystoneDetector = new SkystoneDetector();
+        //skystoneDetector = new SkystoneDetector();
         skystoneDetector = new SkyStone2Detector();
         stoneDetector = new StoneDetector();
         blackRectDetector = new BlackRectDetector();
@@ -110,7 +110,8 @@ public class SkyStoneDetectTest extends LinearOpMode {
             {
               //  webcam.setPipeline(null);
                 phoneCam.setPipeline(null);
-                telemetry.addData("Skystone found X Y", "%d %d", skystoneDetector.foundRectangle().x, skystoneDetector.foundRectangle().y);
+                telemetry.addData("Skystone found X Y", "%d %d",
+                        skystoneDetector.foundRectangle().x, skystoneDetector.foundRectangle().y);
             }
             else
             {

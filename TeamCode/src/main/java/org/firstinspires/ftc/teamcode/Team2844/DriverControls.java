@@ -205,10 +205,13 @@ public class DriverControls extends LinearOpMode
             {
                 robot.platformy.setPosition(platformyFlat);
             }
+            /*
             else
             {
                 robot.platformy.setPosition(platformyDown);
             }
+
+             */
 
             /////////////////////////////GAMEPAD2//////////////////////////////////
 
@@ -335,6 +338,9 @@ public class DriverControls extends LinearOpMode
             }
 
             // intake
+            telemetry.addData("right trigger2 ", rightTrigger2);
+            telemetry.addData("left trigger2 ", leftTrigger2);
+            telemetry.update();
             if (rightTrigger2 > 0)
             {
                 robot.rightIntake.setPower(rightTrigger2);

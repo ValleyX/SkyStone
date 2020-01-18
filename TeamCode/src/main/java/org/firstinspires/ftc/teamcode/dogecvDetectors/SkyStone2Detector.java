@@ -33,6 +33,10 @@ public class SkyStone2Detector extends DogeCVDetector {
     public MaxAreaScorer maxAreaScorer = new MaxAreaScorer( 0.01);                    // Used to find largest objects
     public PerfectAreaScorer perfectAreaScorer = new PerfectAreaScorer(5000,0.05); // Used to find objects near a tuned area value
     public int RequestedYLine     = 0;    // Countour y must be greater than this
+    public int RequestedXRightLine = 320;
+    public int RequestedLeftMid = 100;
+    public int RequestedRightMid = 200;
+    public int RequestedXLeftLine = 0;
 
     // Results of the detector
     private Point screenPosition = new Point(); // Screen position of the mineral
@@ -100,9 +104,30 @@ public class SkyStone2Detector extends DogeCVDetector {
         Imgproc.findContours(blackMask, contoursBlack, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_SIMPLE);
         Imgproc.drawContours(displayMat,contoursBlack,-1,new Scalar(40,40,40),2);
 
+        // y line
         Point left = new Point(0, RequestedYLine);
         Point right = new Point(600, RequestedYLine);
         Imgproc.line (displayMat, left, right, new Scalar(255,0,0), 2);
+
+        // right x line
+        Point topRight = new Point(RequestedXRightLine, RequestedYLine);
+        Point bottomRight = new Point(RequestedXRightLine, 600);
+        Imgproc.line (displayMat, topRight, bottomRight, new Scalar(255,0,0), 2);
+
+        // left x line
+        Point topLeft = new Point(RequestedXLeftLine, RequestedYLine);
+        Point bottomLeft = new Point(RequestedXLeftLine, 600);
+        Imgproc.line (displayMat, topLeft, bottomLeft, new Scalar(255,0,0), 2);
+
+        // left mid
+        Point top1 = new Point(RequestedLeftMid, RequestedYLine);
+        Point bottom1 = new Point(RequestedLeftMid, 600);
+        Imgproc.line (displayMat, top1, bottom1, new Scalar(255,0,255), 2);
+
+        // right mid
+        Point top2 = new Point(RequestedRightMid, RequestedYLine);
+        Point bottom2 = new Point(RequestedRightMid, 600);
+        Imgproc.line (displayMat, top2, bottom2, new Scalar(0,255,0), 2);
 
         for(MatOfPoint cont : contoursBlack){
             double score = calculateScore(cont); // Get the difference score using the scoring API
@@ -113,7 +138,9 @@ public class SkyStone2Detector extends DogeCVDetector {
 
             // If the result is better then the previously tracked one, set this rect as the new best
             //if(score < bestDifference){
-            if ((score < bestDifference) && (rect.y >= RequestedYLine))  {
+            if ((score < bestDifference) && (rect.y >= RequestedYLine) && (rect.x <= RequestedXRightLine)
+                    && (rect.x >= RequestedXLeftLine))
+            {
                 bestDifference = score;
                 bestRect = rect;
             }
@@ -163,4 +190,13 @@ public class SkyStone2Detector extends DogeCVDetector {
     public void SetRequestedYLine(int y) {
         RequestedYLine = y;
     }
+    public void SetRequestedXRightLine (int x) {RequestedXRightLine = x;}
+    public void SetRequestedXLeftLine (int x) {RequestedXLeftLine = x;}
+
+    public void SetRequestedMidlinesRightLine (int leftmid, int rightmid)
+    {
+        RequestedLeftMid = leftmid;
+        RequestedRightMid = rightmid;
+    }
+
 }

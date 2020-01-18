@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 /**
  * This is NOT an opmode.
@@ -78,6 +79,8 @@ public class RobotHardware
     public DistanceSensor distancedriver;
     public DistanceSensor leftDistance;
     public DistanceSensor rightDistance;
+    public DistanceSensor bucketLazery;
+    public TouchSensor    touch;
 
     BNO055IMU imu;
 
@@ -109,6 +112,10 @@ public class RobotHardware
         leftDistance = ahwMap.get(DistanceSensor.class, "lDistance"); // drive hub I2C Bus 1
         rightDistance = ahwMap.get(DistanceSensor.class, "rDistance"); // secondary hub I2C Bus 1
 
+        bucketLazery = ahwMap.get(DistanceSensor.class, "lazery"); // secondary hub I2C Bus 0
+
+        touch = ahwMap.get(TouchSensor.class, "touch"); // secondary hub Digital Devices 1
+
         // Define and Initialize Motors
         rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // drive hub motor 0
         rightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); // drive hub motor 1
@@ -123,7 +130,7 @@ public class RobotHardware
         clawy = ahwMap.get(Servo.class, "clawy"); // secondary hub servo 1
         platformy = ahwMap.get(Servo.class, "platformy"); // secondary hub servo 2
 
-        lift = ahwMap.get(DcMotor.class, "lift"); // secondary hub
+        lift = ahwMap.get(DcMotor.class, "lift"); // secondary hub motor 2
 
         rightIntake = ahwMap.get(DcMotor.class, "rintake"); // secondary hub motor 0
         leftIntake = ahwMap.get(DcMotor.class, "lintake"); // secondary hub motor 1
@@ -157,7 +164,7 @@ public class RobotHardware
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        imu = ahwMap.get(BNO055IMU.class, "imu"); // drive and secondary hub I2C Bus 0
+        imu = ahwMap.get(BNO055IMU.class, "imu"); // drive hub I2C Bus 0
     }
  }
 
