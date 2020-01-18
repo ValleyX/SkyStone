@@ -182,12 +182,12 @@ public class DriverControls extends LinearOpMode
                 }
             }
             // foundation grabbers
-            if (gamepad1.right_bumper) // raise grabbers
+            if (gamepad1.right_bumper) // down grabbers
             {
-                robot.rightGrabber.setPosition(0.0);
-                robot.leftGrabber.setPosition(0.0);
+                robot.rightGrabber.setPosition(0.07);
+                robot.leftGrabber.setPosition(0.07);
             }
-            else if (gamepad1.left_bumper) // lower grabbers
+            else if (gamepad1.left_bumper) // up grabbers
             {
                 robot.rightGrabber.setPosition(0.75);
                 robot.leftGrabber.setPosition(0.75);
@@ -196,7 +196,7 @@ public class DriverControls extends LinearOpMode
 
             if (gamepad1.y)
             {
-                robot.clawy.setPosition(0.37);
+                robot.clawy.setPosition(clawopen);
                 double currentPosition = liftEncoderDrive.CurrentEncoderPosition();
                 liftEncoderDrive.MoveToEncoderValue(1.0, currentPosition + HeightAfterDrop, 5, false);
             }

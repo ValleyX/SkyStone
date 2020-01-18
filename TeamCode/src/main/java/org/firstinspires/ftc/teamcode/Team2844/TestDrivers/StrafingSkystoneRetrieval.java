@@ -127,49 +127,17 @@ public class StrafingSkystoneRetrieval extends LinearOpMode {
         double distanceMoved;
         int skystone = 0;
 
-        sleep(5000);
+        //sleep(5000);
+        robot.rightGrabber.setPosition(0.75);
+        robot.leftGrabber.setPosition(0.75);
+        robot.swingy.setPosition(0.90);
+        robot.clawy.setPosition(0.52);
 
         waitForStart();
-            //encoderDrive.StartAction(.5, -28, -28, 5, true);
 
-            //test code
-            //rotateToHeading.DoIt(0);
-            //driveTo.StartAction(0.5, 1.5, 5, true);
-            //test code
+        while(opModeIsActive())
+        {
 
-/*
-            sleep(1000);
-            skystone = 0;
-            while (colorDriver.isSeen() && colorDriver.isYellow() && skystone < 2)
-            {
-                Strafing.Strafe(.5, -10, 5, true);
-
-                //test code
-                rotateToHeading.DoIt(0);
-                driveTo.StartAction(0.5, 1.5, 5, true);
-                //test code
-
-                telemetry.addData("Skystonenotfound", skystone);
-                telemetry.update();
-                skystone += 1;
-                sleep(1000);
-            }
-            if (colorDriver.isSeen() && !colorDriver.isYellow()){
-                telemetry.addData("Skystoneisfound", skystone);
-                telemetry.update();
-            } else{
-                telemetry.addData("NOTHING", skystone);
-                telemetry.update();
-            }
-            sleep(100);
-            break;
-        }
-
- */
-
-            while(opModeIsActive()) {
-
-                robot.swingy.setPosition(0.87);
 
                 if (skystoneDetector.isDetected()) {
                     //webcam.setPipeline(null);
@@ -251,16 +219,11 @@ public class StrafingSkystoneRetrieval extends LinearOpMode {
             robot.rightIntake.setPower(0.0);
             robot.leftIntake.setPower(0.0);
 
-            /*
-            Strafing.Strafe(1.0, -fromFoundationSide, 5, true);
-            rotateToHeading.DoIt(0);
-             */
-
             rotateToHeading.DoIt(-90);
-            encoderDrive.StartAction(1.0, fromFoundationSide - 32, fromFoundationSide - 32, 5, true);
+            encoderDrive.StartAction(1.0, fromFoundationSide - 30, fromFoundationSide - 30, 5, true);
 
             // get next block
-            Strafing.Strafe(0.6, 25, 5, true);
+            Strafing.Strafe(0.6, 22, 5, true);
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
             encoderDrive.StartAction(0.6, 7, 7, 5, true);
@@ -272,11 +235,27 @@ public class StrafingSkystoneRetrieval extends LinearOpMode {
             // go back to foundation
             //Strafing.Strafe(0.6, fromFoundationSide, 5, true);
             rotateToHeading.DoIt(-90);
-            encoderDrive.StartAction(1.0, -fromFoundationSide - 20, -fromFoundationSide - 20, 5, true);
+            encoderDrive.StartAction(1.0, -fromFoundationSide - 12, -fromFoundationSide - 12, 5, true);
             rotateToHeading.DoIt(180);
-            encoderDrive.StartAction(0.6, -toFoundation, -toFoundation, 5, true);
+            encoderDrive.StartAction(0.6, -toFoundation + 3, -toFoundation + 3, 5, true);
+/*
+            //slowly drive up and get foundation
+            encoderDrive.StartAction(0.6, -5, -5, 5, true);
+            robot.rightGrabber.setPosition(0.07);
+            robot.leftGrabber.setPosition(0.07);
 
-            // drag foundation back
+            sleep(500);
+
+            //These line will spin the foundation
+            encoderDrive.StartAction(1.0, 20, 20, 5, true);
+            rotatePrecise.RotatePrecise(90, 2, 0.6, 0.3, 2);
+            encoderDrive.StartAction(1.0, -5, -5, 5, true);
+
+            robot.rightGrabber.setPosition(0.75);
+            robot.leftGrabber.setPosition(0.75);
+            sleep(500);
+*/
+            //Add code here to park on line
         }
     }
 
