@@ -121,9 +121,9 @@ public class DriverControls extends LinearOpMode
         double platformyFlat = 0.57;
         double platformyDown = 0.26;
 
-        robot.swingy.setPosition(arm0);
-        robot.twistyClaw.setPosition(claw0);
-        robot.clawy.setPosition(clawopeninside);
+        //robot.swingy.setPosition(arm0);
+        //robot.twistyClaw.setPosition(claw0);
+        //robot.clawy.setPosition(clawopeninside);
         robot.platformy.setPosition(platformyFlat);
 
         System.out.println("ValleyX: Waiting for Start");
@@ -196,7 +196,7 @@ public class DriverControls extends LinearOpMode
 
             if (gamepad1.y)
             {
-                robot.clawy.setPosition(clawopen);
+                //robot.clawy.setPosition(clawopen);
                 double currentPosition = liftEncoderDrive.CurrentEncoderPosition();
                 liftEncoderDrive.MoveToEncoderValue(1.0, currentPosition + HeightAfterDrop, 5, false);
             }
@@ -229,8 +229,8 @@ public class DriverControls extends LinearOpMode
 
                 //Safety Protocol for stupidity
                 robot.platformy.setPosition(platformyFlat);
-                robot.twistyClaw.setPosition(claw0);
-                robot.clawy.setPosition(clawclose);
+                //robot.twistyClaw.setPosition(claw0);
+                //robot.clawy.setPosition(clawclose);
                 //sleep(500);
                 DriveWhileWaiting(500);
                 //Raise/Lower Lift to clear base of robot
@@ -241,7 +241,7 @@ public class DriverControls extends LinearOpMode
                 DriveWhileWaiting(500);
                 System.out.println("ValleyX: Done with raising");
 
-                robot.swingy.setPosition(ArmM);
+                //robot.swingy.setPosition(ArmM);
                 DriveWhileWaiting(1000);
                 //Lower Lift for Reset
                 liftEncoderDrive.MoveToEncoderValue(0.6, 0.1, 5, false);
@@ -249,11 +249,11 @@ public class DriverControls extends LinearOpMode
                 telemetry.update();
                 //sleep(1000);
                 DriveWhileWaiting(1000);
-                robot.swingy.setPosition(arm0);
+                //robot.swingy.setPosition(arm0);
 
                 //sleep(500);
                 DriveWhileWaiting((500));
-                robot.clawy.setPosition(clawopeninside);
+                //robot.clawy.setPosition(clawopeninside);
                 robot.platformy.setPosition(platformyDown);
 
                 robot.leftIntake.setPower(0.0);
@@ -263,10 +263,10 @@ public class DriverControls extends LinearOpMode
             // grab block
             if (gamepad2.a)
             {
-                robot.twistyClaw.setPosition(claw0);
+                //robot.twistyClaw.setPosition(claw0);
                 robot.leftIntake.setPower(-1.0);
                 robot.rightIntake.setPower(1.0);
-                robot.swingy.setPosition(ArmM);
+                //robot.swingy.setPosition(ArmM);
                 //sleep(500);
                 DriveWhileWaiting(500);
                 robot.platformy.setPosition(platformyFlat);
@@ -277,63 +277,63 @@ public class DriverControls extends LinearOpMode
                 liftEncoderDrive.MoveToEncoderValue(1.0, GrabLiftExHeight, 5, false);
                 //sleep(500);
                 DriveWhileWaiting(500);
-                robot.clawy.setPosition(clawopeninside);
+                ///robot.clawy.setPosition(clawopeninside);
                 //sleep(200);
                 DriveWhileWaiting(200);
-                robot.swingy.setPosition(ArmA);
+                //robot.swingy.setPosition(ArmA);
                 //sleep(700);
                 DriveWhileWaiting(700);
                 liftEncoderDrive.MoveToEncoderValue(0.6, GrabLiftHeight, 5, false);
                 //sleep(500);
                 DriveWhileWaiting(500);
-                robot.clawy.setPosition(clawclose);
+                //robot.clawy.setPosition(clawclose);
                 DriveWhileWaiting(700);
                 //sleep(700);
-                robot.swingy.setPosition(ArmM);
+                //robot.swingy.setPosition(ArmM);
 
             }
 
             // placing block @ 0 degrees
             if (gamepad2.x)
             {
-                robot.twistyClaw.setPosition(claw0);
-                robot.clawy.setPosition(clawclose);
+                //robot.twistyClaw.setPosition(claw0);
+                //robot.clawy.setPosition(clawclose);
                 //sleep(500);
                 DriveWhileWaiting(500);
                 liftEncoderDrive.MoveToEncoderValue(1.0, PlacingLiftHeight, 5, false);
                 DriveWhileWaiting(1);
-                robot.swingy.setPosition(ArmX);
+                //robot.swingy.setPosition(ArmX);
                 robot.platformy.setPosition(platformyDown);
             }
 
             // placing block at 90 degrees (back)
             if (gamepad2.y)
             {
-                robot.twistyClaw.setPosition(claw0);
-                robot.clawy.setPosition(clawclose);
+                //.twistyClaw.setPosition(claw0);
+                //robot.clawy.setPosition(clawclose);
                 sleep(500);
                 liftEncoderDrive.MoveToEncoderValue(1.0, PlacingLiftHeight, 5, false);
                 DriveWhileWaiting(1);
-                robot.swingy.setPosition(ArmY);
+                //robot.swingy.setPosition(ArmY);
                 //sleep(1000);
                 DriveWhileWaiting(1000);
-                robot.twistyClaw.setPosition(claw1);
+                //robot.twistyClaw.setPosition(claw1);
                 robot.platformy.setPosition(platformyDown);
             }
 
             // placing block at 90 degrees (front)
             if (gamepad2.b)
             {
-                robot.twistyClaw.setPosition(claw0);
-                robot.clawy.setPosition(clawclose);
+                //robot.twistyClaw.setPosition(claw0);
+                //robot.clawy.setPosition(clawclose);
                 //sleep(500);
                 DriveWhileWaiting(500);
                 liftEncoderDrive.MoveToEncoderValue(1.0, PlacingLiftHeight, 5, false);
                 DriveWhileWaiting(1);
-                robot.swingy.setPosition(ArmB);
+                //robot.swingy.setPosition(ArmB);
                 //sleep(1000);
                 DriveWhileWaiting(1000);
-                robot.twistyClaw.setPosition(claw2);
+                //robot.twistyClaw.setPosition(claw2);
                 robot.platformy.setPosition(platformyDown);
             }
 

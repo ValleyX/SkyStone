@@ -47,7 +47,7 @@ public class PitDriverControls extends LinearOpMode
 
             if (gamepad2.x)
             {
-                robot.swingy.setPosition(0.8);
+                //robot.swingy.setPosition(0.8);
             }
 
             telemetry.addData("ValleyX lift encoder", liftEncoderDrive.CurrentEncoderPosition());

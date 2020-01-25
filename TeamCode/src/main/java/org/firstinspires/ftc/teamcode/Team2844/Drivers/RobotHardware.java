@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -40,6 +41,9 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.vuforia.PositionalDeviceTracker;
+
+import org.firstinspires.ftc.robotcore.internal.opengl.models.Teapot;
 
 /**
  * This is NOT an opmode.
@@ -68,9 +72,9 @@ public class RobotHardware
     public DcMotor        lift;
     public Servo          rightGrabber;
     public Servo          leftGrabber;
-    public Servo          twistyClaw;
-    public Servo          swingy;
-    public Servo          clawy;
+    //public Servo          twistyClaw;
+    //public Servo          swingy;
+    //public Servo          clawy;
     public Servo          platformy;
     public DcMotor        rightIntake;
     public DcMotor        leftIntake;
@@ -81,8 +85,10 @@ public class RobotHardware
     public DistanceSensor rightDistance;
     public DistanceSensor bucketLazery;
     public TouchSensor    touch;
+    public DcMotor        flippy;
+    public AnalogInput    flippyPot;
 
-    BNO055IMU imu;
+    public BNO055IMU imu;
 
     private final double     COUNTS_PER_MOTOR_REV       = 28;    //  AndyMark Motor Encoder
     private final double     DRIVE_GEAR_REDUCTION       = 19.2;     // This is < 1.0 if geared UP
@@ -125,15 +131,20 @@ public class RobotHardware
         rightGrabber = ahwMap.get(Servo.class, "rgrabber"); // drive hub servo 2
         leftGrabber = ahwMap.get(Servo.class, "lgrabber"); // drive hub servo 4
 
-        twistyClaw =  ahwMap.get(Servo.class, "twisty"); // secondary hub servo 0
-        swingy = ahwMap.get(Servo.class, "swingy"); // secondary hub servo 5
-        clawy = ahwMap.get(Servo.class, "clawy"); // secondary hub servo 1
+        //twistyClaw =  ahwMap.get(Servo.class, "twisty"); // secondary hub servo 0
+        //swingy = ahwMap.get(Servo.class, "swingy"); // secondary hub servo 5
+
+        //clawy = ahwMap.get(Servo.class, "clawy"); // secondary hub servo 1
         platformy = ahwMap.get(Servo.class, "platformy"); // secondary hub servo 2
+
+        flippy = ahwMap.get(DcMotor.class, "flippy"); // secondary hub motor 3
 
         lift = ahwMap.get(DcMotor.class, "lift"); // secondary hub motor 2
 
         rightIntake = ahwMap.get(DcMotor.class, "rintake"); // secondary hub motor 0
         leftIntake = ahwMap.get(DcMotor.class, "lintake"); // secondary hub motor 1
+
+        flippyPot = ahwMap.analogInput.get("topPot"); // main 2 analog input
 
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
@@ -143,6 +154,8 @@ public class RobotHardware
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         leftGrabber.setDirection(Servo.Direction.REVERSE);
+
+        flippy.setDirection(DcMotor.Direction.REVERSE);
 
         // Set all motors to zero power
         leftFrontDrive.setPower(0);
@@ -163,8 +176,12 @@ public class RobotHardware
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        flippy.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         imu = ahwMap.get(BNO055IMU.class, "imu"); // drive hub I2C Bus 0
     }
+
+
  }
 
