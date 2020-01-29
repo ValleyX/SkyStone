@@ -2,10 +2,8 @@ package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.DriveTo;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDriveHeading;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.FlippyDriver;
@@ -22,9 +20,9 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 //import org.firstinspires.ftc.teamcode.Team2844.Drivers.ColorDriver;
 
 
-@Autonomous(name = "Test: RedStrafingAutonomous", group ="Test")
-@Disabled
-public class RedStrafingAutonomous extends LinearOpMode {
+@Autonomous(name = "RedNonStrafingAutonomous", group ="Test")
+//@Disabled
+public class RedNonStrafingAutonomous extends LinearOpMode {
     //ColorDriver colorDriver;
     EncoderDrive encoderDrive;
     RobotHardware robot;
@@ -137,6 +135,7 @@ public class RedStrafingAutonomous extends LinearOpMode {
 
         //sleep(5000);
 
+
         flippy.GoToPosition(0.2, 0.6);
         robot.flippy.setPower(0.15);
 
@@ -145,6 +144,23 @@ public class RedStrafingAutonomous extends LinearOpMode {
         robot.platformy.setPosition(0.26);
 
         waitForStart();
+/*
+        flippy.GoToPosition(0.2, 0.6);
+        robot.flippy.setPower(0.15);
+        robot.clawy.setPosition(0.37);
+        sleep(500);
+        robot.clawy.setPosition(0.67);
+        flippy.GoToPosition(1.5, 0.6);
+        //flippy.GoToPosition(2.0, 0.2);
+        robot.flippy.setPower(-0.15);
+
+
+        while(opModeIsActive())
+        {
+            telemetry.addData("pot position", robot.flippyPot.getVoltage());
+            telemetry.update();
+        }
+*/
 
         while(opModeIsActive())
         {
@@ -208,7 +224,7 @@ public class RedStrafingAutonomous extends LinearOpMode {
                 idle();
             }
 
-            double FudgeFactor = 7;
+            double FudgeFactor = 0;
             double stoneSize = 8;
             double fixedAmount = 47;
             double toFoundationSide = fixedAmount + (skystone * stoneSize);
@@ -217,35 +233,59 @@ public class RedStrafingAutonomous extends LinearOpMode {
 
 
             // back up after getting stone
-            encoderDriveHeading.StartAction(0.9, -23, 0, 5, true);
+            encoderDriveHeading.StartAction(0.9, -20, 0, 5, true);
+            sleep(1000);
 
             // drive to foundation side
+        /*
             Strafing.Strafe(1, toFoundationSide + 2, 5, true);
             rotateToHeading.DoIt(0);
+         */
+
+            rotateToHeading.DoIt(-90);
+            encoderDriveHeading.StartAction(0.6, -toFoundationSide, -90, 10, true);
 
             // drop off block
+
             robot.rightIntake.setPower(-1.0);
             robot.leftIntake.setPower(1.0);
             sleep(500);
             robot.rightIntake.setPower(0.0);
             robot.leftIntake.setPower(0.0);
 
-            rotateToHeading.DoIt(-90);
-            encoderDriveHeading.StartAction(0.9, fromFoundationSide - 28, -90, 5, true);
+            //arm swing yay
+        /*
+            flippy.GoToPosition(0.5, 0.6);
+            robot.clawy.setPosition(0.37);
+            sleep(500);
+            robot.clawy.setPosition(0.67);
+            flippy.GoToPosition(0.2, 0.6);
+            robot.flippy.setPower(0.15);
+*/
+
+            //rotateToHeading.DoIt(-90);
+            encoderDriveHeading.StartAction(0.9, toFoundationSide-1+stoneSize, -90, 5, true);
 
             // get next block
-            Strafing.Strafe(1, 23, 5, true);
+            //Strafing.Strafe(1, 23, 5, true);
+
+            rotateToHeading.DoIt(-60); // turning to grab block
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
-            encoderDriveHeading.StartAction(0.6, 7, -90, 5, true);
-            sleep(300);
+            encoderDriveHeading.StartAction(0.9, 24, -60, 5, true);
+            sleep(100);
             robot.rightIntake.setPower(0.0);
             robot.leftIntake.setPower(0.0);
-            Strafing.Strafe(1, -20, 5, true);
+            encoderDriveHeading.StartAction(0.9, -24, -60, 5, true);
+
+            robot.rightIntake.setPower(0.0);
+            robot.leftIntake.setPower(0.0);
+            sleep(100);
+            rotateToHeading.DoIt(-90);
 
             // go back to foundation
             //Strafing.Strafe(0.6, fromFoundationSide, 5, true);
-            rotateToHeading.DoIt(-90);
+            //rotateToHeading.DoIt(-90);
             encoderDriveHeading.StartAction(0.9, -fromFoundationSide, -90, 5, true);
             rotateToHeading.DoIt(180);
             encoderDriveHeading.StartAction(0.9, -toFoundation + 3, 180, 5, true);

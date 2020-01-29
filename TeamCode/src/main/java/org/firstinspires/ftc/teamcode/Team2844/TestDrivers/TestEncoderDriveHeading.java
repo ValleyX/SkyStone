@@ -72,7 +72,7 @@ public class TestEncoderDriveHeading  extends LinearOpMode {
         telemetry.addData("Mode", "calibrated");
         telemetry.update();
 
-        /*
+
         encoderDriveHeading.StartAction(0.9, 5, 0, 5, true);
 
         rotateToHeading.DoIt(-90);
@@ -86,7 +86,7 @@ public class TestEncoderDriveHeading  extends LinearOpMode {
         sleep(1000);
         encoderDriveHeading.StartAction(.9,-47.5, -90,5, true);
         sleep(1000);
-         */
+         /*
 
         strafing.Strafe(0.9, 47.5, 5, true);
         //strafeGyro.Strafe(.9,47.5, -90,5,true);
@@ -98,6 +98,8 @@ public class TestEncoderDriveHeading  extends LinearOpMode {
         rotateToHeading.DoIt(0);
         //strafeGyro.Strafe(0.6, -47.5, 90, 5, true);
         sleep(1000);
+
+          */
     }
 
 }

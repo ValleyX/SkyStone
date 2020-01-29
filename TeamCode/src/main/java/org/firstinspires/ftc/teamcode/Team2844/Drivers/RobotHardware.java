@@ -74,7 +74,7 @@ public class RobotHardware
     public Servo          leftGrabber;
     //public Servo          twistyClaw;
     //public Servo          swingy;
-    //public Servo          clawy;
+    public Servo          clawy;
     public Servo          platformy;
     public DcMotor        rightIntake;
     public DcMotor        leftIntake;
@@ -134,7 +134,7 @@ public class RobotHardware
         //twistyClaw =  ahwMap.get(Servo.class, "twisty"); // secondary hub servo 0
         //swingy = ahwMap.get(Servo.class, "swingy"); // secondary hub servo 5
 
-        //clawy = ahwMap.get(Servo.class, "clawy"); // secondary hub servo 1
+        clawy = ahwMap.get(Servo.class, "clawy"); // secondary hub servo 1
         platformy = ahwMap.get(Servo.class, "platformy"); // secondary hub servo 2
 
         flippy = ahwMap.get(DcMotor.class, "flippy"); // secondary hub motor 3
