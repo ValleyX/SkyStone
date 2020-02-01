@@ -141,7 +141,8 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
 
         robot.rightGrabber.setPosition(0.4);
         robot.leftGrabber.setPosition(0.4);
-        robot.platformy.setPosition(0.26);
+        final double platformDownPos = 0.27;
+        robot.platformy.setPosition(platformDownPos);
 
         waitForStart();
 /*
@@ -177,10 +178,12 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
                         System.out.println("ValleyX stone found left " + stoneXValue);
                         skystone = 2;
                         Strafing.Strafe(0.6, -9, 5, true);
+                        robot.platformy.setPosition(platformDownPos);
                         rotateToHeading.DoIt(0);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDriveHeading.StartAction(0.6, 48, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.9, 29, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 5, 0, 5, true);
                         sleep(200);
                         robot.rightIntake.setPower(0.0);
                         robot.leftIntake.setPower(0.0);
@@ -190,10 +193,11 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
                         telemetry.addData("stone found middle", stoneXValue);
                         System.out.println("ValleyX stone found middle " + stoneXValue);
                         skystone = 1;
-                        robot.platformy.setPosition(0.26);
+                        robot.platformy.setPosition(platformDownPos);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDriveHeading.StartAction(0.6, 48, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.9, 29, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 5, 0, 5, true);
                         sleep(200);
                         robot.rightIntake.setPower(0.0);
                         robot.leftIntake.setPower(0.0);
@@ -206,10 +210,11 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
                         encoderDriveHeading.StartAction(1.0, 2, 0, 5, true);
                         Strafing.Strafe(0.6, 9, 5, true);
                         rotateToHeading.DoIt(0);
-                        robot.platformy.setPosition(0.26);
+                        robot.platformy.setPosition(platformDownPos);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDriveHeading.StartAction(0.6, 46, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.9, 28, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 5, 0, 5, true);
                         sleep(200);
                         robot.rightIntake.setPower(0.0);
                         robot.leftIntake.setPower(0.0);
@@ -233,7 +238,7 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
 
 
             // back up after getting stone
-            encoderDriveHeading.StartAction(0.9, -20, 0, 5, true);
+            encoderDriveHeading.StartAction(0.9, -7, 0, 5, true);
             sleep(1000);
 
             // drive to foundation side
@@ -264,19 +269,21 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
 */
 
             //rotateToHeading.DoIt(-90);
-            encoderDriveHeading.StartAction(0.9, toFoundationSide-1+stoneSize, -90, 5, true);
+            encoderDriveHeading.StartAction(0.9, toFoundationSide+3+stoneSize, -90, 5, true);
 
             // get next block
             //Strafing.Strafe(1, 23, 5, true);
 
-            rotateToHeading.DoIt(-60); // turning to grab block
+            final int heading = -45;
+            rotateToHeading.DoIt(heading); // turning to grab block
+            robot.platformy.setPosition(platformDownPos);
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
-            encoderDriveHeading.StartAction(0.9, 24, -60, 5, true);
+            encoderDriveHeading.StartAction(0.3, 16,  heading, 5, true);
             sleep(100);
             robot.rightIntake.setPower(0.0);
             robot.leftIntake.setPower(0.0);
-            encoderDriveHeading.StartAction(0.9, -24, -60, 5, true);
+            encoderDriveHeading.StartAction(0.9, -16, heading, 5, true);
 
             robot.rightIntake.setPower(0.0);
             robot.leftIntake.setPower(0.0);
