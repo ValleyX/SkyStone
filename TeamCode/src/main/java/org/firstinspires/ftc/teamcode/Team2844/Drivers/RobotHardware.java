@@ -79,8 +79,8 @@ public class RobotHardware
     public DcMotor        rightIntake;
     public DcMotor        leftIntake;
     public DistanceSensor sensorRange;
-    public ColorSensor    colordriver;
-    public DistanceSensor distancedriver;
+    //public ColorSensor    colordriver;
+    //public DistanceSensor distancedriver;
     public DistanceSensor leftDistance;
     public DistanceSensor rightDistance;
     public DistanceSensor bucketLazery;
@@ -90,17 +90,20 @@ public class RobotHardware
 
     public BNO055IMU imu;
 
-    private final double     COUNTS_PER_MOTOR_REV       = 28;    //  AndyMark Motor Encoder
-    private final double     DRIVE_GEAR_REDUCTION       = 19.2;     // This is < 1.0 if geared UP
-    private final double     DRIVE_GEAR_REDUCTION_LIFT  = 60;
-    private final double     WHEEL_DIAMETER_INCHES      = 4.0;
-    private final double     STRAFING_WHEEL_WIDTH       = 11.0; //FIND
-    private final double     LIFT_WHEEL_DIAMETER_INCHES = 2.15;
-    private final double     ONE_MOTOR_COUNT            = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
-    private final double     ONE_MOTOR_COUNT_LIFT       = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION_LIFT;
-    final double             COUNTS_PER_INCH            = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
-    final double             COUNTS_PER_INCH_STRAFE     = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
-    final double             COUNTS_PER_INCH_LIFT       = ONE_MOTOR_COUNT_LIFT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
+    private final double    COUNTS_PER_MOTOR_REV        = 28;    //  AndyMark Motor Encoder
+    private final double    DRIVE_GEAR_REDUCTION        = 19.2;     // This is < 1.0 if geared UP
+    private final double    DRIVE_GEAR_REDUCTION_LIFT   = 40;
+    private final double    DRIVE_GEAR_REDUCTION_FLIPPY = 60;
+    private final double    WHEEL_DIAMETER_INCHES       = 4.0;
+    private final double    STRAFING_WHEEL_WIDTH        = 11.0; //FIND
+    private final double    LIFT_WHEEL_DIAMETER_INCHES  = 2.35;
+    private final double    ONE_MOTOR_COUNT             = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
+    final double            ONE_MOTOR_COUNT_LIFT        = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION_LIFT;
+    final double            ONE_MOTOR_COUNT_FLIPPY      = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION_FLIPPY;
+    final double            COUNTS_PER_INCH             = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
+    final double            COUNTS_PER_INCH_STRAFE      = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
+    final double            COUNTS_PER_INCH_LIFT        = ONE_MOTOR_COUNT_LIFT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
+    //final double             COUNTS_PER_INCH_LIFT       = ONE_MOTOR_COUNT_LIFT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
 
     //private final double
 
@@ -111,9 +114,8 @@ public class RobotHardware
         OpMode_ = opMode;
 
         sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); // secondary hub I2C Bus 2
-        colordriver = ahwMap.get(ColorSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
-        distancedriver = ahwMap.get(DistanceSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
-        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); // secondary hub I2C Bus 2
+        //colordriver = ahwMap.get(ColorSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
+        //distancedriver = ahwMap.get(DistanceSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
 
         leftDistance = ahwMap.get(DistanceSensor.class, "lDistance"); // drive hub I2C Bus 1
         rightDistance = ahwMap.get(DistanceSensor.class, "rDistance"); // secondary hub I2C Bus 1

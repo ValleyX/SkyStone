@@ -37,7 +37,7 @@ public class PlatformLaser
         {
             robot_.platformy.setPosition(0.26);
 
-            flippy_.GoToPosition(0.2, 0.6);
+            //flippy_.GoToPosition(0.2, 0.6);
             robot_.flippy.setPower(0.15);
         }
     }

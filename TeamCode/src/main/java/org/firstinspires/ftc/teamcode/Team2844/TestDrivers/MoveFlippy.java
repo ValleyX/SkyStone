@@ -18,7 +18,7 @@ public class MoveFlippy extends LinearOpMode
 
         waitForStart();
 
-        flippy.GoToPosition(0.2, 0.6);
+        //flippy.GoToPosition(0.2, 0.6);
         robot.flippy.setPower(0.15);
         /*
         System.out.println("ValleyX platform servo 1 " + robot.platformy.getPosition());

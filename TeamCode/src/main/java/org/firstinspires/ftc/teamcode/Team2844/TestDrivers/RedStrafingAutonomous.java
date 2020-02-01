@@ -137,7 +137,7 @@ public class RedStrafingAutonomous extends LinearOpMode {
 
         //sleep(5000);
 
-        flippy.GoToPosition(0.2, 0.6);
+        flippy.GoToPosition(0.2, 1, 0.6);
         robot.flippy.setPower(0.15);
 
         robot.rightGrabber.setPosition(0.4);
