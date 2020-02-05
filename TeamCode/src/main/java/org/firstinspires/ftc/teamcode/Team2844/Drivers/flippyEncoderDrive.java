@@ -103,6 +103,13 @@ public class flippyEncoderDrive
         }
     }
 
+    public void ResetEncoder()
+    {
+        robot_.flippy.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot_.flippy.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public boolean IsRunning() { return isRunning_; }
 
     //check if the motors have hit their target

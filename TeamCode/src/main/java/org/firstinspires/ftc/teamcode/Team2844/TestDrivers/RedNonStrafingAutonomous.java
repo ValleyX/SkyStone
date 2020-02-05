@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotateToHeading;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.flippyEncoderDrive;
 import org.firstinspires.ftc.teamcode.dogecvDetectors.BlackRectDetector;
 import org.firstinspires.ftc.teamcode.dogecvDetectors.SkyStone2Detector;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -45,6 +46,7 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
         //colorDriver = new ColorDriver(robot);
 
         EncoderDriveHeading encoderDriveHeading = new EncoderDriveHeading(robot);
+        flippyEncoderDrive flippyEncoderDrive = new flippyEncoderDrive(robot);
 
         //code for test bot only
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
@@ -143,6 +145,7 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
         robot.leftGrabber.setPosition(0.4);
         final double platformDownPos = 0.27;
         robot.platformy.setPosition(platformDownPos);
+        flippyEncoderDrive.MoveToEncoderValue(0.6, 0.0, 5, false);
 
         waitForStart();
 /*
@@ -162,8 +165,9 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
             telemetry.update();
         }
 */
+        double extra = 0;
 
-        while(opModeIsActive())
+        while (opModeIsActive())
         {
 
 
@@ -182,9 +186,10 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
                         rotateToHeading.DoIt(0);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDriveHeading.StartAction(0.9, 29, 0, 5, true);
-                        encoderDriveHeading.StartAction(0.3, 5, 0, 5, true);
-                        sleep(200);
+                        extra = 3;
+                        encoderDriveHeading.StartAction(0.9, 27, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 5+extra, 0, 5, true);
+                        sleep(300);
                         robot.rightIntake.setPower(0.0);
                         robot.leftIntake.setPower(0.0);
                         break;
@@ -196,9 +201,9 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
                         robot.platformy.setPosition(platformDownPos);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDriveHeading.StartAction(0.9, 29, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.9, 27, 0, 5, true);
                         encoderDriveHeading.StartAction(0.3, 5, 0, 5, true);
-                        sleep(200);
+                        sleep(300);
                         robot.rightIntake.setPower(0.0);
                         robot.leftIntake.setPower(0.0);
                         break;
@@ -213,9 +218,9 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
                         robot.platformy.setPosition(platformDownPos);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDriveHeading.StartAction(0.9, 28, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.9, 26, 0, 5, true);
                         encoderDriveHeading.StartAction(0.3, 5, 0, 5, true);
-                        sleep(200);
+                        sleep(300);
                         robot.rightIntake.setPower(0.0);
                         robot.leftIntake.setPower(0.0);
                         break;
@@ -238,8 +243,8 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
 
 
             // back up after getting stone
-            encoderDriveHeading.StartAction(0.9, -7, 0, 5, true);
-            sleep(1000);
+            encoderDriveHeading.StartAction(0.9, -6-extra, 0, 5, true);
+            //sleep(1000);
 
             // drive to foundation side
         /*
@@ -279,15 +284,15 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
             robot.platformy.setPosition(platformDownPos);
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
-            encoderDriveHeading.StartAction(0.3, 16,  heading, 5, true);
-            sleep(100);
+            encoderDriveHeading.StartAction(0.3, 15,  heading, 2, true);
+            sleep(300);
             robot.rightIntake.setPower(0.0);
             robot.leftIntake.setPower(0.0);
-            encoderDriveHeading.StartAction(0.9, -16, heading, 5, true);
+            encoderDriveHeading.StartAction(0.9, -15, heading, 5, true);
 
             robot.rightIntake.setPower(0.0);
             robot.leftIntake.setPower(0.0);
-            sleep(100);
+            sleep(300);
             rotateToHeading.DoIt(-90);
 
             // go back to foundation
@@ -295,16 +300,22 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
             //rotateToHeading.DoIt(-90);
             encoderDriveHeading.StartAction(0.9, -fromFoundationSide, -90, 5, true);
             rotateToHeading.DoIt(180);
-            encoderDriveHeading.StartAction(0.9, -toFoundation + 3, 180, 5, true);
-
             //slowly drive up and get foundation
-            encoderDriveHeading.StartAction(0.8, -5, 180, 5, true);
+            encoderDriveHeading.StartAction(0.3, -toFoundation + 2.5, 180, 5, true);
+
+
+            //encoderDriveHeading.StartAction(0.8, -5, 180, 5, true);
             robot.rightGrabber.setPosition(0.07);
             robot.leftGrabber.setPosition(0.07);
+            robot.rightIntake.setPower(-1.0);
+            robot.leftIntake.setPower(1.0);
 
-            sleep(300);
+            sleep(350);
 
-            //These lines will spin the foundation
+            robot.rightIntake.setPower(0);
+            robot.leftIntake.setPower(0);
+
+        //These lines will spin the foundation
             encoderDriveHeading.StartAction(1.0, 30, 180, 5, true);
             rotatePrecise.RotatePrecise(90, 2, 0.6, 0.3, 2);
             encoderDriveHeading.StartAction(1.0, -5, -90, 5, true);
@@ -312,18 +323,18 @@ public class RedNonStrafingAutonomous extends LinearOpMode {
             robot.rightGrabber.setPosition(0.75);
             robot.leftGrabber.setPosition(0.75);
 
-            robot.rightIntake.setPower(-1.0);
-            robot.leftIntake.setPower(1.0);
+            sleep(350);
 
-            encoderDrive.StartAction(1.0, 7, 7, 5, true);
+            //encoderDrive.StartAction(1.0, 7, 7, 5, true);
 
-            rotateToHeading.DoIt(-90);
+            //rotateToHeading.DoIt(-90);
 
-            Strafing.Strafe(1.0, 26, 5, true);
-
-            encoderDriveHeading.StartAction(1.0, 32, -90, 5, true);
+            Strafing.Strafe(1.0, 12, 5, true);
 
             //Add code here to park on line
+            encoderDriveHeading.StartAction(1.0, 37, -90, 5, true);
+
+
         }
     }
 

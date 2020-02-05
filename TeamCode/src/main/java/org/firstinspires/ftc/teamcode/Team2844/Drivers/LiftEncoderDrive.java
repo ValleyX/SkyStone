@@ -103,6 +103,13 @@ public class LiftEncoderDrive
         }
     }
 
+    public void ResetEncoder()
+    {
+        robot_.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        robot_.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
     public boolean IsRunning() { return isRunning_; }
 
     //check if the motors have hit their target
@@ -137,8 +144,7 @@ public class LiftEncoderDrive
     }
 
     public void MoveToEncoderValue
-            (
-            double speed,
+            (double speed,
             double inchesFromBottom,
             double timeoutS,
             boolean waiting)

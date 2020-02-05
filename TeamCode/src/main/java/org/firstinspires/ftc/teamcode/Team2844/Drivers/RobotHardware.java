@@ -84,7 +84,8 @@ public class RobotHardware
     public DistanceSensor leftDistance;
     public DistanceSensor rightDistance;
     public DistanceSensor bucketLazery;
-    public TouchSensor    touch;
+    public TouchSensor    touchlift;
+    public TouchSensor    touchFlippy;
     public DcMotor        flippy;
     public AnalogInput    flippyPot;
 
@@ -122,7 +123,9 @@ public class RobotHardware
 
         bucketLazery = ahwMap.get(DistanceSensor.class, "lazery"); // secondary hub I2C Bus 0
 
-        touch = ahwMap.get(TouchSensor.class, "touch"); // secondary hub Digital Devices 1
+        touchlift = ahwMap.get(TouchSensor.class, "touchlift"); // secondary hub Digital Devices 0
+
+        touchFlippy = ahwMap.get(TouchSensor.class, "touchFlippy"); // seoncdary hub Digital devices 6
 
         // Define and Initialize Motors
         rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // drive hub motor 0
