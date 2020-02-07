@@ -25,7 +25,7 @@ public class DriverControls extends LinearOpMode
     flippyEncoderDrive flippyEncoderDrive;
     FlippyDriver flippyDriver;
 
-    public void DriveWhileWaiting(double timeoutMS)
+    public void DriveWhileWaiting(double timeoutMS, boolean waitingForLift)
     {
         float leftStickY;
         float rightStickY;
@@ -36,13 +36,19 @@ public class DriverControls extends LinearOpMode
         System.out.println("ValleyX: Is running " + liftEncoderDrive.IsRunning());
         runtime_.reset();
 
-        while (opModeIsActive() && ((runtime_.milliseconds() < timeoutMS) || (liftEncoderDrive.IsRunning())))
+        while (opModeIsActive() && ((runtime_.milliseconds() < timeoutMS) || (liftEncoderDrive.IsRunning() || waitingForLift)))
         {
             if (liftEncoderDrive.IsRunning()) {
                 System.out.println("ValleyX: In checking for lift done");
                 if (liftEncoderDrive.IsActionDone()) {
                     liftEncoderDrive.StopAction();
+
+                    //TODO may need to see if going up and only turn these if so
+                    robot.rightIntake.setPower(0.0);
+                    robot.leftIntake.setPower(0.0);
+
                     System.out.println("ValleyX: Lift is done");
+                    break;
                 }
             }
 
@@ -137,6 +143,8 @@ public class DriverControls extends LinearOpMode
 
         double liftPosition = 0;
 
+        boolean isClawOpen;
+
         //robot.swingy.setPosition(arm0);
         //robot.twistyClaw.setPosition(claw0);
         //robot.clawy.setPosition(clawopeninside);
@@ -146,30 +154,44 @@ public class DriverControls extends LinearOpMode
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
+
+        robot.clawy.setPosition(0.1);
+        isClawOpen = false;
+
         waitForStart();
 
         robot.platformy.setPosition(platformyDown);
         //liftEncoderDrive.MoveToEncoderValue(0.6, 10, 5, true);
 
         boolean flippystateIsPressed = false;
-        boolean lifestateIsPressed = false;
+        boolean liftstateIsPressed = false;
 
         while (opModeIsActive())
         {
+/*
             if (FlippyTouchIsPressed() && !flippystateIsPressed)
             {
                 flippystateIsPressed = true;
+                System.out.println("ValleyX flippystateIsPressed = true");
                 //flippyEncoderDrive.ResetEncoder();
-                //flippyEncoderDrive.MoveToEncoderValue(0.2, 0.0, 5, false);
             }
             else if (!FlippyTouchIsPressed()) {
                 flippystateIsPressed = false;
-            }
-            if (LiftTouchIsPressed())
-            {
-                //liftEncoderDrive.ResetEncoder();
+                System.out.println("ValleyX flippystateIsPressed = false");
             }
 
+            if (LiftTouchIsPressed() && !liftstateIsPressed)
+            {
+                liftstateIsPressed = true;
+                System.out.println("ValleyX liftstateIsPressed = true");
+                //liftEncoderDrive.ResetEncoder();
+            }
+            else if (LiftTouchIsPressed())
+            {
+                liftstateIsPressed = false;
+                System.out.println("ValleyX liftstateIsPressed = false");
+            }
+*/
             /////////////////////////////GAMEPAD1//////////////////////////////////
 
             //driving forward/backward
@@ -277,7 +299,7 @@ public class DriverControls extends LinearOpMode
             double maxlevel = 34;
 
             double clawopen = 0.1; //0.0
-            double clawclose = 0.55; //0.37
+            double clawclose = 0.45; //0.37 //0.55
 
             // moving up or down levels at a time
             if (gamepad2.dpad_up)
@@ -289,16 +311,21 @@ public class DriverControls extends LinearOpMode
                        robot.rightIntake.setPower(1.0);
                        robot.leftIntake.setPower(-1.0);
                        robot.platformy.setPosition(platformyFlat);
-                       sleep(2000);
+                       //sleep(1000);
+                       DriveWhileWaiting(300, false);
                        robot.clawy.setPosition(clawclose);
-                       sleep(5000);
+                       isClawOpen = false;
+                       DriveWhileWaiting(300, false);
                    }
+                    flippyEncoderDrive.MoveToEncoderValue(0.6, 0.2, 5, false);
+                    DriveWhileWaiting(300, false);
+
                     liftPosition = liftPosition + oneLevel;
 
-                    liftEncoderDrive.MoveToEncoderValue(0.6, liftPosition,
-                            5, true);
-                    robot.rightIntake.setPower(0.0);
-                    robot.leftIntake.setPower(0.0);
+                    liftEncoderDrive.MoveToEncoderValue(0.9, liftPosition, 5, false);
+                    DriveWhileWaiting(300, true);
+                    //robot.rightIntake.setPower(0.0);
+                    //robot.leftIntake.setPower(0.0);
 
                 }
             }
@@ -308,8 +335,8 @@ public class DriverControls extends LinearOpMode
                 {
                     liftPosition = liftPosition - oneLevel;
 
-                    liftEncoderDrive.MoveToEncoderValue(0.6, liftPosition,
-                            5, true);
+                    liftEncoderDrive.MoveToEncoderValue(0.6, liftPosition,5, false);
+                    DriveWhileWaiting(300, true);
                 }
             }
 
@@ -317,14 +344,18 @@ public class DriverControls extends LinearOpMode
             if (gamepad2.a)
             {
                 robot.clawy.setPosition(clawclose);
-                sleep(600);
+                isClawOpen = false;
+                //sleep(600);
+                DriveWhileWaiting(400, false);
                 //flippyEncoderDrive.MoveToEncoderValue(0.2, flippyOut, 5, false);
                 liftPosition = 0;
-                liftEncoderDrive.MoveToEncoderValue(0.6, liftPosition, 5, true);
                 flippyEncoderDrive.MoveToEncoderValue(0.3, flippyIn, 5, false);
+                liftEncoderDrive.MoveToEncoderValue(0.6, liftPosition, 5, false);
+                DriveWhileWaiting(500, true);
                 //sleep(600);
                 //robot.clawy.setPosition(clawopen);
-                robot.platformy.setPosition(platformyDown);
+                //JM just took out 4:04 2-5-2020
+                //robot.platformy.setPosition(platformyDown);
             }
 
             // flipping the arm outside the bot (level one/swing out)
@@ -335,9 +366,12 @@ public class DriverControls extends LinearOpMode
                     robot.rightIntake.setPower(1.0);
                     robot.leftIntake.setPower(-1.0);
                     robot.platformy.setPosition(platformyFlat);
-                    sleep(400);
+                    //sleep(400);
+                    DriveWhileWaiting(400, false);
                     robot.clawy.setPosition(clawclose);
-                    sleep(400);
+                    isClawOpen = false;
+                    //sleep(400);
+                    DriveWhileWaiting(400, false);
                 }
                 flippyEncoderDrive.MoveToEncoderValue(0.2, flippyOut, 5, false);
                 robot.rightIntake.setPower(0.0);
@@ -348,10 +382,19 @@ public class DriverControls extends LinearOpMode
             if (leftBumper)
             {
                 robot.clawy.setPosition(clawopen);
+                DriveWhileWaiting(300, false);
+                if (((liftPosition + oneLevel) < maxlevel) && (isClawOpen == false)) {
+                    liftPosition = liftPosition + oneLevel;
+
+                    liftEncoderDrive.MoveToEncoderValue(0.9, liftPosition, 5, false);
+                    DriveWhileWaiting(300, true);
+                }
+                isClawOpen = true;
             }
             if (rightBumper)
             {
                 robot.clawy.setPosition(clawclose);
+                isClawOpen = false;
             }
 
             // intake
@@ -359,6 +402,7 @@ public class DriverControls extends LinearOpMode
             {
                 robot.platformy.setPosition(platformyDown);
                 robot.clawy.setPosition(clawopen);
+                isClawOpen = true;
                 robot.rightIntake.setPower(rightTrigger2);
                 robot.leftIntake.setPower(-rightTrigger2);
             }
@@ -366,6 +410,7 @@ public class DriverControls extends LinearOpMode
             {
                 robot.platformy.setPosition(platformyDown);
                 robot.clawy.setPosition(clawopen);
+                isClawOpen = true;
                 robot.rightIntake.setPower(-leftTrigger2);
                 robot.leftIntake.setPower(leftTrigger2);
             }

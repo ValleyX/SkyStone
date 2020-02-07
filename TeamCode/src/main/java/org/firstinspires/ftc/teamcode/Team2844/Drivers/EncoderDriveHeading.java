@@ -15,7 +15,7 @@ public class EncoderDriveHeading
     //static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     //static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
 //    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.02;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.08;     // Larger is more responsive, but also less stable
 
     private RobotHardware robot_;
     private ElapsedTime runtime_;
