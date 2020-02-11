@@ -99,11 +99,11 @@ public class DriverControls extends LinearOpMode
 
     public boolean LiftTouchIsPressed()
     {
-        return !robot.touchlift.isPressed();
+        return !robot.touchlift.getState();
     }
     public boolean FlippyTouchIsPressed()
     {
-        return !robot.touchFlippy.isPressed();
+        return !robot.touchFlippy.getState();
     }
 
     @Override
@@ -168,14 +168,18 @@ public class DriverControls extends LinearOpMode
 
         while (opModeIsActive())
         {
-/*
+            //System.out.println("ValleyX flippy" + FlippyTouchIsPressed());
+            //System.out.println("ValleyX lift" + LiftTouchIsPressed());
+
             if (FlippyTouchIsPressed() && !flippystateIsPressed)
             {
                 flippystateIsPressed = true;
                 System.out.println("ValleyX flippystateIsPressed = true");
-                //flippyEncoderDrive.ResetEncoder();
+                if (gamepad2.right_stick_y > 0) {
+                    flippyEncoderDrive.ResetEncoder();
+                }
             }
-            else if (!FlippyTouchIsPressed()) {
+            else if (!FlippyTouchIsPressed() && flippystateIsPressed) {
                 flippystateIsPressed = false;
                 System.out.println("ValleyX flippystateIsPressed = false");
             }
@@ -184,14 +188,14 @@ public class DriverControls extends LinearOpMode
             {
                 liftstateIsPressed = true;
                 System.out.println("ValleyX liftstateIsPressed = true");
-                //liftEncoderDrive.ResetEncoder();
+                liftEncoderDrive.ResetEncoder();
             }
-            else if (LiftTouchIsPressed())
+            else if (!LiftTouchIsPressed() && liftstateIsPressed)
             {
                 liftstateIsPressed = false;
                 System.out.println("ValleyX liftstateIsPressed = false");
             }
-*/
+
             /////////////////////////////GAMEPAD1//////////////////////////////////
 
             //driving forward/backward
@@ -421,7 +425,11 @@ public class DriverControls extends LinearOpMode
             }
 
             robot.lift.setPower(-gamepad2.left_stick_y);
-            //robot.flippy.setPower(-gamepad2.right_stick_y);
+            if (gamepad2.right_stick_y != 0.0) {
+                robot.clawy.setPosition(clawclose);
+                flippyEncoderDrive.StopAction();
+                robot.flippy.setPower(-gamepad2.right_stick_y);
+            }
 
 /*
             // reset everything

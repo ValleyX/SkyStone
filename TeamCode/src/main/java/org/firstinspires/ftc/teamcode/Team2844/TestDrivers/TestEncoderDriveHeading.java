@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -14,6 +15,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDriveHeadi
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.VuforiaPosition;
 
 @TeleOp(name="Test: TestEncoderDriveHeading", group="Test")
+@Disabled
 public class TestEncoderDriveHeading  extends LinearOpMode {
 
     public void runOpMode() // need to test

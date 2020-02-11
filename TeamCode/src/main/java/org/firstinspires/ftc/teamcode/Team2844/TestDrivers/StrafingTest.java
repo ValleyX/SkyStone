@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -10,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
 
 @Autonomous(name="Test: Strafing", group="Test")
-
+@Disabled
 public class StrafingTest extends LinearOpMode
 {
     public void runOpMode()

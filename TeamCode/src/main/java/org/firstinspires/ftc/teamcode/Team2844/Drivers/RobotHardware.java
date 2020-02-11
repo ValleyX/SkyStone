@@ -37,12 +37,14 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.vuforia.PositionalDeviceTracker;
 
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
 import org.firstinspires.ftc.robotcore.internal.opengl.models.Teapot;
 
 /**
@@ -84,8 +86,10 @@ public class RobotHardware
     public DistanceSensor leftDistance;
     public DistanceSensor rightDistance;
     public DistanceSensor bucketLazery;
-    public TouchSensor    touchlift;
-    public TouchSensor    touchFlippy;
+    //public TouchSensor    touchlift;
+    //public TouchSensor    touchFlippy;
+    public DigitalChannel touchlift;
+    public DigitalChannel touchFlippy;
     public DcMotor        flippy;
     public AnalogInput    flippyPot;
 
@@ -123,9 +127,14 @@ public class RobotHardware
 
         bucketLazery = ahwMap.get(DistanceSensor.class, "lazery"); // secondary hub I2C Bus 0
 
-        touchlift = ahwMap.get(TouchSensor.class, "touchlift"); // secondary hub Digital Devices 0
+        touchlift = ahwMap.get(DigitalChannel.class, "touchlift");
+        // set the digital channel to input.
+        touchlift.setMode(DigitalChannel.Mode.INPUT);
 
-        touchFlippy = ahwMap.get(TouchSensor.class, "touchFlippy"); // seoncdary hub Digital devices 6
+        touchFlippy = ahwMap.get(DigitalChannel.class, "touchFlippy");
+        // set the digital channel to input.
+        touchFlippy.setMode(DigitalChannel.Mode.INPUT);
+        //touchFlippy = ahwMap.get(TouchSensor.class, "touchFlippy"); // seoncdary hub Digital devices 6
 
         // Define and Initialize Motors
         rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // drive hub motor 0

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Team2844;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.VuforiaPosition;
 
 @Autonomous(name="Red SkyStone Autonomous", group="Autonomous")
-//@Disabled
+@Disabled
 public class RedSkyStoneAutonomous extends LinearOpMode
 {
     @Override

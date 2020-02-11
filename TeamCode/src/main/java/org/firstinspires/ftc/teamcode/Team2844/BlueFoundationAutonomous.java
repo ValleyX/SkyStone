@@ -40,7 +40,8 @@ public class BlueFoundationAutonomous extends LinearOpMode
 
         System.out.println("ValleyX: Move backwards 28 inches ");
 //        encoderDrive.StartAction(0.4, -29.5, -29.5, 5.0, true);
-        encoderDriveHeading.StartAction(0.4, -30, 0, 5, true);
+        encoderDriveHeading.StartAction(0.4, -25, 0, 5, true); //-30
+        encoderDriveHeading.StartAction(0.2, -5, 0, 5, true);
 
         //System.out.println("ValleyX strafing right 9 inches");
         //Strafing.Strafe(0.6, 9, 5, true);

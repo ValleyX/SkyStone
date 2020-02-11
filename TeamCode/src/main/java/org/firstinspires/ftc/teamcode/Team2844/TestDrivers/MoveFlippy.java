@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.FlippyDriver;
@@ -8,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 
 @Autonomous(name="MoveFlippy", group="Test")
-
+@Disabled
 public class MoveFlippy extends LinearOpMode
 {
     public void runOpMode()

@@ -24,7 +24,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 
 @Autonomous(name = "Test: SkystoneRetrievalDoge", group ="Test")
-//@Disabled
+@Disabled
 public class SkystoneRetrieval extends LinearOpMode {
     //ColorDriver colorDriver;
     EncoderDrive encoderDrive;

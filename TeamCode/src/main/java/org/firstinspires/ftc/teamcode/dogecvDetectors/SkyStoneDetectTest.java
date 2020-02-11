@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.dogecvDetectors;
 import com.disnodeteam.dogecv.DigitalCamera;
 import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
 import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -16,6 +17,7 @@ import org.openftc.easyopencv.OpenCvWebcam;
 
 
 @TeleOp(name="SKYSTONE Detect Test", group ="Test")
+@Disabled
 public class SkyStoneDetectTest extends LinearOpMode {
 
     //DigitalCamera digitalCamera = new DigitalCamera()
