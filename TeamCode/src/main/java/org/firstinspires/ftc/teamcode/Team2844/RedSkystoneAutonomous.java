@@ -146,10 +146,11 @@ public class RedSkystoneAutonomous extends LinearOpMode {
 
         robot.rightGrabber.setPosition(0.4);
         robot.leftGrabber.setPosition(0.4);
+        //final double platformDownPos = 0.27;
         final double platformDownPos = 0.27;
         final double platformyFlat = 0.57;
         robot.platformy.setPosition(platformDownPos);
-        flippyEncoderDrive.MoveToEncoderValue(0.9, 0.0, 5, false);
+        flippyEncoderDrive.MoveToEncoderValue(0.2, 0.04, 5, false);
 
 
         final int headingduh = -90;
@@ -188,6 +189,7 @@ public class RedSkystoneAutonomous extends LinearOpMode {
 
         while (opModeIsActive())
         {
+            /* old
                 if (skystoneDetector.isDetected()) {
                     //webcam.setPipeline(null);
                     phoneCam.setPipeline(null);
@@ -198,7 +200,7 @@ public class RedSkystoneAutonomous extends LinearOpMode {
                         telemetry.addData("stone found left", stoneXValue);
                         System.out.println("ValleyX stone found left " + stoneXValue);
                         skystone = 2;
-                        rotateToHeading.DoIt(0);
+                        //rotateToHeading.DoIt(0);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
                         extra = 0;
@@ -259,12 +261,88 @@ public class RedSkystoneAutonomous extends LinearOpMode {
                     }
                 } else {
                     telemetry.addLine("Sky stone not found");
+                }*/
+                //new
+                if (skystoneDetector.isDetected()) {
+                    //webcam.setPipeline(null);
+                    phoneCam.setPipeline(null);
+                    telemetry.addData("Skystone found X Y", "%d %d",
+                            skystoneDetector.foundRectangle().x, skystoneDetector.foundRectangle().y);
+                    int stoneXValue = skystoneDetector.foundRectangle().x;
+                    if (leftXLine > stoneXValue) {
+                        telemetry.addData("stone found left", stoneXValue);
+                        System.out.println("ValleyX stone found left " + stoneXValue);
+                        skystone = 2;
+                        //rotateToHeading.DoIt(0);
+                        robot.rightIntake.setPower(1.0);
+                        robot.leftIntake.setPower(-1.0);
+                        extra = 0;
+                        encoderDriveHeading.StartAction(0.5, 30, -15, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 5, 50, 1, true);
+                        robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+                        sleep(400);
+                        robot.platformy.setPosition(platformyFlat);
+                        encoderDriveHeading.StartAction(0.9, -5.5, 0, 5, true);
+
+                        //robot.rightIntake.setPower(0.0);
+                        //robot.leftIntake.setPower(0.0);
+                        break;
+                    }
+                    if (leftXLine < stoneXValue && stoneXValue < rightXLine) {
+                        telemetry.addData("stone found middle", stoneXValue);
+                        System.out.println("ValleyX stone found middle " + stoneXValue);
+                        skystone = 1;
+
+
+                        robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.rightIntake.setPower(1.0);
+                        robot.leftIntake.setPower(-1.0);
+
+                        encoderDriveHeading.StartAction(0.5, 27, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 15, 0, 2, true);
+                        //encoderDriveHeading.StartAction(0.5, 32, 0, 5, true);
+                        sleep(400);
+                        robot.platformy.setPosition(platformyFlat);
+                        encoderDriveHeading.StartAction(0.9, -15.5, 0, 5, true);
+
+                        break;
+                    }
+                    if (stoneXValue > rightXLine) {
+                        telemetry.addData("stone found right", stoneXValue);
+                        System.out.println("ValleyX stone found right " + stoneXValue);
+                        skystone = 0;
+
+                        robot.rightIntake.setPower(1.0);
+                        robot.leftIntake.setPower(-1.0);
+                        encoderDriveHeading.StartAction(0.5, 30, 15, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 5, -50, 1, true);
+                        robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        sleep(400);
+                        robot.platformy.setPosition(platformyFlat);
+                        encoderDriveHeading.StartAction(0.9, -5.5, 0, 5, true);
+
+                        break;
+                    }
+                } else {
+                    telemetry.addLine("Sky stone not found");
                 }
+
                 telemetry.update();
                 //webcam.setPipeline(skystoneDetector);
                 phoneCam.setPipeline(skystoneDetector);
                 idle();
             }
+
 
             double FudgeFactor = 1;
             double stoneSize = 8;
@@ -272,33 +350,44 @@ public class RedSkystoneAutonomous extends LinearOpMode {
             double toFoundationSide = fixedAmount + (skystone * stoneSize);
             double fromFoundationSide = toFoundationSide + (3 * stoneSize) + FudgeFactor;
             double toFoundation = 10;
+            double toGlass = (3 * stoneSize) - (skystone * stoneSize) - 5;
 
-            // back up after getting stone
-            rotateToHeading.DoIt(headingduh);
+            flippyEncoderDrive.MoveToEncoderValue(0.2, 0.01, 5, false);
+
+            //rotateToHeading.DoIt(headingduh);
+            //faster spin
+            rotateToHeading.DoItSpecify(headingduh, 4, 0.7, 0.3, 4);
+
             robot.clawy.setPosition(clawclose);
 
             encoderDriveHeading.StartAction(.95, -toFoundationSide, headingduh, 10, true);
 
             // drop off block
 
-            //flippyEncoderDrive.MoveToEncoderValue(0.2, 0.4, 5, false);
+            //flippyEncoderDrive.MoveToEncoderValue(0.4, 0.4, 5, false);
+            //move blocks
 
-            rotateToHeading.DoIt(180);
+            rotateToHeading.DoItSpecify(180, 4, 0.7, 0.3, 3);
 
             robot.clawy.setPosition(clawopen);
+            sleep(300);
 
+            //rotateToHeading.DoIt(headingduh);
+            //faster
+            rotateToHeading.DoItSpecify(headingduh, 4, 0.7, 0.3, 4);
 
-            rotateToHeading.DoIt(headingduh);
             robot.clawy.setPosition(clawclose);
-            sleep(400);
 
             //flippyEncoderDrive.MoveToEncoderValue(0.2, 0.0, 5, false);
+            sleep(400);
+            robot.clawy.setPosition(clawopen); /////////////////////////////////////////////////////////////////////////////////////
 
 
             //move back
             encoderDriveHeading.StartAction(.95, fromFoundationSide, headingduh, 5, true);
+
             //move to glass
-            encoderDriveHeading.StartAction(0.3, 16, headingduh, 3, true);
+            encoderDriveHeading.StartAction(0.3, toGlass, headingduh, 1.5, true);
 
             //do this for middle and right (on skystone side)
             encoderDriveHeading.StartAction(0.3, ((2-skystone) * -stoneSize) + 6, headingduh, 2, true);
@@ -306,15 +395,62 @@ public class RedSkystoneAutonomous extends LinearOpMode {
             robot.platformy.setPosition(platformDownPos);
             rotateToHeading.DoIt(0); // turning to grab block
 
-/*
-
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
             encoderDriveHeading.StartAction(0.3, 15,  0, 2, true);
-            sleep(300);
-            //robot.rightIntake.setPower(0.0);
-            //robot.leftIntake.setPower(0.0);
+            sleep(400);
+            robot.platformy.setPosition(platformyFlat);
             encoderDriveHeading.StartAction(0.9, -15, 0, 5, true);
+
+            rotateToHeading.DoItSpecify(headingduh, 4, 0.6, 0.3, 5);
+
+            encoderDriveHeading.StartAction(0.95, -toFoundationSide - 17, headingduh, 5, true);
+
+            rotateToHeading.DoIt(180);
+
+            encoderDriveHeading.StartAction(0.3, -toFoundation, 180, 1.5, true);
+            robot.rightGrabber.setPosition(0.07);
+            robot.leftGrabber.setPosition(0.07);
+            sleep(300);
+
+            //These lines will spin the foundation
+            encoderDriveHeading.StartAction(1.0, 30, 180, 5, true);
+            robot.clawy.setPosition(0.45);
+            rotateToHeading.DoItSpecify(headingduh, 2, 0.6, 0.3, 2);
+
+            robot.rightGrabber.setPosition(0.75);
+            robot.leftGrabber.setPosition(0.75);
+
+
+            encoderDriveHeading.StartAction(1.0, 24, headingduh+10, 5, true);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             //robot.rightIntake.setPower(0.0);
             //robot.leftIntake.setPower(0.0);

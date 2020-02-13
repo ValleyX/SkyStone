@@ -86,8 +86,6 @@ public class RobotHardware
     public DistanceSensor leftDistance;
     public DistanceSensor rightDistance;
     public DistanceSensor bucketLazery;
-    //public TouchSensor    touchlift;
-    //public TouchSensor    touchFlippy;
     public DigitalChannel touchlift;
     public DigitalChannel touchFlippy;
     public DcMotor        flippy;
@@ -97,7 +95,7 @@ public class RobotHardware
 
     private final double    COUNTS_PER_MOTOR_REV        = 28;    //  AndyMark Motor Encoder
     private final double    DRIVE_GEAR_REDUCTION        = 19.2;     // This is < 1.0 if geared UP
-    private final double    DRIVE_GEAR_REDUCTION_LIFT   = 40;
+    private final double    DRIVE_GEAR_REDUCTION_LIFT   = 60;
     private final double    DRIVE_GEAR_REDUCTION_FLIPPY = 60;
     private final double    WHEEL_DIAMETER_INCHES       = 4.0;
     private final double    STRAFING_WHEEL_WIDTH        = 11.0; //FIND
@@ -122,7 +120,7 @@ public class RobotHardware
         //colordriver = ahwMap.get(ColorSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
         //distancedriver = ahwMap.get(DistanceSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
 
-        leftDistance = ahwMap.get(DistanceSensor.class, "lDistance"); // drive hub I2C Bus 1
+        //leftDistance = ahwMap.get(DistanceSensor.class, "lDistance"); // drive hub I2C Bus 1
         rightDistance = ahwMap.get(DistanceSensor.class, "rDistance"); // secondary hub I2C Bus 1
 
         bucketLazery = ahwMap.get(DistanceSensor.class, "lazery"); // secondary hub I2C Bus 0

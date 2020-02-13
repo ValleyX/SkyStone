@@ -23,21 +23,16 @@ public class PlatformLaser
         flippy_ = flippy;
     }
 
-    public void StartAction(double laser,
-                            double timeoutS,
-                            boolean waiting)//are we returned only when complete?
+    public void StartAction()
     {
         if (robot_.bucketLazery.getDistance(DistanceUnit.INCH) < 0.5)
         {
             robot_.platformy.setPosition(0.57);
-
-            //grab block w arm
         }
         else
         {
             robot_.platformy.setPosition(0.26);
 
-            //flippy_.GoToPosition(0.2, 0.6);
             robot_.flippy.setPower(0.15);
         }
     }

@@ -150,7 +150,7 @@ public class DriverControls extends LinearOpMode
         //robot.clawy.setPosition(clawopeninside);
         //robot.platformy.setPosition(platformyFlat);
 
-        flippyEncoderDrive.MoveToEncoderValue(0.6, 0.0, 5, false);
+        flippyEncoderDrive.MoveToEncoderValue(0.6, 0.05, 5, false);
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
