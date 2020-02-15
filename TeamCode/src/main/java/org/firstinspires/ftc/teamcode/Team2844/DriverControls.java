@@ -25,7 +25,7 @@ public class DriverControls extends LinearOpMode
     flippyEncoderDrive flippyEncoderDrive;
     FlippyDriver flippyDriver;
 
-    public void DriveWhileWaiting(double timeoutMS, boolean waitingForLift)
+    public void DriveWhileWaiting(double timeoutMS, boolean waitingForLift, boolean waitingForFlippy)
     {
         float leftStickY;
         float rightStickY;
@@ -36,7 +36,9 @@ public class DriverControls extends LinearOpMode
         System.out.println("ValleyX: Is running " + liftEncoderDrive.IsRunning());
         runtime_.reset();
 
-        while (opModeIsActive() && ((runtime_.milliseconds() < timeoutMS) || (liftEncoderDrive.IsRunning() || waitingForLift)))
+        while (opModeIsActive() && ((runtime_.milliseconds() < timeoutMS) ||
+                (liftEncoderDrive.IsRunning() || waitingForLift) ||
+                (flippyEncoderDrive.IsRunning() || waitingForFlippy)))
         {
             if (liftEncoderDrive.IsRunning()) {
                 System.out.println("ValleyX: In checking for lift done");
@@ -48,6 +50,20 @@ public class DriverControls extends LinearOpMode
                     robot.leftIntake.setPower(0.0);
 
                     System.out.println("ValleyX: Lift is done");
+                    break;
+                }
+            }
+
+            if (flippyEncoderDrive.IsRunning()) {
+                System.out.println("ValleyX: In checking for flippy done");
+                if (flippyEncoderDrive.IsActionDone()) {
+                    flippyEncoderDrive.StopAction();
+
+                    //TODO may need to see if going up and only turn these if so
+                    //robot.rightIntake.setPower(0.0);
+                    //robot.leftIntake.setPower(0.0);
+
+                    System.out.println("ValleyX: Flippy is done");
                     break;
                 }
             }
@@ -150,15 +166,15 @@ public class DriverControls extends LinearOpMode
         //robot.clawy.setPosition(clawopeninside);
         //robot.platformy.setPosition(platformyFlat);
 
-        flippyEncoderDrive.MoveToEncoderValue(0.6, 0.05, 5, false);
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
 
-        robot.clawy.setPosition(0.1);
+        robot.clawy.setPosition(0.45); // open
         isClawOpen = false;
 
         waitForStart();
+        //flippyEncoderDrive.MoveToEncoderValue(1.0, 0.05, 5, true);
 
         robot.platformy.setPosition(platformyDown);
         //liftEncoderDrive.MoveToEncoderValue(0.6, 10, 5, true);
@@ -200,9 +216,9 @@ public class DriverControls extends LinearOpMode
 
             //driving forward/backward
             leftStickY = -gamepad1.left_stick_y; // game pad says up is neg
-            telemetry.addData("leftY", leftStickY);
+            //telemetry.addData("leftY", leftStickY);
             rightStickY = -gamepad1.right_stick_y; // game pad says up is neg
-            telemetry.addData("rightY", rightStickY);
+            //telemetry.addData("rightY", rightStickY);
             //telemetry.update();
 
             leftTrigger = gamepad1.left_trigger;
@@ -316,18 +332,18 @@ public class DriverControls extends LinearOpMode
                        robot.leftIntake.setPower(-1.0);
                        robot.platformy.setPosition(platformyFlat);
                        //sleep(1000);
-                       DriveWhileWaiting(300, false);
+                       DriveWhileWaiting(300, false, false);
                        robot.clawy.setPosition(clawclose);
                        isClawOpen = false;
-                       DriveWhileWaiting(300, false);
+                       DriveWhileWaiting(300, false, false);
                    }
-                    flippyEncoderDrive.MoveToEncoderValue(0.6, 0.2, 5, false);
-                    DriveWhileWaiting(300, false);
+                    flippyEncoderDrive.MoveToEncoderValue(1.0, 0.2, 5, false);
+                    DriveWhileWaiting(300, false, true);
 
                     liftPosition = liftPosition + oneLevel;
 
                     liftEncoderDrive.MoveToEncoderValue(0.9, liftPosition, 5, false);
-                    DriveWhileWaiting(300, true);
+                    DriveWhileWaiting(300, true, false);
                     //robot.rightIntake.setPower(0.0);
                     //robot.leftIntake.setPower(0.0);
 
@@ -340,7 +356,7 @@ public class DriverControls extends LinearOpMode
                     liftPosition = liftPosition - oneLevel;
 
                     liftEncoderDrive.MoveToEncoderValue(0.6, liftPosition,5, false);
-                    DriveWhileWaiting(300, true);
+                    DriveWhileWaiting(300, true, false);
                 }
             }
 
@@ -350,12 +366,13 @@ public class DriverControls extends LinearOpMode
                 robot.clawy.setPosition(clawclose);
                 isClawOpen = false;
                 //sleep(600);
-                DriveWhileWaiting(400, false);
+                DriveWhileWaiting(400, false, false);
                 //flippyEncoderDrive.MoveToEncoderValue(0.2, flippyOut, 5, false);
                 liftPosition = 0;
-                flippyEncoderDrive.MoveToEncoderValue(0.3, flippyIn, 5, false);
+                flippyEncoderDrive.MoveToEncoderValue(1.0, flippyIn, 5, false);
                 liftEncoderDrive.MoveToEncoderValue(0.6, liftPosition, 5, false);
-                DriveWhileWaiting(500, true);
+                DriveWhileWaiting(500, false, true);
+                DriveWhileWaiting(500, true, false);
                 //sleep(600);
                 //robot.clawy.setPosition(clawopen);
                 //JM just took out 4:04 2-5-2020
@@ -371,13 +388,14 @@ public class DriverControls extends LinearOpMode
                     robot.leftIntake.setPower(-1.0);
                     robot.platformy.setPosition(platformyFlat);
                     //sleep(400);
-                    DriveWhileWaiting(400, false);
+                    DriveWhileWaiting(400, false, false);
                     robot.clawy.setPosition(clawclose);
                     isClawOpen = false;
                     //sleep(400);
-                    DriveWhileWaiting(400, false);
+                    DriveWhileWaiting(400, false, false);
                 }
-                flippyEncoderDrive.MoveToEncoderValue(0.2, flippyOut, 5, false);
+                flippyEncoderDrive.MoveToEncoderValue(1.0, flippyOut, 5, false);
+                DriveWhileWaiting(600,false, true);
                 robot.rightIntake.setPower(0.0);
                 robot.leftIntake.setPower(0.0);
             }
@@ -386,12 +404,12 @@ public class DriverControls extends LinearOpMode
             if (leftBumper)
             {
                 robot.clawy.setPosition(clawopen);
-                DriveWhileWaiting(300, false);
+                DriveWhileWaiting(300, false, false);
                 if (((liftPosition + oneLevel) < maxlevel) && (isClawOpen == false)) {
                     liftPosition = liftPosition + oneLevel;
 
                     liftEncoderDrive.MoveToEncoderValue(0.9, liftPosition, 5, false);
-                    DriveWhileWaiting(300, true);
+                    DriveWhileWaiting(300, true, false);
                 }
                 isClawOpen = true;
             }
@@ -608,7 +626,7 @@ public class DriverControls extends LinearOpMode
                 }
             }
 */
-            telemetry.update();
+           // telemetry.update();
             idle();
         }
     }

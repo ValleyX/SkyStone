@@ -4,6 +4,7 @@ import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDriveHeading;
@@ -25,18 +26,14 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 @Autonomous(name = "RedSkystoneAutonomous", group ="Test")
 //@Disabled
 public class RedSkystoneAutonomous extends LinearOpMode {
-    //ColorDriver colorDriver;
     EncoderDrive encoderDrive;
     RobotHardware robot;
     FlippyDriver flippy;
     EncoderDriveHeading encoderDriveHeading;
-    //DigitalCamera digitalCamera = new DigitalCamera()
-    // SkystoneDetector skystoneDetector;
     SkyStone2Detector skystoneDetector;
     StoneDetector stoneDetector;
     BlackRectDetector blackRectDetector;
     OpenCvCamera phoneCam;
-//    OpenCvCamera webcam;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -44,17 +41,14 @@ public class RedSkystoneAutonomous extends LinearOpMode {
         EncoderDrive encoderDrive = new EncoderDrive(robot);
         StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
         FlippyDriver flippy = new FlippyDriver(robot);
-        //colorDriver = new ColorDriver(robot);
 
         EncoderDriveHeading encoderDriveHeading = new EncoderDriveHeading(robot);
         flippyEncoderDrive flippyEncoderDrive = new flippyEncoderDrive(robot);
 
-        //code for test bot only
+        //code for real bot only
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
         RotateToHeading rotateToHeading = new RotateToHeading(robot, rotatePrecise);
-        //DriveTo driveTo = new DriveTo(robot, encoderDrive);
 
-        //skystoneDetector = new SkystoneDetector();
         skystoneDetector = new SkyStone2Detector();
         stoneDetector = new StoneDetector();
         blackRectDetector = new BlackRectDetector();
@@ -138,53 +132,33 @@ public class RedSkystoneAutonomous extends LinearOpMode {
         double distanceMoved;
         int skystone = 0;
 
-        //sleep(5000);
-
-
-        //flippy.GoToPosition(0.2, 1,0.6);
-        //robot.flippy.setPower(0.15);
+        double clawopen = 0.1; //0.0
+        double clawclose = 0.45; //0.37 //0.55
 
         robot.rightGrabber.setPosition(0.4);
         robot.leftGrabber.setPosition(0.4);
-        //final double platformDownPos = 0.27;
         final double platformDownPos = 0.27;
         final double platformyFlat = 0.57;
         robot.platformy.setPosition(platformDownPos);
-        flippyEncoderDrive.MoveToEncoderValue(0.2, 0.04, 5, false);
+        robot.clawy.setPosition(clawopen);
+        flippyEncoderDrive.MoveToEncoderValue(0.2, 0.01, 5, true);
 
 
         final int headingduh = -90;
         final int heading = -45;
 
-        double clawopen = 0.1; //0.0
-        double clawclose = 0.45; //0.37 //0.55
-
-
-
-        waitForStart();
-/*
-        flippy.GoToPosition(0.2, 0.6);
-        robot.flippy.setPower(0.15);
-        robot.clawy.setPosition(0.37);
-        sleep(500);
-        robot.clawy.setPosition(0.67);
-        flippy.GoToPosition(1.5, 0.6);
-        //flippy.GoToPosition(2.0, 0.2);
-        robot.flippy.setPower(-0.15);
-
-
-        while(opModeIsActive())
-        {
-            telemetry.addData("pot position", robot.flippyPot.getVoltage());
-            telemetry.update();
-        }
-*/
-        double extra = 0;
 
         robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        ElapsedTime runtime;
+        runtime = new ElapsedTime();
+        waitForStart();
+        runtime.reset();
+        //double extra = 0;
+
 
 
         while (opModeIsActive())
@@ -273,10 +247,8 @@ public class RedSkystoneAutonomous extends LinearOpMode {
                         telemetry.addData("stone found left", stoneXValue);
                         System.out.println("ValleyX stone found left " + stoneXValue);
                         skystone = 2;
-                        //rotateToHeading.DoIt(0);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        extra = 0;
                         encoderDriveHeading.StartAction(0.5, 30, -15, 5, true);
                         encoderDriveHeading.StartAction(0.3, 5, 50, 1, true);
                         robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -288,29 +260,31 @@ public class RedSkystoneAutonomous extends LinearOpMode {
                         robot.platformy.setPosition(platformyFlat);
                         encoderDriveHeading.StartAction(0.9, -5.5, 0, 5, true);
 
-                        //robot.rightIntake.setPower(0.0);
-                        //robot.leftIntake.setPower(0.0);
                         break;
                     }
                     if (leftXLine < stoneXValue && stoneXValue < rightXLine) {
                         telemetry.addData("stone found middle", stoneXValue);
-                        System.out.println("ValleyX stone found middle " + stoneXValue);
+                        System.out.println("ValleyX Auto: stone found middle " + stoneXValue + " " + runtime.milliseconds());
                         skystone = 1;
 
-
-                        robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                        robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                        robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-                        robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        //robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        //robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        //robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                        //robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
 
                         encoderDriveHeading.StartAction(0.5, 27, 0, 5, true);
+                        System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+
                         encoderDriveHeading.StartAction(0.3, 15, 0, 2, true);
-                        //encoderDriveHeading.StartAction(0.5, 32, 0, 5, true);
+
+                        System.out.println("ValleyX Auto: suck " + runtime.milliseconds());
                         sleep(400);
                         robot.platformy.setPosition(platformyFlat);
-                        encoderDriveHeading.StartAction(0.9, -15.5, 0, 5, true);
+                        System.out.println("ValleyX Auto: go back " + runtime.milliseconds());
+
+                        encoderDriveHeading.StartAction(0.8, -13, 0, 5, true);
 
                         break;
                     }
@@ -349,187 +323,137 @@ public class RedSkystoneAutonomous extends LinearOpMode {
             double fixedAmount = 68;
             double toFoundationSide = fixedAmount + (skystone * stoneSize);
             double fromFoundationSide = toFoundationSide + (3 * stoneSize) + FudgeFactor;
-            double toFoundation = 10;
-            double toGlass = (3 * stoneSize) - (skystone * stoneSize) - 5;
+            double toFoundation = 13;
+        //double toGlass = (3 * stoneSize) - (skystone * stoneSize) - 8;
+            double toGlass =  (2-skystone) * stoneSize;
 
-            flippyEncoderDrive.MoveToEncoderValue(0.2, 0.01, 5, false);
+            System.out.println("ValleyX Auto: Got first stone and backed up " + runtime.milliseconds());
+
+        // have driven up and gotten the first skystone and backed up (put platform down)
+
+            //drop arm on top of the intaken block
+            flippyEncoderDrive.MoveToEncoderValue(1.0, 0.00, 5, false); //TODO consider making false to save time
 
             //rotateToHeading.DoIt(headingduh);
-            //faster spin
+
+            //faster spin to drive backwards to foundation side
             rotateToHeading.DoItSpecify(headingduh, 4, 0.7, 0.3, 4);
 
+            // claw closing while drive backwards
             robot.clawy.setPosition(clawclose);
 
-            encoderDriveHeading.StartAction(.95, -toFoundationSide, headingduh, 10, true);
+            System.out.println("ValleyX Auto: Going to foundation " + runtime.milliseconds());
 
-            // drop off block
+        // driving backwards to foundation side
+            encoderDriveHeading.StartAction(.8, -toFoundationSide, headingduh, 10, true);
 
-            //flippyEncoderDrive.MoveToEncoderValue(0.4, 0.4, 5, false);
-            //move blocks
+            robot.rightIntake.setPower(0);
+            robot.leftIntake.setPower(0);
 
-            rotateToHeading.DoItSpecify(180, 4, 0.7, 0.3, 3);
+            System.out.println("ValleyX Auto: Spinning to foundation " + runtime.milliseconds());
 
+        // spinning while moving the arm up to save time
+            flippyEncoderDrive.MoveToEncoderValue(1.0, 0.47, 5, false); //spin @ same time
+            //rotateToHeading.DoItSpecify(180, 3, 0.4, 0.3, 4);
+            rotateToHeading.DoIt(180);
+            sleep(200);
+
+            System.out.println("ValleyX Auto: Drop first block " + runtime.milliseconds());
+
+        // open claw to drop block and close again to swing back over (will drop block from a higher height)
             robot.clawy.setPosition(clawopen);
-            sleep(300);
-
-            //rotateToHeading.DoIt(headingduh);
-            //faster
-            rotateToHeading.DoItSpecify(headingduh, 4, 0.7, 0.3, 4);
-
+            sleep(600);  //maybe able to make smaller
             robot.clawy.setPosition(clawclose);
 
-            //flippyEncoderDrive.MoveToEncoderValue(0.2, 0.0, 5, false);
-            sleep(400);
-            robot.clawy.setPosition(clawopen); /////////////////////////////////////////////////////////////////////////////////////
+            System.out.println("ValleyX Auto: Spinning to go back " + runtime.milliseconds());
 
+        //faster spin to drive forwards to skystone side
+            rotateToHeading.DoItSpecify(headingduh, 4, 0.7, 0.3, 4);
 
-            //move back
-            encoderDriveHeading.StartAction(.95, fromFoundationSide, headingduh, 5, true);
+        System.out.println("ValleyX Auto: Go back " + runtime.milliseconds());
 
+        // moving arm down while driving back to skystone side
+            flippyEncoderDrive.MoveToEncoderValue(1.0, 0.0, 5, false);
+            encoderDriveHeading.StartAction(.8, fromFoundationSide, headingduh, 5, true);
+            robot.clawy.setPosition(clawopen); // to intake next block
+
+            System.out.println("ValleyX Auto: Before moving to glass " + runtime.milliseconds());
             //move to glass
-            encoderDriveHeading.StartAction(0.3, toGlass, headingduh, 1.5, true);
-
-            //do this for middle and right (on skystone side)
-            encoderDriveHeading.StartAction(0.3, ((2-skystone) * -stoneSize) + 6, headingduh, 2, true);
-
             robot.platformy.setPosition(platformDownPos);
-            rotateToHeading.DoIt(0); // turning to grab block
+            encoderDriveHeading.StartAction(0.9, toGlass, headingduh, 1, true);
 
+            System.out.println("ValleyX Auto: Backing up to stone " + runtime.milliseconds());
+
+             //do this for middle and right (on skystone side)
+            encoderDriveHeading.StartAction(0.8, ((2-skystone) * -stoneSize) + 6, headingduh, 1.5, true);
+
+            System.out.println("ValleyX Auto: rotate to stone " + runtime.milliseconds());
+
+            //turning to face blocks
+            rotateToHeading.DoIt(0);
+            //rotateToHeading.DoItSpecify(0, 2, 0.5, 0.3, 5);
+
+            System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+
+            // getting second skystone block
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
             encoderDriveHeading.StartAction(0.3, 15,  0, 2, true);
             sleep(400);
             robot.platformy.setPosition(platformyFlat);
-            encoderDriveHeading.StartAction(0.9, -15, 0, 5, true);
 
-            rotateToHeading.DoItSpecify(headingduh, 4, 0.6, 0.3, 5);
+           System.out.println("ValleyX Auto: Got second stone " + runtime.milliseconds());
 
-            encoderDriveHeading.StartAction(0.95, -toFoundationSide - 17, headingduh, 5, true);
-
-            rotateToHeading.DoIt(180);
-
-            encoderDriveHeading.StartAction(0.3, -toFoundation, 180, 1.5, true);
-            robot.rightGrabber.setPosition(0.07);
-            robot.leftGrabber.setPosition(0.07);
-            sleep(300);
-
-            //These lines will spin the foundation
-            encoderDriveHeading.StartAction(1.0, 30, 180, 5, true);
-            robot.clawy.setPosition(0.45);
-            rotateToHeading.DoItSpecify(headingduh, 2, 0.6, 0.3, 2);
-
-            robot.rightGrabber.setPosition(0.75);
-            robot.leftGrabber.setPosition(0.75);
-
-
-            encoderDriveHeading.StartAction(1.0, 24, headingduh+10, 5, true);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //robot.rightIntake.setPower(0.0);
-            //robot.leftIntake.setPower(0.0);
-            //sleep(300);
-        /*
-            rotateToHeading.DoIt(headingduh);
-
-            // go back to foundation
-            //Strafing.Strafe(0.6, fromFoundationSide, 5, true);
-            //rotateToHeading.DoIt(-90);
-            encoderDriveHeading.StartAction(0.9, -toFoundationSide, headingduh, 5, true);
-            rotateToHeading.DoIt(0);
-
-            robot.rightIntake.setPower(-1.0);
-            robot.leftIntake.setPower(1.0);
-            sleep(500);
-            robot.rightIntake.setPower(0.0);
-            robot.leftIntake.setPower(0.0);
-            rotateToHeading.DoIt(headingduh);
-
-            encoderDriveHeading.StartAction(0.9, 17, headingduh, 5, true);
-
-
-            //slowly drive up and get foundation
-            encoderDriveHeading.StartAction(0.3, -toFoundation + 0, 180, 5, true);
-
-
-            //encoderDriveHeading.StartAction(0.8, -5, 180, 5, true);
-            robot.rightGrabber.setPosition(0.07);
-            robot.leftGrabber.setPosition(0.07);
-
-            robot.rightIntake.setPower(-1.0);
-            robot.leftIntake.setPower(1.0);
-
-            sleep(350);
+        // backing up
+            encoderDriveHeading.StartAction(0.9, -13, 0, 5, true);
 
             robot.rightIntake.setPower(0);
             robot.leftIntake.setPower(0);
 
+            System.out.println("ValleyX Auto: Rotating back to foundation " + runtime.milliseconds());
 
-            robot.platformy.setPosition(platformyFlat);
-            sleep(350);
+        // rotating to drive backwards to foundation side
+            rotateToHeading.DoItSpecify(headingduh, 4, 0.6, 0.3, 5);
+            robot.clawy.setPosition(clawclose);
 
-            robot.rightIntake.setPower(1.0);
-            robot.leftIntake.setPower(-1.0);
-            //robot.platformy.setPosition(platformDownPos);
+            System.out.println("ValleyX Auto: driving to foundation " + runtime.milliseconds());
 
-            //These lines will spin the foundation
-            encoderDriveHeading.StartAction(1.0, 30, 180, 5, true);
-            robot.clawy.setPosition(0.45);
-            rotatePrecise.RotatePrecise(-headingduh, 2, 0.6, 0.3, 2);
-            encoderDriveHeading.StartAction(1.0, -5, -90, 5, true);
+        // driving to foundation side
+            encoderDriveHeading.StartAction(0.8, -toFoundationSide - 17, headingduh, 5, true);
 
-            // swing arm yay
-            flippyEncoderDrive.MoveToEncoderValue(0.6, 0.5, 5, false);
+           System.out.println("ValleyX Auto: Rotate to foundation " + runtime.milliseconds());
+
+        // rotating to get foundation while moving arm
+            flippyEncoderDrive.MoveToEncoderValue(1.0, 0.4, 5, false);
+
+
+            //rotateToHeading.DoIt(180);
+            rotateToHeading.DoItSpecify(180, 4, 0.5, 0.3, 5);
+
+            System.out.println("ValleyX Auto: Move to foundation " + runtime.milliseconds());
+
+            // drive to foundation and latch onto it (dropping second block)
+            encoderDriveHeading.StartAction(0.2, -toFoundation, 180, 1.5, true);
+            robot.rightGrabber.setPosition(0.07);
+            robot.leftGrabber.setPosition(0.07);
+            robot.clawy.setPosition(clawopen);
             sleep(300);
-            robot.rightIntake.setPower(0.0);
-            robot.leftIntake.setPower(0.0);
-            robot.clawy.setPosition(clawopen); //open
+            robot.clawy.setPosition(clawclose);
 
+            System.out.println("ValleyX Auto: spin foundation " + runtime.milliseconds());
+
+        // spin the foundation
+            encoderDriveHeading.StartAction(1.0, 30, 180, 2, true);
+            flippyEncoderDrive.MoveToEncoderValue(1.0, 0.0, 5, false);
+            rotateToHeading.DoItSpecify(headingduh, 20, 0.6, 0.3, 2);
+
+            // let go of foundation
             robot.rightGrabber.setPosition(0.75);
             robot.leftGrabber.setPosition(0.75);
 
-            sleep(350);
-
-            robot.clawy.setPosition(clawclose);
-            sleep(200);
-            flippyEncoderDrive.MoveToEncoderValue(0.3, 0.01, 5, false);
-            sleep(200);
-            //encoderDrive.StartAction(1.0, 7, 7, 5, true);
-
-            //rotateToHeading.DoIt(-90);
-
-            //Strafing.Strafe(1.0, 12, 5, true);
-
-            //Add code here to park on line
-            encoderDriveHeading.StartAction(1.0, 37, -30, 5, true);
-            */
-
+            // drive to skybridge line
+            encoderDriveHeading.StartAction(1.0, 26, headingduh+15, 5, true);
+            System.out.println("ValleyX Auto: complete " + runtime.milliseconds());
         }
     }
 

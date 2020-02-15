@@ -96,7 +96,8 @@ public class RobotHardware
     private final double    COUNTS_PER_MOTOR_REV        = 28;    //  AndyMark Motor Encoder
     private final double    DRIVE_GEAR_REDUCTION        = 19.2;     // This is < 1.0 if geared UP
     private final double    DRIVE_GEAR_REDUCTION_LIFT   = 60;
-    private final double    DRIVE_GEAR_REDUCTION_FLIPPY = 60;
+   // private final double    DRIVE_GEAR_REDUCTION_FLIPPY = 60;
+    private final double    DRIVE_GEAR_REDUCTION_FLIPPY = 120;
     private final double    WHEEL_DIAMETER_INCHES       = 4.0;
     private final double    STRAFING_WHEEL_WIDTH        = 11.0; //FIND
     private final double    LIFT_WHEEL_DIAMETER_INCHES  = 2.35;
@@ -167,7 +168,7 @@ public class RobotHardware
 
         leftGrabber.setDirection(Servo.Direction.REVERSE);
 
-        flippy.setDirection(DcMotor.Direction.REVERSE);
+        flippy.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         leftFrontDrive.setPower(0);

@@ -174,6 +174,13 @@ public class flippyEncoderDrive
 
         isRunning_ = false;
 
+        robot_.OpMode_.telemetry.addData("Flippy Encoder", "current to %7d",
+                robot_.flippy.getCurrentPosition());
+        robot_.OpMode_.telemetry.addData("Flippy Encoder", "running to %7d",
+                position);
+        robot_.OpMode_.telemetry.update();
+
+
         if (waiting_)
         {
             //then spin here making sure opmode is active, there is available time, action is still running
@@ -182,12 +189,15 @@ public class flippyEncoderDrive
                     !IsActionDone())
             {
                 // Display it for the driver.
-                /*
-                robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d :%7d :%7d",
+
+                robot_.OpMode_.telemetry.addData("Flippy Encoder", "current to %7d",
+                        robot_.flippy.getCurrentPosition());
+                robot_.OpMode_.telemetry.addData("Flippy Encoder", "running to %7d",
                         position);
-                robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d :%7d :%7d",
-                        robot_.lift.getCurrentPosition());
-                 */
+                robot_.OpMode_.telemetry.addData("Flippy Encoder", "runtime_.seconds() %7f",
+                        runtime_.seconds());
+                robot_.OpMode_.telemetry.update();
+
                 robot_.OpMode_.idle();
             }
             StopAction();
@@ -198,6 +208,8 @@ public class flippyEncoderDrive
         {
             isRunning_ = true;
         }
+
+
     }
 
     public double CurrentEncoderPosition()

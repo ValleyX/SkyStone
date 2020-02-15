@@ -15,7 +15,7 @@ public class EncoderDriveHeading
     //static final double     HEADING_THRESHOLD       = 1 ;      // As tight as we can make it with an integer gyro
     //static final double     P_TURN_COEFF            = 0.1;     // Larger is more responsive, but also less stable
 //    static final double     P_DRIVE_COEFF           = 0.15;     // Larger is more responsive, but also less stable
-    static final double     P_DRIVE_COEFF           = 0.08;     // Larger is more responsive, but also less stable
+    static final double     P_DRIVE_COEFF           = 0.10;     // Larger is more responsive, but also less stable
 
     private RobotHardware robot_;
     private ElapsedTime runtime_;
@@ -164,6 +164,136 @@ public class EncoderDriveHeading
             }
         }
     }
+
+    public void StartActionCoef(double speed,
+                            double distance,
+                            double heading,
+                            double timeoutS,
+                            boolean waiting, //are we returned only when complete?
+                            double coef)
+    {
+        waiting_ = waiting;
+
+        int newLeftFrontTarget;
+        int newLeftBackTarget;
+        int newRightFrontTarget;
+        int newRightBackTarget;
+
+        double  max;
+        double  error;
+        double  steer;
+        double  leftSpeed;
+        double  rightSpeed;
+
+        if (heading == 0)
+            heading = 0.1;
+
+        heading = -heading;
+
+        // Ensure that the opmode is still active
+        if (robot_.OpMode_.opModeIsActive())
+        {
+            //setup encoders and motors for this use
+
+            robot_.OpMode_.telemetry.addData("Status", "Resetting Encoders ");
+            robot_.OpMode_.telemetry.update();
+
+            robot_.leftFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot_.leftBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot_.rightFrontDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot_.rightBackDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            robot_.leftFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot_.leftBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot_.rightFrontDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot_.rightBackDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            // Send telemetry message to indicate successful Encoder reset
+            robot_.OpMode_.telemetry.addData("Path0", "Starting at %7d :%7d :%7d :%7d",
+                    robot_.leftFrontDrive.getCurrentPosition(),
+                    robot_.leftBackDrive.getCurrentPosition(),
+                    robot_.rightFrontDrive.getCurrentPosition(),
+                    robot_.rightBackDrive.getCurrentPosition());
+
+            robot_.OpMode_.telemetry.update();
+
+            // Determine new target position, and pass to motor controller
+            newLeftFrontTarget = robot_.leftFrontDrive.getCurrentPosition() + (int) (distance * robot_.COUNTS_PER_INCH);
+            newLeftBackTarget = robot_.leftBackDrive.getCurrentPosition() + (int) (distance * robot_.COUNTS_PER_INCH);
+            newRightFrontTarget = robot_.rightFrontDrive.getCurrentPosition() + (int) (distance * robot_.COUNTS_PER_INCH);
+            newRightBackTarget = robot_.rightBackDrive.getCurrentPosition() + (int) (distance * robot_.COUNTS_PER_INCH);
+            robot_.leftFrontDrive.setTargetPosition(newLeftFrontTarget);
+            robot_.leftBackDrive.setTargetPosition(newLeftBackTarget);
+            robot_.rightFrontDrive.setTargetPosition(newRightFrontTarget);
+            robot_.rightBackDrive.setTargetPosition(newRightBackTarget);
+
+            // Turn On RUN_TO_POSITION
+            robot_.leftFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot_.leftBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot_.rightFrontDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot_.rightBackDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            // reset the timeout time and start motion.
+            robot_.leftFrontDrive.setPower(Math.abs(speed));
+            robot_.leftBackDrive.setPower(Math.abs(speed));
+            robot_.rightFrontDrive.setPower(Math.abs(speed));
+            robot_.rightBackDrive.setPower(Math.abs(speed));
+
+            runtime_.reset();
+
+            if (waiting_)
+            {
+                //then spin here making sure opmode is active, there is available time, action is still running
+                while (robot_.OpMode_.opModeIsActive() &&
+                        (runtime_.seconds() < timeoutS) &&
+                        !IsActionDone())
+                {
+                    // adjust relative speed based on heading error.
+                    error = getError(heading);
+
+                    if (Math.abs(error) < 4)
+                    {
+                        coef = P_DRIVE_COEFF;
+                    }
+
+                    steer = getSteer(error, coef);
+
+                    // if driving in reverse, the motor correction also needs to be reversed
+                    if (distance < 0)
+                        steer *= -1.0;
+
+                    leftSpeed = speed - steer;
+                    rightSpeed = speed + steer;
+
+                    // Normalize speeds if either one exceeds +/- 1.0;
+                    max = Math.max(Math.abs(leftSpeed), Math.abs(rightSpeed));
+                    if (max > 1.0)
+                    {
+                        leftSpeed /= max;
+                        rightSpeed /= max;
+                    }
+
+                    robot_.leftFrontDrive.setPower(Math.abs(leftSpeed));
+                    robot_.leftBackDrive.setPower(Math.abs(leftSpeed));
+                    robot_.rightFrontDrive.setPower(Math.abs(rightSpeed));
+                    robot_.rightBackDrive.setPower(Math.abs(rightSpeed));
+
+                    // Display it for the driver.
+                    robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d :%7d :%7d",
+                            newLeftFrontTarget, newLeftBackTarget, newRightFrontTarget, newRightBackTarget);
+                    robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d :%7d :%7d",
+                            robot_.leftFrontDrive.getCurrentPosition(),
+                            robot_.leftBackDrive.getCurrentPosition(),
+                            robot_.rightFrontDrive.getCurrentPosition(),
+                            robot_.rightBackDrive.getCurrentPosition());
+                    robot_.OpMode_.telemetry.update();
+                    robot_.OpMode_.idle();
+                }
+                StopAction();
+            }
+        }
+    }
+
 
     //check if the motors have hit their target
     public boolean IsActionDone()
