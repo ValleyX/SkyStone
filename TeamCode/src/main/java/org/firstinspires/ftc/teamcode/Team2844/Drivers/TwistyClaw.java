@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class TwistyClaw
-{
+{}
+    /*
     private RobotHardware robot_;
     private ElapsedTime runtime_;
     private boolean waiting_;
     private double ServoNum;
 
-    /* Constructor setup all class variables here */
+    //Constructor setup all class variables here
     public TwistyClaw(RobotHardware robot)
     {
         robot_ = robot;
@@ -29,7 +30,7 @@ public class TwistyClaw
 
         if (robot_.OpMode_.opModeIsActive())
         {
-            robot_.twistyClaw.setPosition(ServoNum);
+            //robot_.twistyClaw.setPosition(ServoNum);
         }
 
         if (waiting_)
@@ -43,7 +44,7 @@ public class TwistyClaw
                 robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d :%7d :%7d",
                         ServoNum);
                 robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d :%7d :%7d",
-                        robot_.twistyClaw.getPosition());
+                        //robot_.twistyClaw.getPosition());
                 robot_.OpMode_.telemetry.update();
                 robot_.OpMode_.idle();
             }
@@ -63,4 +64,7 @@ public class TwistyClaw
     {
         waiting_ = false;
     }
+
 }
+
+     */

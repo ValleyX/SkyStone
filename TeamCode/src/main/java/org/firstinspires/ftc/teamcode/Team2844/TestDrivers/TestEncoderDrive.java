@@ -45,7 +45,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
  */
 
 @Autonomous(name="Test: Test Samatron Encoder Drive", group="Test")
-//@Disabled
+@Disabled
 public class TestEncoderDrive extends LinearOpMode
 {
 

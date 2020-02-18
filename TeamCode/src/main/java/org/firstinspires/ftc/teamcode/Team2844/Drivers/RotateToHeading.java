@@ -78,6 +78,11 @@ public class RotateToHeading
 
     public void DoIt (double heading)
     {
+        DoItSpecify(heading, 2, 0.2, 0.3, 5);
+    }
+
+    public void DoItSpecify (double heading, double gyroRange, double minSpeed, double addSpeed, int timesCorrect)
+    {
         //0 turns the wrong way force to 0.1
         if (heading == 0.0)
         {
@@ -100,6 +105,6 @@ public class RotateToHeading
         //System.out.println("ValleyX turnAngle " + turnAngle);
 
         //System.out.println("ValleyX moving to rotate precise");
-        rotatePrecise_.RotatePrecise(turnAngle, 2, 0.2, 0.3, 5);
+        rotatePrecise_.RotatePrecise(turnAngle, gyroRange, minSpeed, addSpeed, timesCorrect);
     }
 }

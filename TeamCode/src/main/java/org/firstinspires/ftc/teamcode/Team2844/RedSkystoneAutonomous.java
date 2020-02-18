@@ -23,9 +23,9 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 //import org.firstinspires.ftc.teamcode.Team2844.Drivers.ColorDriver;
 
 
-@Autonomous(name = "BlueSkystoneAutonomous", group ="Test")
+@Autonomous(name = "RedSkystoneAutonomous", group ="Test")
 //@Disabled
-public class BlueSkyStoneAutonomous extends LinearOpMode {
+public class RedSkystoneAutonomous extends LinearOpMode {
     EncoderDrive encoderDrive;
     RobotHardware robot;
     FlippyDriver flippy;
@@ -53,9 +53,9 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         stoneDetector = new StoneDetector();
         blackRectDetector = new BlackRectDetector();
 
-        //int leftXLine = 110; // purple
-        int leftXLine = 140; // purple
-        int rightXLine = 217; // green  was 187
+        int leftXLine = 110; // purple
+//        int leftXLine = 115; // purple
+        int rightXLine = 187; // green
 
         skystoneDetector.SetRequestedYLine(205);
         skystoneDetector.SetRequestedXRightLine(290);
@@ -147,8 +147,8 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
             flippyEncoderDrive.MoveToEncoderValue(0.2, 0.005, 5, true);
         }
 
-        final int headingduh = 90;
-        final int heading = 45;
+        final int headingduh = -90;
+        final int heading = -45;
 
         robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -168,13 +168,13 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
                 int stoneXValue = skystoneDetector.foundRectangle().x;
                 if (leftXLine > stoneXValue) {
                     telemetry.addData("stone found left", stoneXValue);
-                    skystone = 0;
+                    skystone = 2;
                 } else if (leftXLine < stoneXValue && stoneXValue < rightXLine) {
                     telemetry.addData("stone found middle", stoneXValue);
                     skystone = 1;
                 } else if (stoneXValue > rightXLine) {
                     telemetry.addData("stone found right", stoneXValue);
-                    skystone = 2;
+                    skystone = 0;
                 }
                 phoneCam.setPipeline(skystoneDetector);
             }
@@ -191,7 +191,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
 
         phoneCam.stopStreaming();
 
-        if (skystone == 0) { //left
+        if (skystone == 2) { //left
             robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -229,11 +229,11 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
             encoderDriveHeading.StartAction(0.8, -14, 0, 5, true);
         }
         else //right
-        {
-            robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+         {
+             robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+             robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+             robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+             robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
             encoderDriveHeading.StartAction(0.5, 28, 15, 1.5, true);
@@ -242,9 +242,9 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
 
             sleep(400);
             //robot.platformy.setPosition(platformyFlat);
-            encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+             encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
 
-        }
+         }
 
 
         double FudgeFactor = 1;
@@ -252,7 +252,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         double fixedAmount = 38; //68
         double toFoundationSide = fixedAmount + (skystone * stoneSize);
         double fromFoundationSide = toFoundationSide + (3 * stoneSize) + FudgeFactor;
-        double toFoundation = 13;
+        double toFoundation = 12;
         //double toGlass = (3 * stoneSize) - (skystone * stoneSize) - 8;
         double toGlass =  (2-skystone) * stoneSize;
         int reduce = 0;
@@ -320,9 +320,9 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         sleep(400);
         robot.platformy.setPosition(platformyFlat);
 
-        System.out.println("ValleyX Auto: Got second stone " + runtime.milliseconds());
+       System.out.println("ValleyX Auto: Got second stone " + runtime.milliseconds());
 
-        // backing up
+    // backing up
         encoderDriveHeading.StartAction(0.9, -13, 0, 5, true);
 
         robot.rightIntake.setPower(0);
@@ -330,25 +330,25 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
 
         System.out.println("ValleyX Auto: Rotating back to foundation " + runtime.milliseconds());
 
-        // rotating to drive backwards to foundation side
+    // rotating to drive backwards to foundation side
         rotateToHeading.DoItSpecify(headingduh, 3, 0.5, 0.3, 5);
         robot.clawy.setPosition(clawclose);
 
         System.out.println("ValleyX Auto: driving to foundation " + runtime.milliseconds());
 
-        // driving to foundation side
+    // driving to foundation side
         encoderDriveHeading.StartAction(0.8, -toFoundationSide - 52 + reduce, headingduh, 5, true); //-17
 
-        System.out.println("ValleyX Auto: Rotate to foundation " + runtime.milliseconds());
+       System.out.println("ValleyX Auto: Rotate to foundation " + runtime.milliseconds());
 
-        // rotating to get foundation while moving arm
-        if (armIsWorking)
-        {
-            flippyEncoderDrive.MoveToEncoderValue(1.0, 0.4, 5, false);
-        }
+    // rotating to get foundation while moving arm
+       if (armIsWorking)
+       {
+        flippyEncoderDrive.MoveToEncoderValue(1.0, 0.4, 5, false);
+       }
 
         rotateToHeading.DoIt(180);
-        // rotateToHeading.DoItSpecify(180, 4, 0.5, 0.3, 5);
+       // rotateToHeading.DoItSpecify(180, 4, 0.5, 0.3, 5);
 
         System.out.println("ValleyX Auto: Move to foundation " + runtime.milliseconds());
 
@@ -362,7 +362,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
 
         System.out.println("ValleyX Auto: spin foundation " + runtime.milliseconds());
 
-        // spin the foundation
+    // spin the foundation
         encoderDriveHeading.StartAction(1.0, 30, 180, 2, true);
         if (armIsWorking) {
             flippyEncoderDrive.MoveToEncoderValue(1.0, 0.0, 5, false);
@@ -381,13 +381,13 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         // drive to skybridge line
-        encoderDriveHeading.StartAction(1.0, 40, headingduh-40, 5, true);
+        encoderDriveHeading.StartAction(1.0, 40, headingduh+40, 5, true);
         System.out.println("ValleyX Auto: complete " + runtime.milliseconds());
 
 
+        }
+
+
     }
-
-
-}
 
 

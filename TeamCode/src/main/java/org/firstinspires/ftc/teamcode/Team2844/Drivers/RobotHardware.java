@@ -32,13 +32,20 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.vuforia.PositionalDeviceTracker;
+
+import org.firstinspires.ftc.robotcontroller.external.samples.SensorDigitalTouch;
+import org.firstinspires.ftc.robotcore.internal.opengl.models.Teapot;
 
 /**
  * This is NOT an opmode.
@@ -67,31 +74,41 @@ public class RobotHardware
     public DcMotor        lift;
     public Servo          rightGrabber;
     public Servo          leftGrabber;
-    public Servo          twistyClaw;
-    public Servo          swingy;
+    //public Servo          twistyClaw;
+    //public Servo          swingy;
     public Servo          clawy;
     public Servo          platformy;
+    public Servo          capstoneServo;
     public DcMotor        rightIntake;
     public DcMotor        leftIntake;
     public DistanceSensor sensorRange;
-    public ColorSensor    colordriver;
-    public DistanceSensor distancedriver;
+    //public ColorSensor    colordriver;
+    //public DistanceSensor distancedriver;
     public DistanceSensor leftDistance;
     public DistanceSensor rightDistance;
+    public DistanceSensor bucketLazery;
+    public DigitalChannel touchlift;
+    public DigitalChannel touchFlippy;
+    public DcMotor        flippy;
+    public AnalogInput    flippyPot;
 
-    BNO055IMU imu;
+    public BNO055IMU imu;
 
-    private final double     COUNTS_PER_MOTOR_REV       = 28;    //  AndyMark Motor Encoder
-    private final double     DRIVE_GEAR_REDUCTION       = 19.2;     // This is < 1.0 if geared UP
-    private final double     DRIVE_GEAR_REDUCTION_LIFT  = 60;
-    private final double     WHEEL_DIAMETER_INCHES      = 4.0;
-    private final double     STRAFING_WHEEL_WIDTH       = 11.0; //FIND
-    private final double     LIFT_WHEEL_DIAMETER_INCHES = 2.15;
-    private final double     ONE_MOTOR_COUNT            = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
-    private final double     ONE_MOTOR_COUNT_LIFT       = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION_LIFT;
-    final double             COUNTS_PER_INCH            = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
-    final double             COUNTS_PER_INCH_STRAFE     = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
-    final double             COUNTS_PER_INCH_LIFT       = ONE_MOTOR_COUNT_LIFT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
+    private final double    COUNTS_PER_MOTOR_REV        = 28;    //  AndyMark Motor Encoder
+    private final double    DRIVE_GEAR_REDUCTION        = 19.2;     // This is < 1.0 if geared UP
+    private final double    DRIVE_GEAR_REDUCTION_LIFT   = 60;
+   // private final double    DRIVE_GEAR_REDUCTION_FLIPPY = 60;
+    private final double    DRIVE_GEAR_REDUCTION_FLIPPY = 120;
+    private final double    WHEEL_DIAMETER_INCHES       = 4.0;
+    private final double    STRAFING_WHEEL_WIDTH        = 11.0; //FIND
+    private final double    LIFT_WHEEL_DIAMETER_INCHES  = 2.35;
+    private final double    ONE_MOTOR_COUNT             = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // 1,120
+    final double            ONE_MOTOR_COUNT_LIFT        = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION_LIFT;
+    final double            ONE_MOTOR_COUNT_FLIPPY      = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION_FLIPPY;
+    final double            COUNTS_PER_INCH             = ONE_MOTOR_COUNT/(WHEEL_DIAMETER_INCHES*3.1416); //TODO determine in class
+    final double            COUNTS_PER_INCH_STRAFE      = ONE_MOTOR_COUNT/STRAFING_WHEEL_WIDTH; //FIND
+    final double            COUNTS_PER_INCH_LIFT        = ONE_MOTOR_COUNT_LIFT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
+    //final double             COUNTS_PER_INCH_LIFT       = ONE_MOTOR_COUNT_LIFT/(LIFT_WHEEL_DIAMETER_INCHES*3.1416);
 
     //private final double
 
@@ -102,12 +119,22 @@ public class RobotHardware
         OpMode_ = opMode;
 
         sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); // secondary hub I2C Bus 2
-        colordriver = ahwMap.get(ColorSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
-        distancedriver = ahwMap.get(DistanceSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
-        sensorRange = ahwMap.get(DistanceSensor.class, "sensor_range"); // secondary hub I2C Bus 2
+        //colordriver = ahwMap.get(ColorSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
+        //distancedriver = ahwMap.get(DistanceSensor.class, "Color_Sensor"); // secondary hub I2C Bus 3
 
-        leftDistance = ahwMap.get(DistanceSensor.class, "lDistance"); // drive hub I2C Bus 1
+        //leftDistance = ahwMap.get(DistanceSensor.class, "lDistance"); // drive hub I2C Bus 1
         rightDistance = ahwMap.get(DistanceSensor.class, "rDistance"); // secondary hub I2C Bus 1
+
+        bucketLazery = ahwMap.get(DistanceSensor.class, "lazery"); // secondary hub I2C Bus 0
+
+        touchlift = ahwMap.get(DigitalChannel.class, "touchlift");
+        // set the digital channel to input.
+        touchlift.setMode(DigitalChannel.Mode.INPUT);
+
+        touchFlippy = ahwMap.get(DigitalChannel.class, "touchFlippy");
+        // set the digital channel to input.
+        touchFlippy.setMode(DigitalChannel.Mode.INPUT);
+        //touchFlippy = ahwMap.get(TouchSensor.class, "touchFlippy"); // seoncdary hub Digital devices 6
 
         // Define and Initialize Motors
         rightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); // drive hub motor 0
@@ -118,15 +145,22 @@ public class RobotHardware
         rightGrabber = ahwMap.get(Servo.class, "rgrabber"); // drive hub servo 2
         leftGrabber = ahwMap.get(Servo.class, "lgrabber"); // drive hub servo 4
 
-        twistyClaw =  ahwMap.get(Servo.class, "twisty"); // secondary hub servo 0
-        swingy = ahwMap.get(Servo.class, "swingy"); // secondary hub servo 5
+        capstoneServo = ahwMap.get(Servo.class, "capstone"); // drive hub servo 1
+
+        //twistyClaw =  ahwMap.get(Servo.class, "twisty"); // secondary hub servo 0
+        //swingy = ahwMap.get(Servo.class, "swingy"); // secondary hub servo 5
+
         clawy = ahwMap.get(Servo.class, "clawy"); // secondary hub servo 1
         platformy = ahwMap.get(Servo.class, "platformy"); // secondary hub servo 2
 
-        lift = ahwMap.get(DcMotor.class, "lift"); // secondary hub
+        flippy = ahwMap.get(DcMotor.class, "flippyNew"); // secondary hub motor 3
+
+        lift = ahwMap.get(DcMotor.class, "lift"); // secondary hub motor 2
 
         rightIntake = ahwMap.get(DcMotor.class, "rintake"); // secondary hub motor 0
         leftIntake = ahwMap.get(DcMotor.class, "lintake"); // secondary hub motor 1
+
+        flippyPot = ahwMap.analogInput.get("topPot"); // main 2 analog input
 
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
@@ -136,6 +170,8 @@ public class RobotHardware
         rightBackDrive.setDirection(DcMotor.Direction.REVERSE);
 
         leftGrabber.setDirection(Servo.Direction.REVERSE);
+
+        flippy.setDirection(DcMotor.Direction.FORWARD);
 
         // Set all motors to zero power
         leftFrontDrive.setPower(0);
@@ -156,8 +192,12 @@ public class RobotHardware
         rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        flippy.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        imu = ahwMap.get(BNO055IMU.class, "imu"); // drive and secondary hub I2C Bus 0
+
+        imu = ahwMap.get(BNO055IMU.class, "imu"); // drive hub I2C Bus 0
     }
+
+
  }
 

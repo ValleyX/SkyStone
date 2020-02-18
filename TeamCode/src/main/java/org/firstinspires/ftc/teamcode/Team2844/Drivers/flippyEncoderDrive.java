@@ -4,7 +4,7 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class LiftEncoderDrive
+public class flippyEncoderDrive
 {
     private RobotHardware robot_;
     private ElapsedTime runtime_;
@@ -12,15 +12,15 @@ public class LiftEncoderDrive
     private boolean isRunning_;
 
     /* Constructor setup all class variables here */
-    public LiftEncoderDrive(RobotHardware robot)
+    public flippyEncoderDrive(RobotHardware robot)
     {
         robot_ = robot;
         runtime_ = new ElapsedTime();
         waiting_ = false;
         isRunning_ = false;
 
-        robot.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot.flippy.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.flippy.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
     /*
@@ -54,25 +54,25 @@ public class LiftEncoderDrive
             robot_.OpMode_.telemetry.addData("Status", "Resetting Encoders ");
             robot_.OpMode_.telemetry.update();
 
-            robot_.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot_.flippy.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            robot_.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot_.flippy.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
             // Send telemetry message to indicate successful Encoder reset
             robot_.OpMode_.telemetry.addData("Path0", "Starting at %7d :%7d :%7d :%7d",
-                    robot_.lift.getCurrentPosition());
+                    robot_.flippy.getCurrentPosition());
 
             robot_.OpMode_.telemetry.update();
 
             // Determine new target position, and pass to motor controller
-            liftHeight = robot_.lift.getCurrentPosition() + (int) (height * robot_.COUNTS_PER_INCH);
-            robot_.lift.setTargetPosition(liftHeight);
+            liftHeight = robot_.flippy.getCurrentPosition() + (int) (height * robot_.COUNTS_PER_INCH);
+            robot_.flippy.setTargetPosition(liftHeight);
 
             // Turn On RUN_TO_POSITION
-            robot_.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot_.flippy.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             // reset the timeout time and start motion.
-            robot_.lift.setPower(Math.abs(speed));
+            robot_.flippy.setPower(Math.abs(speed));
 
             runtime_.reset();
 
@@ -90,7 +90,7 @@ public class LiftEncoderDrive
                     robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d :%7d :%7d",
                             liftHeight);
                     robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d :%7d :%7d",
-                            robot_.lift.getCurrentPosition());
+                            robot_.flippy.getCurrentPosition());
                     robot_.OpMode_.idle();
                 }
                 StopAction();
@@ -105,9 +105,9 @@ public class LiftEncoderDrive
 
     public void ResetEncoder()
     {
-        robot_.lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot_.flippy.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        robot_.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        robot_.flippy.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public boolean IsRunning() { return isRunning_; }
@@ -115,7 +115,7 @@ public class LiftEncoderDrive
     //check if the motors have hit their target
     public boolean IsActionDone()
     {
-        if (!robot_.lift.isBusy())
+        if (!robot_.flippy.isBusy())
         {
             isRunning_ = false;
             System.out.println("ValleyX setting isRunning to false");
@@ -131,11 +131,11 @@ public class LiftEncoderDrive
     public void StopAction()
     {
         // Stop all motion; 
-        robot_.lift.setPower(0);
+        robot_.flippy.setPower(0);
 
         // Turn off RUN_TO_POSITION
         System.out.println("ValleyX set RUN_WITHOUT_ENCODER");
-        robot_.lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        robot_.flippy.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         robot_.rightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -144,31 +144,42 @@ public class LiftEncoderDrive
     }
 
     public void MoveToEncoderValue
-            (double speed,
-            double inchesFromBottom,
+            (
+            double speed,
+            double posFrom0, //0..1
             double timeoutS,
             boolean waiting)
     {
-        robot_.lift.setPower(0);
+        robot_.flippy.setPower(0);
 
         waiting_ = waiting;
 
-        System.out.println("ValleyX current lift position before " + robot_.lift.getCurrentPosition());
-        int position = (int) (inchesFromBottom * robot_.COUNTS_PER_INCH_LIFT);
+        if (posFrom0 > .7)
+            return;
 
-        robot_.lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        System.out.println("ValleyX current lift position before " + robot_.flippy.getCurrentPosition());
+        int position = (int) (posFrom0 * robot_.ONE_MOTOR_COUNT_FLIPPY);
 
-        robot_.lift.setTargetPosition(position);
+        robot_.flippy.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        robot_.flippy.setTargetPosition(position);
 
         // Turn On RUN_TO_POSITION
-        robot_.lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot_.flippy.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // reset the timeout time and start motion.
-        robot_.lift.setPower(Math.abs(speed));
+        robot_.flippy.setPower(Math.abs(speed));
 
         runtime_.reset();
 
         isRunning_ = false;
+
+        robot_.OpMode_.telemetry.addData("Flippy Encoder", "current to %7d",
+                robot_.flippy.getCurrentPosition());
+        robot_.OpMode_.telemetry.addData("Flippy Encoder", "running to %7d",
+                position);
+        robot_.OpMode_.telemetry.update();
+
 
         if (waiting_)
         {
@@ -178,27 +189,32 @@ public class LiftEncoderDrive
                     !IsActionDone())
             {
                 // Display it for the driver.
-                /*
-                robot_.OpMode_.telemetry.addData("Path1", "Running to %7d :%7d :%7d :%7d",
+
+                robot_.OpMode_.telemetry.addData("Flippy Encoder", "current to %7d",
+                        robot_.flippy.getCurrentPosition());
+                robot_.OpMode_.telemetry.addData("Flippy Encoder", "running to %7d",
                         position);
-                robot_.OpMode_.telemetry.addData("Path2", "Running at %7d :%7d :%7d :%7d",
-                        robot_.lift.getCurrentPosition());
-                 */
+                robot_.OpMode_.telemetry.addData("Flippy Encoder", "runtime_.seconds() %7f",
+                        runtime_.seconds());
+                robot_.OpMode_.telemetry.update();
+
                 robot_.OpMode_.idle();
             }
             StopAction();
-            robot_.lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-            System.out.println("ValleyX current lift position after " + robot_.lift.getCurrentPosition());
+            robot_.flippy.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            System.out.println("ValleyX current flippy position after " + robot_.flippy.getCurrentPosition());
         }
         else
         {
             isRunning_ = true;
         }
+
+
     }
 
     public double CurrentEncoderPosition()
     {
-        return (robot_.lift.getCurrentPosition() / robot_.COUNTS_PER_INCH_LIFT);
+        return (robot_.flippy.getCurrentPosition() / robot_.ONE_MOTOR_COUNT_FLIPPY);
     }
 
 }

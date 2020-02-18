@@ -1,43 +1,57 @@
-package org.firstinspires.ftc.teamcode.dogecvDetectors;
+package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
-import com.disnodeteam.dogecv.DigitalCamera;
-import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
 import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.opencv.core.Rect;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDriveHeading;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.FlippyDriver;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotateToHeading;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.flippyEncoderDrive;
+import org.firstinspires.ftc.teamcode.dogecvDetectors.BlackRectDetector;
+import org.firstinspires.ftc.teamcode.dogecvDetectors.SkyStone2Detector;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
-import org.openftc.easyopencv.OpenCvPipeline;
-import org.openftc.easyopencv.OpenCvWebcam;
+
+//import org.firstinspires.ftc.teamcode.Team2844.Drivers.ColorDriver;
 
 
-@TeleOp(name="SKYSTONE Detect Test", group ="Test")
-@Disabled
-public class SkyStoneDetectTest extends LinearOpMode {
+@Autonomous(name = "TestCamera", group ="Test")
+//@Disabled
+public class TestCamera extends LinearOpMode {
 
-    //DigitalCamera digitalCamera = new DigitalCamera()
-   // SkystoneDetector skystoneDetector;
+   // RobotHardware robot;
+
+    OpenCvCamera phoneCam;
     SkyStone2Detector skystoneDetector;
     StoneDetector stoneDetector;
     BlackRectDetector blackRectDetector;
-   OpenCvCamera phoneCam;
-//    OpenCvCamera webcam;
 
     @Override
     public void runOpMode() throws InterruptedException {
+        //robot = new RobotHardware(hardwareMap, this);
 
-
-        //skystoneDetector = new SkystoneDetector();
         skystoneDetector = new SkyStone2Detector();
         stoneDetector = new StoneDetector();
         blackRectDetector = new BlackRectDetector();
 
-        skystoneDetector.SetRequestedYLine(180);
+        int leftXLine = 120; // purple
+//        int leftXLine = 115; // purple
+        int rightXLine = 187; // green
+
+        skystoneDetector.SetRequestedYLine(205);
+        skystoneDetector.SetRequestedXRightLine(290);
+        //skystoneDetector.SetRequestedXLeftLine(50);
+        skystoneDetector.SetRequestedXLeftLine(80);
+        skystoneDetector.SetRequestedMidlinesRightLine(leftXLine, rightXLine); // purple, green
+
         /*
          * Instantiate an OpenCvCamera object for the camera we'll be using.
          * In this sample, we're using the phone's internal camera. We pass it a
@@ -104,76 +118,38 @@ public class SkyStoneDetectTest extends LinearOpMode {
          */
         //webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
 
-        waitForStart();
 
-        while(opModeIsActive()) {
+        telemetry.addLine("enter detect loop");
+        telemetry.update();
 
-            if (skystoneDetector.isDetected())
-            {
-              //  webcam.setPipeline(null);
+        while (!isStarted()) {
+            if (skystoneDetector.isDetected()) {
                 phoneCam.setPipeline(null);
                 telemetry.addData("Skystone found X Y", "%d %d",
                         skystoneDetector.foundRectangle().x, skystoneDetector.foundRectangle().y);
-            }
-            else
-            {
+                int stoneXValue = skystoneDetector.foundRectangle().x;
+                if (leftXLine > stoneXValue) {
+                    telemetry.addData("stone found left", stoneXValue);
+                    //skystone = 2;
+                } else if (leftXLine < stoneXValue && stoneXValue < rightXLine) {
+                    telemetry.addData("stone found middle", stoneXValue);
+                    //skystone = 1;
+                } else if (stoneXValue > rightXLine) {
+                    telemetry.addData("stone found right", stoneXValue);
+                    //skystone = 0;
+                }
+                phoneCam.setPipeline(skystoneDetector);
+            } else {
                 telemetry.addLine("Sky stone not found");
             }
             telemetry.update();
-            //webcam.setPipeline(skystoneDetector);
-            phoneCam.setPipeline(skystoneDetector);
             idle();
-            /*
-            if (stoneDetector.isDetected())
-            {
-                phoneCam.setPipeline(null);
-                telemetry.addData("Stone Found", 1);
-
-
-                for ( Rect rect : stoneDetector.foundRectangles() ) {
-                    //System.out.println("rect " + rect.toString());
-                    telemetry.addData("Stone found X Y", "%d %d", rect.x, rect.y);
-                    telemetry.addData("Stone Found 2", 1);
-                }
-                phoneCam.setPipeline(stoneDetector);
-                idle();
-            }
-            else
-            {
-                telemetry.addLine("stone not found");
-            }
-            telemetry.update();
-
-
-
-        */
-            /*
-            if (blackRectDetector.isDetected())
-            {
-                //phoneCam.setPipeline(null);
-                webcam.setPipeline(null);
-                telemetry.addData("black Found", 1);
-
-
-                for ( Rect rect : blackRectDetector.foundRectangles() ) {
-                    //System.out.println("rect " + rect.toString());
-                    telemetry.addData("Stone found X Y", "%d %d", rect.x, rect.y);
-                    telemetry.addData("Stone Found 2", 1);
-                }
-
-               // phoneCam.setPipeline(blackRectDetector);
-                webcam.setPipeline(blackRectDetector);
-                idle();
-            }
-            else
-            {
-                telemetry.addLine("stone not found");
-            }
-            telemetry.update();
-*/
-
         }
 
 
+        waitForStart();
+
     }
 }
+
+

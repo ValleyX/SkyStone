@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 
 @TeleOp(name="Test Color Driver Class", group="Test")
+@Disabled
 public class TestColorDriverClass extends LinearOpMode {
 
     TestRobotHardware robot_;

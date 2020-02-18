@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Team2844;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,7 +10,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 //import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name="TeleOp: Pit Driver Controls", group="Test")
-//@Disabled
+@Disabled
 
 public class PitDriverControls extends LinearOpMode
 {
@@ -47,7 +48,7 @@ public class PitDriverControls extends LinearOpMode
 
             if (gamepad2.x)
             {
-                robot.swingy.setPosition(0.8);
+                //robot.swingy.setPosition(0.8);
             }
 
             telemetry.addData("ValleyX lift encoder", liftEncoderDrive.CurrentEncoderPosition());

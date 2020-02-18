@@ -1,34 +1,34 @@
 package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
-import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.teamcode.Team2844.DriverControls;
-//import org.firstinspires.ftc.teamcode.Team2844.Drivers.ColorDriver;
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.DriveTo;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDriveHeading;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.FlippyDriver;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotateToHeading;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.flippyEncoderDrive;
 import org.firstinspires.ftc.teamcode.dogecvDetectors.BlackRectDetector;
 import org.firstinspires.ftc.teamcode.dogecvDetectors.SkyStone2Detector;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvInternalCamera;
 
+//import org.firstinspires.ftc.teamcode.Team2844.Drivers.ColorDriver;
 
-@Autonomous(name = "Test: SkystoneRetrievalDoge", group ="Test")
-@Disabled
-public class SkystoneRetrieval extends LinearOpMode {
+
+@Autonomous(name = "RedJustSkystoneAutonomous", group ="Test")
+//@Disabled
+public class RedJustSkystoneAutonomous extends LinearOpMode {
     //ColorDriver colorDriver;
     EncoderDrive encoderDrive;
     RobotHardware robot;
+    FlippyDriver flippy;
+    EncoderDriveHeading encoderDriveHeading;
     //DigitalCamera digitalCamera = new DigitalCamera()
     // SkystoneDetector skystoneDetector;
     SkyStone2Detector skystoneDetector;
@@ -42,12 +42,16 @@ public class SkystoneRetrieval extends LinearOpMode {
         robot = new RobotHardware(hardwareMap, this);
         EncoderDrive encoderDrive = new EncoderDrive(robot);
         StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
+        FlippyDriver flippy = new FlippyDriver(robot);
         //colorDriver = new ColorDriver(robot);
+
+        EncoderDriveHeading encoderDriveHeading = new EncoderDriveHeading(robot);
+        flippyEncoderDrive flippyEncoderDrive = new flippyEncoderDrive(robot);
 
         //code for test bot only
         RotatePrecise rotatePrecise = new RotatePrecise(robot);
         RotateToHeading rotateToHeading = new RotateToHeading(robot, rotatePrecise);
-        DriveTo driveTo = new DriveTo(robot, encoderDrive);
+        //DriveTo driveTo = new DriveTo(robot, encoderDrive);
 
         //skystoneDetector = new SkystoneDetector();
         skystoneDetector = new SkyStone2Detector();
@@ -55,11 +59,13 @@ public class SkystoneRetrieval extends LinearOpMode {
         blackRectDetector = new BlackRectDetector();
 
         int leftXLine = 120; // purple
+//        int leftXLine = 115; // purple
         int rightXLine = 187; // green
 
         skystoneDetector.SetRequestedYLine(205);
-        skystoneDetector.SetRequestedXRightLine(300);
-        skystoneDetector.SetRequestedXLeftLine(50);
+        skystoneDetector.SetRequestedXRightLine(290);
+        //skystoneDetector.SetRequestedXLeftLine(50);
+        skystoneDetector.SetRequestedXLeftLine(80);
         skystoneDetector.SetRequestedMidlinesRightLine(leftXLine, rightXLine); // purple, green
 
         /*
@@ -131,49 +137,51 @@ public class SkystoneRetrieval extends LinearOpMode {
         double distanceMoved;
         int skystone = 0;
 
-        sleep(5000);
+        //sleep(5000);
+
+
+        flippy.GoToPosition(0.2, 1,0.6);
+        robot.flippy.setPower(0.15);
+
+        robot.rightGrabber.setPosition(0.4);
+        robot.leftGrabber.setPosition(0.4);
+        final double platformDownPos = 0.27;
+        final double platformyFlat = 0.57;
+        robot.platformy.setPosition(platformDownPos);
+        flippyEncoderDrive.MoveToEncoderValue(0.6, 0.0, 5, false);
+
+
+        final int headingduh = -90;
+        final int heading = -45;
+
+        double clawopen = 0.1; //0.0
+        double clawclose = 0.45; //0.37 //0.55
+
+
 
         waitForStart();
-            //encoderDrive.StartAction(.5, -28, -28, 5, true);
-
-            //test code
-            //rotateToHeading.DoIt(0);
-            //driveTo.StartAction(0.5, 1.5, 5, true);
-            //test code
-
 /*
-            sleep(1000);
-            skystone = 0;
-            while (colorDriver.isSeen() && colorDriver.isYellow() && skystone < 2)
-            {
-                Strafing.Strafe(.5, -10, 5, true);
+        flippy.GoToPosition(0.2, 0.6);
+        robot.flippy.setPower(0.15);
+        robot.clawy.setPosition(0.37);
+        sleep(500);
+        robot.clawy.setPosition(0.67);
+        flippy.GoToPosition(1.5, 0.6);
+        //flippy.GoToPosition(2.0, 0.2);
+        robot.flippy.setPower(-0.15);
 
-                //test code
-                rotateToHeading.DoIt(0);
-                driveTo.StartAction(0.5, 1.5, 5, true);
-                //test code
 
-                telemetry.addData("Skystonenotfound", skystone);
-                telemetry.update();
-                skystone += 1;
-                sleep(1000);
-            }
-            if (colorDriver.isSeen() && !colorDriver.isYellow()){
-                telemetry.addData("Skystoneisfound", skystone);
-                telemetry.update();
-            } else{
-                telemetry.addData("NOTHING", skystone);
-                telemetry.update();
-            }
-            sleep(100);
-            break;
+        while(opModeIsActive())
+        {
+            telemetry.addData("pot position", robot.flippyPot.getVoltage());
+            telemetry.update();
         }
+*/
+        double extra = 0;
 
- */
+        while (opModeIsActive())
+        {
 
-            while(opModeIsActive()) {
-
-                //robot.swingy.setPosition(0.87);
 
                 if (skystoneDetector.isDetected()) {
                     //webcam.setPipeline(null);
@@ -186,41 +194,47 @@ public class SkystoneRetrieval extends LinearOpMode {
                         System.out.println("ValleyX stone found left " + stoneXValue);
                         skystone = 2;
                         Strafing.Strafe(0.6, -9, 5, true);
+                        robot.platformy.setPosition(platformDownPos);
                         rotateToHeading.DoIt(0);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDrive.StartAction(0.6, 48, 48, 5, true);
-                        sleep(200);
-                        robot.rightIntake.setPower(0.0);
-                        robot.leftIntake.setPower(0.0);
+                        extra = 3;
+                        encoderDriveHeading.StartAction(0.9, 27, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 9+extra, 0, 5, true);
+                        sleep(300);
+                        //robot.rightIntake.setPower(0.0);
+                        //robot.leftIntake.setPower(0.0);
                         break;
                     }
                     if (leftXLine < stoneXValue && stoneXValue < rightXLine) {
                         telemetry.addData("stone found middle", stoneXValue);
                         System.out.println("ValleyX stone found middle " + stoneXValue);
                         skystone = 1;
-                        robot.platformy.setPosition(0.26);
+                        robot.platformy.setPosition(platformDownPos);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDrive.StartAction(0.6, 48, 48, 5, true);
-                        sleep(200);
-                        robot.rightIntake.setPower(0.0);
-                        robot.leftIntake.setPower(0.0);
+                        encoderDriveHeading.StartAction(0.9, 27, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 9, 0, 5, true);
+                        sleep(300);
+                        //robot.rightIntake.setPower(0.0);
+                        //robot.leftIntake.setPower(0.0);
                         break;
                     }
                     if (stoneXValue > rightXLine) {
                         telemetry.addData("stone found right", stoneXValue);
                         System.out.println("ValleyX stone found right " + stoneXValue);
                         skystone = 0;
+                        encoderDriveHeading.StartAction(1.0, 2, 0, 5, true);
                         Strafing.Strafe(0.6, 9, 5, true);
                         rotateToHeading.DoIt(0);
-                        robot.platformy.setPosition(0.26);
+                        robot.platformy.setPosition(platformDownPos);
                         robot.rightIntake.setPower(1.0);
                         robot.leftIntake.setPower(-1.0);
-                        encoderDrive.StartAction(0.6, 48, 48, 5, true);
-                        sleep(200);
-                        robot.rightIntake.setPower(0.0);
-                        robot.leftIntake.setPower(0.0);
+                        encoderDriveHeading.StartAction(0.9, 26, 0, 5, true);
+                        encoderDriveHeading.StartAction(0.3, 9, 0, 5, true);
+                        sleep(300);
+                        //robot.rightIntake.setPower(0.0);
+                        //robot.leftIntake.setPower(0.0);
                         break;
                     }
                 } else {
@@ -232,92 +246,161 @@ public class SkystoneRetrieval extends LinearOpMode {
                 idle();
             }
 
-            double FudgeFactor = 5;
+            double FudgeFactor = 0;
             double stoneSize = 8;
-            double fixedAmount = 70;
+            double fixedAmount = 47;
             double toFoundationSide = fixedAmount + (skystone * stoneSize);
             double fromFoundationSide = toFoundationSide + (3 * stoneSize) + FudgeFactor;
-            double toFoundation = 14;
+            double toFoundation = 10;
 
 
-            // back up from stones to turn
-            encoderDrive.StartAction(1.0, -24, -24, 5, true);
-            //rotatePrecise.RotatePrecise(-90, 2, 0.2, 0.3, 5);
-            rotateToHeading.DoIt(-90);
-
+            // back up after getting stone
+            encoderDriveHeading.StartAction(0.9, -8-extra, 0, 5, true);
+            //sleep(1000);
             // drive to foundation side
-            encoderDrive.StartAction(1.0, -toFoundationSide, -toFoundationSide, 5, true);
-            /*
-            sleep(1000);
-            int count = 0;
-            while (robot.sensorRange.getDistance(DistanceUnit.INCH) > 10)
-            {
-                encoderDrive.StartAction(0.6, -8, -8, 5, true);
-                count += 1;
-            }
-            distanceMoved = driveTo.StartAction(0.5, 2, 5, true);
-            System.out.println("ValleyX Distance Moved " + distanceMoved);
-             */
+        /*
+            Strafing.Strafe(1, toFoundationSide + 2, 5, true);
+            rotateToHeading.DoIt(0);
+         */
 
-            // turn to foundation
-            rotateToHeading.DoIt(180);
-            encoderDrive.StartAction(0.6, -toFoundation, -toFoundation, 5, true);
+            rotateToHeading.DoIt(headingduh);
+            //robot.platformy.setPosition(platformDownPos);
 
-            // use arm to drop off block
-            robot.rightIntake.setPower(-1.0);
-            robot.leftIntake.setPower(1.0);
-            sleep(1000);
-            robot.rightIntake.setPower(0.0);
-            robot.leftIntake.setPower(0.0);
+            encoderDriveHeading.StartAction(0.8, -toFoundationSide, headingduh, 10, true);
 
-            // drive back from foundation and turn towards stones
-            encoderDrive.StartAction(0.6, toFoundation, toFoundation, 5, true);
-            rotateToHeading.DoIt(-90);
-            encoderDrive.StartAction(1.0, fromFoundationSide, fromFoundationSide, 5, true);
+            // drop off block
+
             rotateToHeading.DoIt(0);
 
-            // get next block
+            robot.rightIntake.setPower(-1.0);
+            robot.leftIntake.setPower(1.0);
+            sleep(500);
+            robot.rightIntake.setPower(0.0);
+            robot.leftIntake.setPower(0.0);
+            rotateToHeading.DoIt(headingduh);
+
+
+            //arm swing yay
+        /*
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
-            encoderDrive.StartAction(0.6, 12, 12, 5, true);
+
+            //sleep(300);
+            robot.clawy.setPosition(clawclose);
+            sleep(600);
+            flippyEncoderDrive.MoveToEncoderValue(0.6, 0.5, 5, false);
+
+            sleep(500);
+            robot.rightIntake.setPower(0.0);
+            robot.leftIntake.setPower(0.0);
+            robot.clawy.setPosition(clawopen);
+
+            sleep(400);
+            encoderDriveHeading.StartAction(0.9, 3.5+stoneSize, headingduh, 5, true);
+
+            robot.clawy.setPosition(clawclose);
+            sleep(600);
+            flippyEncoderDrive.MoveToEncoderValue(0.6, 0.1, 5, false);
+            sleep(800);
+            robot.clawy.setPosition(clawopen);
+            flippyEncoderDrive.MoveToEncoderValue(0.6, 0.0, 5, false);
+
+         */
+
+            //rotateToHeading.DoIt(-90);
+            encoderDriveHeading.StartAction(0.8, fromFoundationSide-13, headingduh, 5, true); /////////
+
+            // get next block
+            //Strafing.Strafe(1, 23, 5, true);
+
+
+            rotateToHeading.DoIt(heading); // turning to grab block
+            robot.platformy.setPosition(platformDownPos);
+            robot.rightIntake.setPower(1.0);
+            robot.leftIntake.setPower(-1.0);
+            encoderDriveHeading.StartAction(0.3, 15,  heading, 2, true);
+            sleep(300);
+            //robot.rightIntake.setPower(0.0);
+            //robot.leftIntake.setPower(0.0);
+            encoderDriveHeading.StartAction(0.9, -15, heading, 5, true);
+
+            //robot.rightIntake.setPower(0.0);
+            //robot.leftIntake.setPower(0.0);
+            //sleep(300);
+            rotateToHeading.DoIt(headingduh);
+
+            // go back to foundation
+            //Strafing.Strafe(0.6, fromFoundationSide, 5, true);
+            //rotateToHeading.DoIt(-90);
+            encoderDriveHeading.StartAction(0.9, -toFoundationSide, headingduh, 5, true);
+            rotateToHeading.DoIt(0);
+
+            robot.rightIntake.setPower(-1.0);
+            robot.leftIntake.setPower(1.0);
+            sleep(500);
+            robot.rightIntake.setPower(0.0);
+            robot.leftIntake.setPower(0.0);
+            rotateToHeading.DoIt(headingduh);
+
+            encoderDriveHeading.StartAction(0.9, 17, headingduh, 5, true);
+
+            /*
+            //slowly drive up and get foundation
+            encoderDriveHeading.StartAction(0.3, -toFoundation + 0, 180, 5, true);
+
+
+            //encoderDriveHeading.StartAction(0.8, -5, 180, 5, true);
+            robot.rightGrabber.setPosition(0.07);
+            robot.leftGrabber.setPosition(0.07);
+
+            robot.rightIntake.setPower(-1.0);
+            robot.leftIntake.setPower(1.0);
+
+            sleep(350);
+
+            robot.rightIntake.setPower(0);
+            robot.leftIntake.setPower(0);
+
+
+            robot.platformy.setPosition(platformyFlat);
+            sleep(350);
+
+            robot.rightIntake.setPower(1.0);
+            robot.leftIntake.setPower(-1.0);
+            //robot.platformy.setPosition(platformDownPos);
+
+            //These lines will spin the foundation
+            encoderDriveHeading.StartAction(1.0, 30, 180, 5, true);
+            robot.clawy.setPosition(0.45);
+            rotatePrecise.RotatePrecise(-headingduh, 2, 0.6, 0.3, 2);
+            encoderDriveHeading.StartAction(1.0, -5, -90, 5, true);
+
+            // swing arm yay
+            flippyEncoderDrive.MoveToEncoderValue(0.6, 0.5, 5, false);
             sleep(300);
             robot.rightIntake.setPower(0.0);
             robot.leftIntake.setPower(0.0);
-            encoderDrive.StartAction(0.6, -12, -12, 5, true);
+            robot.clawy.setPosition(clawopen); //open
 
-            // go back to foundation
-            rotateToHeading.DoIt(-90);
-            encoderDrive.StartAction(1.0, -fromFoundationSide, -fromFoundationSide, 5, true);
-            rotateToHeading.DoIt(180);
-            encoderDrive.StartAction(0.6, -toFoundation, -toFoundation, 5, true);
-            // drop block off with arm
+            robot.rightGrabber.setPosition(0.75);
+            robot.leftGrabber.setPosition(0.75);
 
-            // drag foundation back
-            // follow usual foundation code except park near skybridge instead of wall
+            sleep(350);
 
+            robot.clawy.setPosition(clawclose);
+            sleep(200);
+            flippyEncoderDrive.MoveToEncoderValue(0.3, 0.01, 5, false);
+            sleep(200);
+            //encoderDrive.StartAction(1.0, 7, 7, 5, true);
 
+            //rotateToHeading.DoIt(-90);
 
-/*
-            encoderDrive.StartAction(1.0, fromFoundationSide, fromFoundationSide, 5, true);
-            rotateToHeading.DoIt(0);
-            driveTo.StartAction(1.0, 2, 5, true);
-            // back up from stones to turn (again)
-            encoderDrive.StartAction(1.0, 5, 5, 5, true);
-            //rotatePrecise.RotatePrecise(-90, 2, 0.2, 0.3, 5);
-            rotateToHeading.DoIt(-90);
+            //Strafing.Strafe(1.0, 12, 5, true);
 
-            // drive to foundation and get 2 inches away (again)
-            encoderDrive.StartAction(1.0, -fromFoundationSide, -fromFoundationSide, 5, true);
-            count = 0;
-            while (robot.sensorRange.getDistance(DistanceUnit.INCH) > 10) {
-                encoderDrive.StartAction(0.6, -8, -8, 5, true);
-                count += 1;
-            }
-            driveTo.StartAction(1.0, 2, 5, true);
-            // park on the tape
-            encoderDrive.StartAction(0.6, 30 + (count * 8), 30 + (count * 8), 5, true);
+            //Add code here to park on line
+            encoderDriveHeading.StartAction(1.0, 37, -30, 5, true);
+            */
 
- */
         }
     }
 
