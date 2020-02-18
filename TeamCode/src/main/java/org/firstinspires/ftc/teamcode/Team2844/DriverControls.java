@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.FlippyDriver;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.LiftEncoderDrive;
@@ -321,6 +322,9 @@ public class DriverControls extends LinearOpMode
             double clawopen = 0.1; //0.0
             double clawclose = 0.45; //0.37 //0.55
 
+            double capstoneDown = 0.5;
+            double capstoneUp = 0.0;
+
             // moving up or down levels at a time
             if (gamepad2.dpad_up)
             {
@@ -422,13 +426,23 @@ public class DriverControls extends LinearOpMode
             // intake
             if (rightTrigger2 > 0)
             {
-                robot.platformy.setPosition(platformyDown);
+                //robot.platformy.setPosition(platformyDown);
+                if (robot.bucketLazery.getDistance(DistanceUnit.INCH) < 2)
+                {
+                    robot.platformy.setPosition(platformyFlat);
+                    DriveWhileWaiting(400, false, false);
+                    robot.clawy.setPosition(clawclose);
+                }
+                else
+                {
+                    robot.platformy.setPosition(platformyDown);
+                }
                 robot.clawy.setPosition(clawopen);
                 isClawOpen = true;
                 robot.rightIntake.setPower(rightTrigger2);
                 robot.leftIntake.setPower(-rightTrigger2);
             }
-            else if (leftTrigger2 > 0)
+            else if (leftTrigger2 > 0) // out
             {
                 robot.platformy.setPosition(platformyDown);
                 robot.clawy.setPosition(clawopen);
@@ -447,6 +461,22 @@ public class DriverControls extends LinearOpMode
                 robot.clawy.setPosition(clawclose);
                 flippyEncoderDrive.StopAction();
                 robot.flippy.setPower(-gamepad2.right_stick_y);
+            }
+
+            // capstone button
+            if (gamepad2.b)
+            {
+                robot.rightIntake.setPower(rightTrigger2);
+                robot.leftIntake.setPower(-rightTrigger2);
+                robot.clawy.setPosition(clawopen);
+                flippyEncoderDrive.MoveToEncoderValue(1.0, 0.3, 5, false);
+                DriveWhileWaiting(600,false, true);
+                robot.capstoneServo.setPosition(capstoneDown);
+                sleep(300);
+                robot.capstoneServo.setPosition(capstoneUp);
+                sleep(300);
+                flippyEncoderDrive.MoveToEncoderValue(1.0, 0.0, 5, false);
+                DriveWhileWaiting(600,false, true);
             }
 
 /*

@@ -53,9 +53,9 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         stoneDetector = new StoneDetector();
         blackRectDetector = new BlackRectDetector();
 
-        int leftXLine = 110; // purple
-//        int leftXLine = 115; // purple
-        int rightXLine = 187; // green
+        //int leftXLine = 110; // purple
+        int leftXLine = 140; // purple
+        int rightXLine = 217; // green  was 187
 
         skystoneDetector.SetRequestedYLine(205);
         skystoneDetector.SetRequestedXRightLine(290);
@@ -148,7 +148,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         }
 
         final int headingduh = 90;
-        final int heading = -45;
+        final int heading = 45;
 
         robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
@@ -168,13 +168,13 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
                 int stoneXValue = skystoneDetector.foundRectangle().x;
                 if (leftXLine > stoneXValue) {
                     telemetry.addData("stone found left", stoneXValue);
-                    skystone = 2;
+                    skystone = 0;
                 } else if (leftXLine < stoneXValue && stoneXValue < rightXLine) {
                     telemetry.addData("stone found middle", stoneXValue);
                     skystone = 1;
                 } else if (stoneXValue > rightXLine) {
                     telemetry.addData("stone found right", stoneXValue);
-                    skystone = 0;
+                    skystone = 2;
                 }
                 phoneCam.setPipeline(skystoneDetector);
             }
@@ -191,7 +191,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
 
         phoneCam.stopStreaming();
 
-        if (skystone == 2) { //left
+        if (skystone == 0) { //left
             robot.leftFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.rightFrontDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
