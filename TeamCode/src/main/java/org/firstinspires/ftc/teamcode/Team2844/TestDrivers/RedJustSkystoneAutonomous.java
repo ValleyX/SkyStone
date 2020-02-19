@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
@@ -22,7 +23,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 
 @Autonomous(name = "RedJustSkystoneAutonomous", group ="Test")
-//@Disabled
+@Disabled
 public class RedJustSkystoneAutonomous extends LinearOpMode {
     //ColorDriver colorDriver;
     EncoderDrive encoderDrive;

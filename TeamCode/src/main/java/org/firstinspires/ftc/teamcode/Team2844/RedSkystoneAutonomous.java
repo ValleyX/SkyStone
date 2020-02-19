@@ -201,7 +201,7 @@ public class RedSkystoneAutonomous extends LinearOpMode {
             robot.leftIntake.setPower(-1.0);
             encoderDriveHeading.StartAction(0.5, 28, -15, 1.5, true);
             //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
-            encoderDriveHeading.StartAction(0.3, 15, -50, 1.5, true);
+            encoderDriveHeading.StartAction(0.1, 15, 70, 1.5, true);
 
             sleep(400);
             //robot.platformy.setPosition(platformyFlat);
@@ -236,11 +236,16 @@ public class RedSkystoneAutonomous extends LinearOpMode {
              robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
+            /*
             encoderDriveHeading.StartAction(0.5, 28, 15, 1.5, true);
             //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
             encoderDriveHeading.StartAction(0.3, 15, -50, 1.5, true);
+*/
+             encoderDriveHeading.StartAction(0.5, 28, 16, 1.5, true);
+             //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+             encoderDriveHeading.StartAction(0.1, 15, -50, 1.5, true);
 
-            sleep(400);
+             sleep(400);
             //robot.platformy.setPosition(platformyFlat);
              encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
 

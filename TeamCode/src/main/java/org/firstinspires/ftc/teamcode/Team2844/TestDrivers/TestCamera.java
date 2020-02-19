@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
 import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -24,7 +25,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 
 @Autonomous(name = "TestCamera", group ="Test")
-//@Disabled
+@Disabled
 public class TestCamera extends LinearOpMode {
 
    // RobotHardware robot;

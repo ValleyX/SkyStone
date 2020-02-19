@@ -54,8 +54,8 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         blackRectDetector = new BlackRectDetector();
 
         //int leftXLine = 110; // purple
-        int leftXLine = 140; // purple
-        int rightXLine = 217; // green  was 187
+        int leftXLine = 130; // purple
+        int rightXLine = 200; // green  was 187
 
         skystoneDetector.SetRequestedYLine(205);
         skystoneDetector.SetRequestedXRightLine(290);
@@ -138,6 +138,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         robot.rightGrabber.setPosition(0.4);
         robot.leftGrabber.setPosition(0.4);
         final double platformDownPos = 0.28; //0.27
+        final double platformyMid = 0.38;
         final double platformyFlat = 0.57;
         robot.platformy.setPosition(platformDownPos);
         robot.clawy.setPosition(clawopen);
@@ -166,13 +167,13 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
                 telemetry.addData("Skystone found X Y", "%d %d",
                         skystoneDetector.foundRectangle().x, skystoneDetector.foundRectangle().y);
                 int stoneXValue = skystoneDetector.foundRectangle().x;
-                if (leftXLine > stoneXValue) {
+                if (leftXLine >= stoneXValue) {
                     telemetry.addData("stone found left", stoneXValue);
                     skystone = 0;
                 } else if (leftXLine < stoneXValue && stoneXValue < rightXLine) {
                     telemetry.addData("stone found middle", stoneXValue);
                     skystone = 1;
-                } else if (stoneXValue > rightXLine) {
+                } else if (stoneXValue >= rightXLine) {
                     telemetry.addData("stone found right", stoneXValue);
                     skystone = 2;
                 }
@@ -199,9 +200,15 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
 
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
+            /*
             encoderDriveHeading.StartAction(0.5, 28, -15, 1.5, true);
             //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
             encoderDriveHeading.StartAction(0.3, 15, -50, 1.5, true);
+*/
+            encoderDriveHeading.StartAction(0.5, 28, -18, 1.5, true);
+            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+            encoderDriveHeading.StartAction(0.1, 15, 50, 1.5, true);
+
 
             sleep(400);
             //robot.platformy.setPosition(platformyFlat);
@@ -236,10 +243,16 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
             robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
-            encoderDriveHeading.StartAction(0.5, 28, 15, 1.5, true);
-            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
-            encoderDriveHeading.StartAction(0.3, 15, -50, 1.5, true);
 
+            encoderDriveHeading.StartAction(0.6, 28, 15, 1.5, true);
+            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+            encoderDriveHeading.StartAction(0.2, 15, -70, 1.5, true);
+
+            /*
+            encoderDriveHeading.StartAction(0.5, 28, 25, 1.5, true);
+            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+            encoderDriveHeading.StartAction(0.2, 15, -300, 1.5, true);
+*/
             sleep(400);
             //robot.platformy.setPosition(platformyFlat);
             encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
@@ -252,7 +265,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         double fixedAmount = 38; //68
         double toFoundationSide = fixedAmount + (skystone * stoneSize);
         double fromFoundationSide = toFoundationSide + (3 * stoneSize) + FudgeFactor;
-        double toFoundation = 13;
+        double toFoundation = 15;
         //double toGlass = (3 * stoneSize) - (skystone * stoneSize) - 8;
         double toGlass =  (2-skystone) * stoneSize;
         int reduce = 0;
@@ -266,6 +279,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         System.out.println("ValleyX Auto: Going to foundation " + runtime.milliseconds());
 
         // driving backwards to foundation side
+        robot.platformy.setPosition(platformyMid);
         encoderDriveHeading.StartAction(.8, -toFoundationSide, headingduh, 2, true);
 
         robot.rightIntake.setPower(0);
@@ -362,11 +376,12 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
 
         System.out.println("ValleyX Auto: spin foundation " + runtime.milliseconds());
 
-        // spin the foundation
-        encoderDriveHeading.StartAction(1.0, 30, 180, 2, true);
+        //drag back the foundation
+        encoderDriveHeading.StartAction(1.0, 34, 180, 2, true);
         if (armIsWorking) {
             flippyEncoderDrive.MoveToEncoderValue(1.0, 0.0, 5, false);
         }
+        // spin the foundation
         rotateToHeading.DoItSpecify(headingduh, 20, 0.8, 0.2, 1);
 
         // let go of foundation
@@ -381,7 +396,7 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         robot.rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         // drive to skybridge line
-        encoderDriveHeading.StartAction(1.0, 40, headingduh-40, 5, true);
+        encoderDriveHeading.StartAction(1.0, 40, headingduh-35, 5, true);
         System.out.println("ValleyX Auto: complete " + runtime.milliseconds());
 
 
