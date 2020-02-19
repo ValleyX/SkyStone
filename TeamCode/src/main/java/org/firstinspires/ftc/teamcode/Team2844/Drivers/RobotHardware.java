@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.Team2844.Drivers;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.CRServo;
@@ -91,6 +92,7 @@ public class RobotHardware
     public DigitalChannel touchFlippy;
     public DcMotor        flippy;
     public AnalogInput    flippyPot;
+    public RevBlinkinLedDriver blinky;
 
     public BNO055IMU imu;
 
@@ -161,6 +163,8 @@ public class RobotHardware
         leftIntake = ahwMap.get(DcMotor.class, "lintake"); // secondary hub motor 1
 
         flippyPot = ahwMap.analogInput.get("topPot"); // main 2 analog input
+
+        blinky = ahwMap.get(RevBlinkinLedDriver.class, "Blinky"); // TODO find
 
         Rev2mDistanceSensor sensorTimeOfFlight = (Rev2mDistanceSensor)sensorRange;
 
