@@ -141,7 +141,8 @@ public class RedSkystoneAutonomous extends LinearOpMode {
         final double platformyFlat = 0.57;
         robot.platformy.setPosition(platformDownPos);
         robot.clawy.setPosition(clawopen);
-        boolean armIsWorking = false;
+        boolean armIsWorking = true;
+        boolean strafingTest = false;
 
         if (armIsWorking) {
             flippyEncoderDrive.MoveToEncoderValue(0.2, 0.005, 5, true);
@@ -166,13 +167,13 @@ public class RedSkystoneAutonomous extends LinearOpMode {
                 telemetry.addData("Skystone found X Y", "%d %d",
                         skystoneDetector.foundRectangle().x, skystoneDetector.foundRectangle().y);
                 int stoneXValue = skystoneDetector.foundRectangle().x;
-                if (leftXLine > stoneXValue) {
+                if (leftXLine >= stoneXValue) {
                     telemetry.addData("stone found left", stoneXValue);
                     skystone = 2;
                 } else if (leftXLine < stoneXValue && stoneXValue < rightXLine) {
                     telemetry.addData("stone found middle", stoneXValue);
                     skystone = 1;
-                } else if (stoneXValue > rightXLine) {
+                } else if (stoneXValue >= rightXLine) {
                     telemetry.addData("stone found right", stoneXValue);
                     skystone = 0;
                 }
@@ -199,13 +200,32 @@ public class RedSkystoneAutonomous extends LinearOpMode {
 
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
-            encoderDriveHeading.StartAction(0.5, 28, -15, 1.5, true);
-            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
-            encoderDriveHeading.StartAction(0.1, 15, 70, 1.5, true);
 
-            sleep(400);
-            //robot.platformy.setPosition(platformyFlat);
-            encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+            if (strafingTest)
+            {
+                encoderDriveHeading.StartAction(0.5, 27, 0, 1.5, true);
+                System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+
+                Strafing.Strafe(1,-9,1,true);
+                encoderDriveHeading.StartAction(0.3, 15, 0, 1.5, true);
+
+                System.out.println("ValleyX Auto: suck " + runtime.milliseconds());
+                sleep(400);
+                //robot.platformy.setPosition(platformyFlat);
+                System.out.println("ValleyX Auto: go back " + runtime.milliseconds());
+
+                encoderDriveHeading.StartAction(0.8, -13, 0, 5, true);
+            }
+            else
+            {
+                encoderDriveHeading.StartAction(0.5, 28, -15, 1.5, true);
+                //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+                encoderDriveHeading.StartAction(0.1, 15, 70, 1.5, true);
+
+                sleep(400);
+                //robot.platformy.setPosition(platformyFlat);
+                encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+            }
         }
         else if (skystone == 1) //middle
         {
@@ -241,14 +261,31 @@ public class RedSkystoneAutonomous extends LinearOpMode {
             //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
             encoderDriveHeading.StartAction(0.3, 15, -50, 1.5, true);
 */
-             encoderDriveHeading.StartAction(0.5, 28, 16, 1.5, true);
-             //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
-             encoderDriveHeading.StartAction(0.1, 15, -50, 1.5, true);
+             if (strafingTest)
+             {
+                 encoderDriveHeading.StartAction(0.5, 27, 0, 1.5, true);
+                 System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
 
-             sleep(400);
-            //robot.platformy.setPosition(platformyFlat);
-             encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+                 Strafing.Strafe(1,10,1,true);
+                 encoderDriveHeading.StartAction(0.3, 15, 0, 1.5, true);
 
+                 System.out.println("ValleyX Auto: suck " + runtime.milliseconds());
+                 sleep(400);
+                 //robot.platformy.setPosition(platformyFlat);
+                 System.out.println("ValleyX Auto: go back " + runtime.milliseconds());
+
+                 encoderDriveHeading.StartAction(0.8, -13, 0, 5, true);
+             }
+             else
+             {
+                 encoderDriveHeading.StartAction(0.5, 28, 16, 1.5, true);
+                 //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+                 encoderDriveHeading.StartAction(0.1, 15, -50, 1.5, true);
+
+                 sleep(400);
+                 //robot.platformy.setPosition(platformyFlat);
+                 encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+             }
          }
 
 
@@ -257,7 +294,7 @@ public class RedSkystoneAutonomous extends LinearOpMode {
         double fixedAmount = 38; //68
         double toFoundationSide = fixedAmount + (skystone * stoneSize);
         double fromFoundationSide = toFoundationSide + (3 * stoneSize) + FudgeFactor;
-        double toFoundation = 12;
+        double toFoundation = 15;
         //double toGlass = (3 * stoneSize) - (skystone * stoneSize) - 8;
         double toGlass =  (2-skystone) * stoneSize;
         int reduce = 0;
@@ -368,7 +405,7 @@ public class RedSkystoneAutonomous extends LinearOpMode {
         System.out.println("ValleyX Auto: spin foundation " + runtime.milliseconds());
 
     // spin the foundation
-        encoderDriveHeading.StartAction(1.0, 30, 180, 2, true);
+        encoderDriveHeading.StartAction(1.0, 33, 180, 2, true);
         if (armIsWorking) {
             flippyEncoderDrive.MoveToEncoderValue(1.0, 0.0, 5, false);
         }
@@ -388,7 +425,6 @@ public class RedSkystoneAutonomous extends LinearOpMode {
         // drive to skybridge line
         encoderDriveHeading.StartAction(1.0, 40, headingduh+40, 5, true);
         System.out.println("ValleyX Auto: complete " + runtime.milliseconds());
-
 
         }
 

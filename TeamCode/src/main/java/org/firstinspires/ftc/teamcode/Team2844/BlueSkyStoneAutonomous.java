@@ -142,7 +142,8 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
         final double platformyFlat = 0.57;
         robot.platformy.setPosition(platformDownPos);
         robot.clawy.setPosition(clawopen);
-        boolean armIsWorking = false;
+        boolean armIsWorking = true;
+        boolean strafingTest = false;
 
         if (armIsWorking) {
             flippyEncoderDrive.MoveToEncoderValue(0.2, 0.005, 5, true);
@@ -200,19 +201,33 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
 
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
-            /*
-            encoderDriveHeading.StartAction(0.5, 28, -15, 1.5, true);
-            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
-            encoderDriveHeading.StartAction(0.3, 15, -50, 1.5, true);
-*/
-            encoderDriveHeading.StartAction(0.5, 28, -18, 1.5, true);
-            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
-            encoderDriveHeading.StartAction(0.1, 15, 50, 1.5, true);
 
+            if (strafingTest)
+            {
+                encoderDriveHeading.StartAction(0.5, 27, 0, 1.5, true);
+                System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
 
-            sleep(400);
-            //robot.platformy.setPosition(platformyFlat);
-            encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+                Strafing.Strafe(1,-8,1,true);
+                encoderDriveHeading.StartAction(0.3, 15, 0, 1.5, true);
+
+                System.out.println("ValleyX Auto: suck " + runtime.milliseconds());
+                sleep(400);
+                //robot.platformy.setPosition(platformyFlat);
+                System.out.println("ValleyX Auto: go back " + runtime.milliseconds());
+
+                encoderDriveHeading.StartAction(0.8, -14, 0, 5, true);
+            }
+            else
+            {
+
+                encoderDriveHeading.StartAction(0.5, 28, -18, 1.5, true);
+
+                encoderDriveHeading.StartAction(0.1, 15, 50, 1.5, true);
+
+                sleep(400);
+
+                encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+            }
         }
         else if (skystone == 1) //middle
         {
@@ -244,19 +259,30 @@ public class BlueSkyStoneAutonomous extends LinearOpMode {
             robot.rightIntake.setPower(1.0);
             robot.leftIntake.setPower(-1.0);
 
-            encoderDriveHeading.StartAction(0.6, 28, 15, 1.5, true);
-            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
-            encoderDriveHeading.StartAction(0.2, 15, -70, 1.5, true);
+            if (strafingTest)
+            {
+                encoderDriveHeading.StartAction(0.5, 27, 0, 1.5, true);
+                System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
 
-            /*
-            encoderDriveHeading.StartAction(0.5, 28, 25, 1.5, true);
-            //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
-            encoderDriveHeading.StartAction(0.2, 15, -300, 1.5, true);
-*/
-            sleep(400);
-            //robot.platformy.setPosition(platformyFlat);
-            encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+                Strafing.Strafe(1,8,1,true);
+                encoderDriveHeading.StartAction(0.3, 15, 0, 1.5, true);
 
+                System.out.println("ValleyX Auto: suck " + runtime.milliseconds());
+                sleep(400);
+                //robot.platformy.setPosition(platformyFlat);
+                System.out.println("ValleyX Auto: go back " + runtime.milliseconds());
+
+                encoderDriveHeading.StartAction(0.8, -14, 0, 5, true);
+            }
+            else
+            {
+                encoderDriveHeading.StartAction(0.6, 28, 15, 1.5, true);
+                //System.out.println("ValleyX Auto: get stone " + runtime.milliseconds());
+                encoderDriveHeading.StartAction(0.2, 15, -70, 1.5, true);
+
+                sleep(400);
+                encoderDriveHeading.StartAction(0.8, -12.5, 0, 3, true);
+            }
         }
 
 

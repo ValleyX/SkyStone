@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
+package org.firstinspires.ftc.teamcode.Team2844;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Team2844.Drivers.RotatePrecise;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
 
 @Autonomous(name="DRive forwards autonomous", group="Test")
-@Disabled
+//@Disabled
 
 public class DRiveForwardsAutonomous extends LinearOpMode
 {
