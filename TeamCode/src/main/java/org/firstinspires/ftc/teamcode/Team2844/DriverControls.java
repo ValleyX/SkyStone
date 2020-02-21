@@ -113,6 +113,7 @@ public class DriverControls extends LinearOpMode
                 }
             }
         }
+        /*
         if (flippyEncoderDrive.IsRunning())
         {
             flippyEncoderDrive.StopAction();
@@ -121,7 +122,7 @@ public class DriverControls extends LinearOpMode
         {
             liftEncoderDrive.StopAction();
         }
-
+*/
     }
 
     public boolean LiftTouchIsPressed()
@@ -387,8 +388,8 @@ public class DriverControls extends LinearOpMode
                 DriveWhileWaiting(400, false, false);
                 //flippyEncoderDrive.MoveToEncoderValue(0.2, flippyOut, 5, false);
                 liftPosition = 0;
-                flippyEncoderDrive.MoveToEncoderValue(1.0, flippyIn, 2, false);
-                liftEncoderDrive.MoveToEncoderValue(0.8, liftPosition, 2, false);
+                flippyEncoderDrive.MoveToEncoderValue(1.0, flippyIn, 5, false);
+                liftEncoderDrive.MoveToEncoderValue(0.8, liftPosition, 5, false);
                 DriveWhileWaiting(1200, false, true);
                 DriveWhileWaiting(700, true, false);
                 //sleep(600);
@@ -454,6 +455,7 @@ public class DriverControls extends LinearOpMode
             // intake
             if (rightTrigger2 > 0)
             {
+
                 //robot.platformy.setPosition(platformyDown);
                 if (robot.bucketLazery.getDistance(DistanceUnit.INCH) < 2)
                 {
@@ -465,6 +467,7 @@ public class DriverControls extends LinearOpMode
                 }
                 else
                 {
+                    robot.clawy.setPosition(clawopen);
                     robot.platformy.setPosition(platformyDown);
                 }
                 //robot.clawy.setPosition(clawopen);
@@ -501,9 +504,9 @@ public class DriverControls extends LinearOpMode
                 flippyEncoderDrive.MoveToEncoderValue(1.0, 0.3, 5, false);
                 DriveWhileWaiting(600,false, true);
                 robot.capstoneServo.setPosition(capstoneDown);
-                sleep(300);
+                sleep(600);
                 robot.capstoneServo.setPosition(capstoneUp);
-                sleep(300);
+                sleep(600);
                 flippyEncoderDrive.MoveToEncoderValue(1.0, 0.0, 5, false);
                 DriveWhileWaiting(600,false, true);
             }
