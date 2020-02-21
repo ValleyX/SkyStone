@@ -335,26 +335,13 @@ public class DriverControls extends LinearOpMode
 
             double capstoneDown = 0.6;
             double capstoneUp = 0.0;
-
+/*
             // moving up or down levels at a time
             if (gamepad2.dpad_up)
             {
                 if ((liftPosition + oneLevel) < maxlevel)
                 {
-                   if (liftPosition == 0.0)
-                   {
-                       /*
-                       robot.rightIntake.setPower(1.0);
-                       robot.leftIntake.setPower(-1.0);
-                       robot.platformy.setPosition(platformyFlat);
-                       //sleep(1000);
-                       DriveWhileWaiting(300, false, false);
-                       robot.clawy.setPosition(clawclose);
-                       isClawOpen = false;
-                       DriveWhileWaiting(300, false, false);
 
-                        */
-                   }
                     flippyEncoderDrive.MoveToEncoderValue(1.0, 0.15, 5, false); //0.2
                     DriveWhileWaiting(300, false, true);
 
@@ -377,7 +364,7 @@ public class DriverControls extends LinearOpMode
                     DriveWhileWaiting(300, true, false);
                 }
             }
-
+*/
             // reset
             if (gamepad2.a)
             {
@@ -389,9 +376,10 @@ public class DriverControls extends LinearOpMode
                 //flippyEncoderDrive.MoveToEncoderValue(0.2, flippyOut, 5, false);
                 liftPosition = 0;
                 flippyEncoderDrive.MoveToEncoderValue(1.0, flippyIn, 5, false);
-                liftEncoderDrive.MoveToEncoderValue(0.8, liftPosition, 5, false);
+                liftEncoderDrive.MoveToEncoderValue(1.0, liftPosition, 5, false);
                 DriveWhileWaiting(1200, false, true);
                 DriveWhileWaiting(700, true, false);
+                robot.lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 //sleep(600);
                 //robot.clawy.setPosition(clawopen);
                 //JM just took out 4:04 2-5-2020
@@ -487,6 +475,8 @@ public class DriverControls extends LinearOpMode
                 robot.rightIntake.setPower(0);
                 robot.leftIntake.setPower(0);
             }
+
+
 
             robot.lift.setPower(-gamepad2.left_stick_y);
             if (gamepad2.right_stick_y != 0.0) {
