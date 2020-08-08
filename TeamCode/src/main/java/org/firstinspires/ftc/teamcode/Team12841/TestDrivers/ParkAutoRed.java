@@ -27,92 +27,71 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
+package org.firstinspires.ftc.teamcode.Team12841.TestDrivers;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
-import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
+import org.firstinspires.ftc.teamcode.Team12841.Drivers.EncoderDriveStrafe;
+import org.firstinspires.ftc.teamcode.Team12841.Drivers.RobotHardware;
 
 /**
  * This file is designed to test out the EncoderDrive class
  */
 
-
-@Autonomous(name="Test: Test Samatron Encoder Drive", group="Test")
-@Disabled
-public class TestEncoderDrive extends LinearOpMode
-{
+@Autonomous(name="Autonomous Base Park Red", group="Test")
+//@Disabled
+public class ParkAutoRed extends LinearOpMode {
 
     /* Declare OpMode members. */
-
+    public final double Latch_UP_POSITION = -0.25;
+    public final double Latch_DOWN_POSITION = 0.70;
     @Override
     public void runOpMode()
     {
         ElapsedTime runtime = new ElapsedTime();
 
         RobotHardware robot = new RobotHardware(hardwareMap, this);
-        EncoderDrive encoderDrive = new EncoderDrive(robot);
-        StrafingEncoderDrive Strafing = new StrafingEncoderDrive(robot);
+        EncoderDriveStrafe encoderDriveStrafe = new EncoderDriveStrafe(robot);
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        encoderDrive.StartAction(0.6, -12, -12, 40, true);
-        encoderDrive.StartAction(0.6, 12, 12, 40, true);
+        sleep(50);
+        //strafe left foundation push
+        System.out.println("ValleyX: initial strafe Right");
+        encoderDriveStrafe.StartAction( .3, 13, -13, -13, 13,
+                4, true);
 
-/*
         System.out.println("ValleyX: Starting...");
-        System.out.println("ValleyX: Move forward 12 inches ");
+        System.out.println("ValleyX: Move forward 12 inches");
         //going forwards 12 inches
-        encoderDrive.StartAction(0.3, 12, 12, 5.0, true);
+        encoderDriveStrafe.StartAction(0.5, 30, 30, 30, 30,
+                4, true);
 
-        sleep(2000);
-        //going backwards 12 inches
-        System.out.println("ValleyX: Move backwards 12 inches");
-        encoderDrive.StartAction(0.3, -12, -12, 5.0, true);
 
-        sleep(2000);
+
+       /* sleep(2000);
         //testing no wait functions going forward 12 inches
         runtime.reset();
         System.out.println("ValleyX: Move forward 12 inches");
-        encoderDrive.StartAction(0.3, 12, 12, 6.0, true);
+        encoderDrive.StartAction(0.6, 12, 12, 6.0, false);
 
-        sleep(2000);
-        //testing strafe
-        runtime.reset();
-        System.out.println("ValleyX: Strafe right");
-        Strafing.Strafe(0.3, 12,6.0,true);
-        sleep(2000);
-
-        System.out.println("ValleyX: Strafe left");
-        Strafing.Strafe(0.3, -12,6.0,true);
-        sleep(2000);
-
-        System.out.println("ValleyX: Strafe right");
-        Strafing.Strafe(0.3, 12,6.0,true);
-
-        /*
-    //spin here until encoder is complete
+        //spin here until encoder is complete
         while (opModeIsActive() && !encoderDrive.IsActionDone() && runtime.seconds() < 5.0)
         {
-           idle();  
+           idle();
         }
 
         //Spin above is completed
-        encoderDrive.StopAction(); //stop all motors started by StartAction
-         */
-
+        encoderDrive.StopAction(); //stop all motors started by StartAction*/
     }
 
 }
+
 
 
 

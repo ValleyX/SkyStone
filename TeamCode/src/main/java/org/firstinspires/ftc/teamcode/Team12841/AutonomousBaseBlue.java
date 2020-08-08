@@ -27,54 +27,108 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.Team12841.TestDrivers;
+package org.firstinspires.ftc.teamcode.Team12841;
 
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Team12841.Drivers.EncoderDrive;
+import org.firstinspires.ftc.teamcode.Team12841.Drivers.EncoderDriveStrafe;
 import org.firstinspires.ftc.teamcode.Team12841.Drivers.RobotHardware;
 
 /**
  * This file is designed to test out the EncoderDrive class
  */
 
-
-@Autonomous(name="Test: Best Encoder Drive", group="Test")
-@Disabled
-public class TestEncoderDrive extends LinearOpMode {
+@Autonomous(name="Autonomous Base Blue", group="Test")
+//@Disabled
+public class AutonomousBaseBlue extends LinearOpMode {
 
     /* Declare OpMode members. */
-
+    public final double Latch_UP_POSITION = -0.25;
+    public final double Latch_DOWN_POSITION = 0.70;
     @Override
-    public void  runOpMode()
+    public void runOpMode()
     {
         ElapsedTime runtime = new ElapsedTime();
 
         RobotHardware robot = new RobotHardware(hardwareMap, this);
-        EncoderDrive encoderDrive = new EncoderDrive(robot);
+        EncoderDriveStrafe encoderDriveStrafe = new EncoderDriveStrafe(robot);
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        System.out.println("ValleyX: Starting...");
-        System.out.println("ValleyX: Move forward 12 inches ");
-        //going forwards 12 inches
-        encoderDrive.StartAction(0.6, 31.5, 31.5, 31.5,  31.5, 5,
-                true);
+        sleep(50);
+        //strafe left foundation push
+        System.out.println("ValleyX: initial strafe left");
+        encoderDriveStrafe.StartAction( .3, -13, 13, 13, -13,
+                4, true);
 
-        sleep(2000);
+        System.out.println("ValleyX: Starting...");
+        System.out.println("ValleyX: Move forward 12 inches");
+        //going forwards 12 inches
+        encoderDriveStrafe.StartAction(0.5, 31.5, 31.5, 31.5, 31.5,
+                4, true);
+
+        sleep(50);
+        //going backwards 12 inches
+        System.out.println("ValleyX: Latch Down");
+        robot.BackRightHook.setPosition(Latch_DOWN_POSITION);
+        robot.BackLeftHook.setPosition(Latch_UP_POSITION);
+        idle();
+
+        sleep(50);
         //going backwards 12 inches
         System.out.println("ValleyX: Move backwards 12 inches");
-        encoderDrive.StartAction(0.5, -31.5, -31.5, -31.5, -31.5, 5,
-                true);
+        encoderDriveStrafe.StartAction(0.5, -31.5, -31.5, -31.5, -31.5,
+                4, true);
+
+        sleep(50);
+        //going backwards 12 inches
+        System.out.println("ValleyX: Latch Up");
+        robot.BackRightHook.setPosition(Latch_UP_POSITION);
+        robot.BackLeftHook.setPosition(Latch_DOWN_POSITION);
+        idle();
+
+        System.out.println("ValleyX: Starting...");
+        System.out.println("ValleyX: Move forward 12 inches");
+        //going forwards 12 inches
+        encoderDriveStrafe.StartAction(0.1, .2, .2, .2, .2,
+                4, true);
+
+        sleep(50);
+        //strafe right about 20 inches
+        System.out.println("ValleyX: Strafe Right 20 inches");
+        encoderDriveStrafe.StartAction(0.3, 37, -37, -37, 37,
+                4, true);
+
+        sleep(50);
+        //going forward 18 inches
+        System.out.println("ValleyX: Move forward 18 inches");
+        encoderDriveStrafe.StartAction(.5, 18, 18, 18, 18,
+                4, true);
+
+        sleep(50);
+        //strafe left foundation push
+        System.out.println("ValleyX: Strafe Final Building Foundation Push left");
+        encoderDriveStrafe.StartAction( .3, -29, 29, 29, -29,
+                4, true);
+
+        sleep(50);
+        //go backwards to wall
+        System.out.println("ValleyX: Move Back 18 inches");
+        encoderDriveStrafe.StartAction(.5, -16.8, -16.8, -16.8, -16.8,
+                3, true);
+        sleep(50);
+        //strafe park on line
+        System.out.println("ValleyX: Strafe right to line");
+        encoderDriveStrafe.StartAction(.5, 38,-38,-38,38,
+                4,true);
 
        /* sleep(2000);
-        //testing no wait fun3ctions going forward 12 inches
+        //testing no wait functions going forward 12 inches
         runtime.reset();
         System.out.println("ValleyX: Move forward 12 inches");
         encoderDrive.StartAction(0.6, 12, 12, 6.0, false);
