@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Team2844.Drivers;
+package org.firstinspires.ftc.teamcode.Team12841.Drivers;
 
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
@@ -57,9 +57,9 @@ public class RobotHardware
     DcMotor  rightDrive;
 
 
-    //private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
-    //private final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
-    //private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
+    private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
+    private final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
+    private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
     final double             COUNTS_PER_INCH         = 1.0;  //TODO determine in class
 
     /* Constructor */

@@ -35,16 +35,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.DriveTo;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.EncoderDrive;
 import org.firstinspires.ftc.teamcode.Team2844.Drivers.RobotHardware;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.StrafingEncoderDrive;
+import org.firstinspires.ftc.teamcode.Team2844.Drivers.TestRobotHardware;
 
 /**
  * This file is designed to test out the EncoderDrive class
  */
 
-@Autonomous(name="Test: Test Encoder Drive", group="Test")
-@Disabled
-public class TestEncoderDrive extends LinearOpMode {
+@Autonomous(name="Test: Drive To", group="Test")
+//@Disabled
+public class TestDriveTo extends LinearOpMode
+{
 
     /* Declare OpMode members. */
 
@@ -53,37 +58,15 @@ public class TestEncoderDrive extends LinearOpMode {
     {
         ElapsedTime runtime = new ElapsedTime();
 
-        RobotHardware robot = new RobotHardware(hardwareMap, this);
+        TestRobotHardware robot = new TestRobotHardware(hardwareMap, this);
         EncoderDrive encoderDrive = new EncoderDrive(robot);
+        DriveTo driveTo = new DriveTo(robot, encoderDrive);
 
         System.out.println("ValleyX: Waiting for Start");
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
 
-        System.out.println("ValleyX: Starting...");
-        System.out.println("ValleyX: Move forward 12 inches ");
-        //going forwards 12 inches
-        encoderDrive.StartAction(0.6, 12, 12, 5.0, true);
-
-        sleep(2000); 
-        //going backwards 12 inches
-        System.out.println("ValleyX: Move backwards 12 inches");
-        encoderDrive.StartAction(0.5, -12, -12, 5.0, true);
-
-        sleep(2000);
-        //testing no wait functions going forward 12 inches
-        runtime.reset();
-        System.out.println("ValleyX: Move forward 12 inches");
-        encoderDrive.StartAction(0.6, 12, 12, 6.0, false);
-
-        //spin here until encoder is complete
-        while (opModeIsActive() && !encoderDrive.IsActionDone() && runtime.seconds() < 5.0)
-        {
-           idle();
-        }
-
-        //Spin above is completed
-        encoderDrive.StopAction(); //stop all motors started by StartAction
+        driveTo.StartAction(0.6, 2, 5, true);
     }
 
 }

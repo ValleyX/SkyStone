@@ -31,9 +31,7 @@ package org.firstinspires.ftc.teamcode.Team12841.Drivers;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This is NOT an opmode.
@@ -52,21 +50,14 @@ public class RobotHardware
 {
     LinearOpMode OpMode_;
 
-    public DcMotor  LeftFrontDrive;
-    public DcMotor  RightFrontDrive;
-    public DcMotor  LeftBackDrive;
-    public DcMotor  RightBackDrive;
-    public Servo  BackRightHook;
-    public Servo  BackLeftHook;
+    DcMotor  leftDrive;
+    DcMotor  rightDrive;
 
 
-    private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
-    private final double     DRIVE_GEAR_REDUCTION    = 19.2;     // This is < 1.0 if geared UP
-    private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
-    private final double     Diameter                = 4;
-    private final double     Pie                     = 3.141592;
-    final double             COUNTS_PER_INCH         = ONE_MOTOR_COUNT/(Diameter * Pie);  //TODO determine in class
-
+    //private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
+    //private final double     DRIVE_GEAR_REDUCTION    = 40.0;     // This is < 1.0 if geared UP
+    //private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
+    final double             COUNTS_PER_INCH         = 1.0;  //TODO determine in class
 
     /* Constructor */
     public RobotHardware(HardwareMap ahwMap, LinearOpMode opMode) {
@@ -74,34 +65,19 @@ public class RobotHardware
         OpMode_ = opMode;
 
         // Define and Initialize Motors
-        LeftFrontDrive = ahwMap.get(DcMotor.class, "lfmotor"); //motor 0
-        RightFrontDrive = ahwMap.get(DcMotor.class, "rfmotor"); //motor 1
-        LeftBackDrive = ahwMap.get(DcMotor.class, "lbmotor"); //motor 2
-        RightBackDrive = ahwMap.get(DcMotor.class, "rbmotor"); //Motor 3
-        BackRightHook = ahwMap.get(Servo.class, "BackRightHook"); // Servo 0
-        BackLeftHook = ahwMap.get(Servo.class, "BackLeftHook"); // Servo 1
+        leftDrive = ahwMap.get(DcMotor.class, "lmotor");
+        rightDrive = ahwMap.get(DcMotor.class, "rmotor");
 
-        LeftFrontDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
-        RightFrontDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
-        LeftBackDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
-        RightBackDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
-        BackRightHook.setDirection(Servo.Direction.FORWARD); // TODO determine which motor should be reversed
-        BackLeftHook.setDirection(Servo.Direction.FORWARD); // TODO determine which motor should be reversed
+        leftDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);// TODO determine which motor should be reversed
 
         // Set all motors to zero power
-        LeftFrontDrive.setPower(0);
-        RightFrontDrive.setPower(0);
-        LeftBackDrive.setPower(0);
-        RightBackDrive.setPower(0);
-        BackRightHook.setPosition(0);
-        BackLeftHook.setPosition(0);
+        leftDrive.setPower(0);
+        rightDrive.setPower(0);
 
         // Set all motors to run without encoders by default
-        LeftFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RightFrontDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        LeftBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        RightBackDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
+        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
  }
 
