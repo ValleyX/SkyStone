@@ -34,6 +34,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
+
 /**
  * This is NOT an opmode.
  *
@@ -57,6 +59,7 @@ public class RobotHardware
     public DcMotor  leftDrive;
     public DcMotor  rightDrive;
 
+    public BNO055IMU imu;
 
     private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
     private final double     DRIVE_GEAR_REDUCTION    = 40.0;   // This is < 1.0 if geared UP
@@ -84,6 +87,8 @@ public class RobotHardware
         // Set all motors to run without encoders by default
         leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        imu = ahwMap.get(BNO055IMU.class, "imu");
     }
 
 }
