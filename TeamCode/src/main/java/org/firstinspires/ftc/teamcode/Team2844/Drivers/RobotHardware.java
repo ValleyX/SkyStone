@@ -54,7 +54,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
  */
 public class RobotHardware
 {
-    LinearOpMode OpMode_;
+    public LinearOpMode OpMode_;
 
     public DcMotor  leftDrive;
     public DcMotor  rightDrive;
@@ -63,7 +63,7 @@ public class RobotHardware
 
     private final double     COUNTS_PER_MOTOR_REV    = 28 ;    //  AndyMark Motor Encoder
     private final double     DRIVE_GEAR_REDUCTION    = 40.0;   // This is < 1.0 if geared UP
-    private final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION;
+    public final double     ONE_MOTOR_COUNT         = COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION; // counts per one motor revolution
     private final double     WHEEL_CIRCUMFERENCE     = 4 * (3.14159265);
     final double             COUNTS_PER_INCH         = ONE_MOTOR_COUNT / WHEEL_CIRCUMFERENCE;  //TODO determine in class
 

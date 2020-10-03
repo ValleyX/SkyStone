@@ -1,32 +1,34 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Team2844.TestDrivers;
 
-import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.dogecvDetectors.BlackRectDetector;
 import org.firstinspires.ftc.teamcode.dogecvDetectors.CameraRingDetectorTest;
-import org.firstinspires.ftc.teamcode.dogecvDetectors.RingDetectorLocal;
-import org.firstinspires.ftc.teamcode.dogecvDetectors.SkyStone2Detector;
+import org.firstinspires.ftc.teamcode.dogecvDetectors.SkyStoneDetectorLocal;
+import org.firstinspires.ftc.teamcode.dogecvDetectors.StoneDetectorLocal;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 import org.openftc.easyopencv.OpenCvWebcam;
+
+import com.disnodeteam.dogecv.detectors.BlankDetector;
+import com.disnodeteam.dogecv.detectors.DogeCVDetector;
+import com.disnodeteam.dogecv.detectors.skystone.StoneDetector;
+import com.disnodeteam.dogecv.detectors.skystone.SkystoneDetector;
 
 //import org.firstinspires.ftc.teamcode.Team2844.Drivers.ColorDriver;
 
 
-@Autonomous(name = "DogeCvExampleWebCam", group ="Test")
+@Autonomous(name = "DogeDetectorJon", group ="Test")
 //@Disabled
-public class DogeCvExampleWebCam extends LinearOpMode {
+public class DogeDetectorJon extends LinearOpMode {
 
-    //CameraRingDetectorTest RingDetector;
-    RingDetectorLocal RingDetector;
+
+    //private BlankDetector detector;
+    //private DogeCVDetector dogeCVDetector;
+    private StoneDetectorLocal stoneDetector;
+    private SkyStoneDetectorLocal skystoneDetector;
     //StoneDetector stoneDetector;
     //BlackRectDetector blackRectDetector;
     OpenCvCamera webcam;
@@ -38,25 +40,21 @@ public class DogeCvExampleWebCam extends LinearOpMode {
         System.out.println("valley: Starting2");
         //waitForStart();
 
-        RingDetector = new RingDetectorLocal();
-        //RingDetector = new CameraRingDetectorTest();
+        stoneDetector = new StoneDetectorLocal();
+        skystoneDetector = new SkyStoneDetectorLocal();
         //stoneDetector = new StoneDetector();
         //blackRectDetector = new BlackRectDetector();
 
         //int leftXLine = 110; // purple
-        //int leftXLine = 4; // purple
-        //int rightXLine = 5; // green  was 187
-/*
-        RingDetector.SetRequestedYLine(175);
-        //skystoneDetector.SetRequestedXRightLine(290);
-        RingDetector.SetRequestedXLeftLine(80);
-        RingDetector.SetRequestedXLeftLine(50);
-        RingDetector.SetRequestedMidlinesRightLine(leftXLine, rightXLine); // purple, green
- */
+        int leftXLine = 4; // purple
+        int rightXLine = 5; // green  was 187
 
-        RingDetector.SetRequestedTopYLine(90);
-        RingDetector.SetRequestedMidYLine(175);
-        RingDetector.SetRequestedBottomYLine(215);
+        //RingDetector.SetRequestedYLine(20);
+        //skystoneDetector.SetRequestedXRightLine(290);
+        //RingDetector.SetRequestedXLeftLine(2);
+        //RingDetector.SetRequestedXLeftLine(3);
+        //RingDetector.SetRequestedMidlinesRightLine(leftXLine, rightXLine); // purple, green
+
         /*
          * Instantiate an OpenCvCamera object for the camera we'll be using.
          * In this sample, we're using the phone's internal camera. We pass it a
@@ -65,8 +63,8 @@ public class DogeCvExampleWebCam extends LinearOpMode {
          * the RC phone). If no camera monitor is desired, use the alternate
          * single-parameter constructor instead (commented out below)
          */
-        // int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        // phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.FRONT, cameraMonitorViewId);
+       // int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+       // phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.FRONT, cameraMonitorViewId);
 
         // OR...  Do Not Activate the Camera Monitor View
         //phoneCam = new OpenCvInternalCamera(OpenCvInternalCamera.CameraDirection.BACK);
@@ -80,14 +78,14 @@ public class DogeCvExampleWebCam extends LinearOpMode {
          * Open the connection to the camera device
          */
         //phoneCam.openCameraDevice();
-        webcam.openCameraDevice();
+       webcam.openCameraDevice();
 
         /*
          * Specify the image processing pipeline we wish to invoke upon receipt
          * of a frame from the camera. Note that switching pipelines on-the-fly
          * (while a streaming session is in flight) *IS* supported.
          */
-        webcam.setPipeline(RingDetector);
+        webcam.setPipeline(skystoneDetector);
 //        webcam.setPipeline(skystoneDetector);
 
         /*
@@ -124,27 +122,22 @@ public class DogeCvExampleWebCam extends LinearOpMode {
          */
         //webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
 
-        /*
         double distanceMoved;
         int skystone = 0;
 
         double clawopen = 0.1; //0.0
         double clawclose = 0.45; //0.37 //0.55
 
+        waitForStart();
 
-
-         */
         ElapsedTime runtime;
         runtime = new ElapsedTime();
-
-        //skystone = 2; //default to middle
-
 /*
-        while (!isStarted()) {
+        skystone = 2; //default to middle
 
+        while (!isStarted()) {
             if (RingDetector.isDetected()) {
-               // webcam.setPipeline(null);
-                /*
+                webcam.setPipeline(null);
                 telemetry.addData("Skystone found X Y", "%d %d",
                         RingDetector.foundRectangle().x, RingDetector.foundRectangle().y);
                 int stoneXValue = RingDetector.foundRectangle().x;
@@ -157,8 +150,7 @@ public class DogeCvExampleWebCam extends LinearOpMode {
                 } else if (stoneXValue >= rightXLine) {
                     telemetry.addData("stone found right", stoneXValue);
                     skystone = 2;
-
-               }
+                }
                 webcam.setPipeline(RingDetector);
             }
             else
@@ -169,23 +161,16 @@ public class DogeCvExampleWebCam extends LinearOpMode {
             idle();
         }
 
-                waitForStart();
-                runtime.reset();
-
-                webcam.stopStreaming();
-
-
-            }
-
-
-        }
-
- */
-        waitForStart();
+        //waitForStart();
         runtime.reset();
 
+        webcam.stopStreaming();
+
+*/
 
     }
+
+
 }
 
 
