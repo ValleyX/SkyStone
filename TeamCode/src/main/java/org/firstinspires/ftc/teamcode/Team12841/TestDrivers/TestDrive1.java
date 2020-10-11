@@ -19,18 +19,18 @@ public class TestDrive1 extends LinearOpMode
         waitForStart();
 
         while (opModeIsActive()) {
-            left = -gamepad1.left_stick_y;
-            right = -gamepad1.right_stick_y;
+            left = gamepad1.left_stick_y;
+            right = gamepad1.right_stick_y;
 
-            if (right >= .5)
-                right = .5;
-            if (left >= .5)
-                left =.5;
+            if (right >= -.5)
+                right = -.5;
+            if (left >= -.5)
+                left =-.5;
 
-            if (right <= -0.5)
-                right = -0.5;
-            if (left <= -0.5)
-                left =-0.5;
+            if (right <= 0.5)
+                right = 0.5;
+            if (left <= 0.5)
+                left =0.5;
 
             if ((left == 0) && (right == 0)) {
                 telemetry.addLine("still");

@@ -19,8 +19,7 @@ import org.firstinspires.ftc.teamcode.Team12841.Drivers.RobotHardware;
 public class drivetillcolor extends LinearOpMode {
     ColorSensor sensorColor;
     DistanceSensor sensorDistance;
-     //EncoderDrive encoder = new EncoderDrive(robot);
-     RobotHardware robot;
+
 
     float hsvValues[] = {0F, 0F, 0F};
 
@@ -31,7 +30,6 @@ public class drivetillcolor extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        robot = new RobotHardware(hardwareMap, this);
 
         // get a reference to the color sensor.
         sensorColor = hardwareMap.get(ColorSensor.class, "sensor_color_distance");
@@ -39,9 +37,7 @@ public class drivetillcolor extends LinearOpMode {
         // get a reference to the distance sensor that shares the same name.
         sensorDistance = hardwareMap.get(DistanceSensor.class, "sensor_color_distance");
 
-        waitForStart();
-        robot.rightDrive.setPower(0.5);
-        robot.leftDrive.setPower(0.5);
+
 
         while (opModeIsActive()) {
             Color.RGBToHSV((int) (sensorColor.red() * SCALE_FACTOR),
@@ -56,9 +52,6 @@ public class drivetillcolor extends LinearOpMode {
             telemetry.addData("Hue", hsvValues[0]);
             telemetry.update();
 
-            if ((hsvValues[0] >= 110) && (hsvValues[0] <= 150)) {
-                robot.leftDrive.setPower(0);
-                robot.rightDrive.setPower(0);
 
 
             }
@@ -66,7 +59,7 @@ public class drivetillcolor extends LinearOpMode {
     }
 
 
-}
+
 
 
                 // get a reference to the distance sensor that shares the same name.

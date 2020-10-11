@@ -93,6 +93,8 @@ public class EncoderDrive
                     robot_.OpMode_.idle();
                 }
             }
+            robot_.leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            robot_.rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
     }
 

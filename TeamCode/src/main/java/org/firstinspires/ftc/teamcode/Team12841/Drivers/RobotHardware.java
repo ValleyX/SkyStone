@@ -70,8 +70,8 @@ public class RobotHardware
         leftDrive = ahwMap.get(DcMotor.class, "lmotor");
         rightDrive = ahwMap.get(DcMotor.class, "rmotor");
 
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); // TODO determine which motor should be reversed
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);// TODO determine which motor should be reversed
+        leftDrive.setDirection(DcMotor.Direction.REVERSE); // TODO determine which motor should be reversed
+        rightDrive.setDirection(DcMotor.Direction.FORWARD);// TODO determine which motor should be reversed
 
         // Set all motors to zero power
         leftDrive.setPower(0);
